@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'App Calender')
+@section('title', 'Sewa Ruang Rapat')
 
 @section('vendor-style')
   <!-- Vendor css files -->
@@ -42,43 +42,19 @@
               <label class="form-check-label" for="select-all">View All</label>
             </div>
             <div class="calendar-events-filter">
-              <div class="form-check form-check-danger mb-1">
-                <input
-                  type="checkbox"
-                  class="form-check-input input-filter"
-                  id="personal"
-                  data-value="personal"
-                  checked
-                />
-                <label class="form-check-label" for="personal">Personal</label>
-              </div>
-              <div class="form-check form-check-primary mb-1">
-                <input
-                  type="checkbox"
-                  class="form-check-input input-filter"
-                  id="business"
-                  data-value="business"
-                  checked
-                />
-                <label class="form-check-label" for="business">Business</label>
-              </div>
               <div class="form-check form-check-warning mb-1">
-                <input type="checkbox" class="form-check-input input-filter" id="family" data-value="family" checked />
-                <label class="form-check-label" for="family">Family</label>
+                <input type="checkbox" class="form-check-input input-filter" id="internal" data-value="internal" checked />
+                <label class="form-check-label" for="internal">KKP Internal</label>
               </div>
               <div class="form-check form-check-success mb-1">
                 <input
                   type="checkbox"
                   class="form-check-input input-filter"
-                  id="holiday"
-                  data-value="holiday"
+                  id="eksternal"
+                  data-value="eksternal"
                   checked
                 />
-                <label class="form-check-label" for="holiday">Holiday</label>
-              </div>
-              <div class="form-check form-check-info">
-                <input type="checkbox" class="form-check-input input-filter" id="etc" data-value="etc" checked />
-                <label class="form-check-label" for="etc">ETC</label>
+                <label class="form-check-label" for="eksternal">Eksternal</label>
               </div>
             </div>
           </div>

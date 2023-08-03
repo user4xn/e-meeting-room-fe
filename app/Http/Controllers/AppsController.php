@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class AppsController extends Controller
 {
     // invoice list App
-    public function invoice_list()
+    public function reportRoomIndex()
     {
         $pageConfigs = ['pageHeader' => false];
 
@@ -15,35 +15,11 @@ class AppsController extends Controller
     }
 
     // invoice preview App
-    public function invoice_preview()
+    public function reportRoomDetail()
     {
         $pageConfigs = ['pageHeader' => false];
 
         return view('/content/apps/invoice/app-invoice-preview', ['pageConfigs' => $pageConfigs]);
-    }
-
-    // invoice edit App
-    public function invoice_edit()
-    {
-        $pageConfigs = ['pageHeader' => false];
-
-        return view('/content/apps/invoice/app-invoice-edit', ['pageConfigs' => $pageConfigs]);
-    }
-
-    // invoice edit App
-    public function invoice_add()
-    {
-        $pageConfigs = ['pageHeader' => false];
-
-        return view('/content/apps/invoice/app-invoice-add', ['pageConfigs' => $pageConfigs]);
-    }
-
-    // invoice print App
-    public function invoice_print()
-    {
-        $pageConfigs = ['pageHeader' => false];
-
-        return view('/content/apps/invoice/app-invoice-print', ['pageConfigs' => $pageConfigs]);
     }
 
     // User List Page
@@ -104,7 +80,7 @@ class AppsController extends Controller
     }
 
     // Calender App
-    public function calendarApp()
+    public function rentIndex()
     {
         $pageConfigs = [
             'pageHeader' => false
@@ -127,7 +103,7 @@ class AppsController extends Controller
         return view('/content/apps/email/app-email', ['pageConfigs' => $pageConfigs]);
     }
     // ToDo App
-    public function todoApp()
+    public function participantIndex()
     {
         $pageConfigs = [
             'pageHeader' => false,
@@ -168,7 +144,7 @@ class AppsController extends Controller
     }
 
     // Kanban App
-    public function kanbanApp()
+    public function bookingIndex()
     {
         $pageConfigs = [
             'pageHeader' => false,

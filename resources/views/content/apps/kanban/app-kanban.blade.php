@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Kanban')
+@section('title', 'Booking')
 
 @section('vendor-style')
   <!-- Vendor css files -->

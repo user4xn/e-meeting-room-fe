@@ -1,7 +1,7 @@
 [
   {
     "id": "board-in-progress",
-    "title": "In Progress",
+    "title": "Disetujui",
     "item": [
       {
         "id": "in-progress-1",
@@ -36,7 +36,7 @@
   },
   {
     "id": "board-in-review",
-    "title": "In Review",
+    "title": "Menunggu",
     "item": [
       {
         "id": "in-review-1",
@@ -70,7 +70,7 @@
   },
   {
     "id": "board-done",
-    "title": "Done",
+    "title": "Ditolak",
     "item": [
       {
         "id": "done-1",

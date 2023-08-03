@@ -1,6 +1,6 @@
 @extends('layouts/fullLayoutMaster')
 
-@section('title', 'Verify Email Basic')
+@section('title', 'Verify Email')
 
 @section('page-style')
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
@@ -67,16 +67,16 @@
               </g>
             </g>
           </svg>
-          <h2 class="brand-text text-primary ms-1">Vuexy</h2>
+          <h2 class="brand-text text-primary ms-1">E-Meeting Room</h2>
         </a>
 
         <h2 class="card-title fw-bolder mb-1">Verify your email ✉️</h2>
         <p class="card-text mb-2">
-          We've sent a link to your email address: <span class="fw-bolder">hello@pixinvent.com</span> Please follow the
+          We've sent a link to your email address: <span class="fw-bolder">demo@emeetingroom.com</span> Please follow the
           link inside to continue.
         </p>
 
-        <a href="{{asset('/')}}" class="btn btn-primary w-100">Skip for now</a>
+        <a href="{{ route('auth-two-steps-basic') }}" class="btn btn-primary w-100">Skip for now</a>
 
         <p class="text-center mt-2">
           <span>Didn't receive an email? </span><a href="Javascript:void(0)"><span>&nbsp;Resend</span></a>

@@ -1,6 +1,6 @@
 @extends('layouts/fullLayoutMaster')
 
-@section('title', 'Two Steps Basic')
+@section('title', 'Two Steps Authentication')
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
@@ -46,16 +46,16 @@
               </g>
             </g>
           </svg>
-          <h2 class="brand-text text-primary ms-1">Vuexy</h2>
+          <h2 class="brand-text text-primary ms-1">E-Meeting Room</h2>
         </a>
 
-        <h2 class="card-title fw-bolder mb-1">Two Step Verification 💬</h2>
+        <h2 class="card-title fw-bolder mb-1">OTP Verification 💬</h2>
         <p class="card-text mb-75">
-          We sent a verification code to your mobile. Enter the code from the mobile in the field below.
+          We sent a verification code to your email. Enter the code from the email in the field below.
         </p>
-        <p class="card-text fw-bolder mb-2">******0789</p>
+        <p class="card-text fw-bolder mb-2">d***@gmail.com</p>
 
-        <form class="mt-2" action="{{asset('/')}}" method="GET">
+        <form class="mt-2">
           <h6>Type your 6 digit security code</h6>
           <div class="auth-input-wrapper d-flex align-items-center justify-content-between">
             <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
@@ -76,7 +76,9 @@
             <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
               maxlength="1" />
           </div>
-          <button type="submit" class="btn btn-primary w-100" tabindex="4">Sign in</button>
+          <a href="{{ route('dashboard') }}">
+            <div type="submit" class="btn btn-primary w-100" tabindex="4">Sign in</div>
+          </a>
         </form>
 
         <p class="text-center mt-2">

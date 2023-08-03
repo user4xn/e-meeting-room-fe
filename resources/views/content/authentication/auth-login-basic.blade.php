@@ -116,7 +116,9 @@
               <label class="form-check-label" for="remember-me"> Remember Me </label>
             </div>
           </div>
-          <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
+          <a href="{{ route('auth-verify-email-basic') }}">
+            <div class="btn btn-primary w-100 button-login-form" tabindex="4">Sign in</div>
+          </a>
         </form>
 
         <p class="text-center mt-2">
@@ -157,4 +159,7 @@
 
 @section('page-script')
 <script src="{{asset(mix('js/scripts/pages/auth-login.js'))}}"></script>
+<script>
+  var login_url = "{{ env('BACKEND_URL') }}"+"api/login";
+</script>
 @endsection

@@ -20,7 +20,7 @@ var events = [
     end: nextDay,
     allDay: false,
     extendedProps: {
-      calendar: 'Business'
+      calendar: 'Internal'
     }
   },
   {
@@ -31,18 +31,18 @@ var events = [
     end: new Date(date.getFullYear(), date.getMonth() + 1, -10),
     allDay: true,
     extendedProps: {
-      calendar: 'Business'
+      calendar: 'Internal'
     }
   },
   {
     id: 3,
     url: '',
-    title: 'Family Trip',
+    title: 'Eksternal Trip',
     allDay: true,
     start: new Date(date.getFullYear(), date.getMonth() + 1, -9),
     end: new Date(date.getFullYear(), date.getMonth() + 1, -7),
     extendedProps: {
-      calendar: 'Holiday'
+      calendar: 'Internal'
     }
   },
   {
@@ -53,7 +53,7 @@ var events = [
     end: new Date(date.getFullYear(), date.getMonth() + 1, -10),
     allDay: true,
     extendedProps: {
-      calendar: 'Personal'
+      calendar: 'Eksternal'
     }
   },
   {
@@ -64,7 +64,7 @@ var events = [
     end: new Date(date.getFullYear(), date.getMonth() + 1, -12),
     allDay: true,
     extendedProps: {
-      calendar: 'ETC'
+      calendar: 'Internal'
     }
   },
   {
@@ -75,7 +75,7 @@ var events = [
     end: new Date(date.getFullYear(), date.getMonth() + 1, -12),
     allDay: true,
     extendedProps: {
-      calendar: 'Personal'
+      calendar: 'Eksternal'
     }
   },
   {
@@ -86,7 +86,7 @@ var events = [
     end: new Date(date.getFullYear(), date.getMonth() + 1, -12),
     allDay: true,
     extendedProps: {
-      calendar: 'Family'
+      calendar: 'Eksternal'
     }
   },
   {
@@ -97,7 +97,7 @@ var events = [
     end: new Date(date.getFullYear(), date.getMonth() + 1, -12),
     allDay: true,
     extendedProps: {
-      calendar: 'Business'
+      calendar: 'Internal'
     }
   },
   {
@@ -108,7 +108,7 @@ var events = [
     end: nextMonth,
     allDay: true,
     extendedProps: {
-      calendar: 'Business'
+      calendar: 'Internal'
     }
   },
   {
@@ -119,7 +119,7 @@ var events = [
     end: prevMonth,
     allDay: true,
     extendedProps: {
-      calendar: 'Personal'
+      calendar: 'Eksternal'
     }
   }
 ];

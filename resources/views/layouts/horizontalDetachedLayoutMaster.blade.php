@@ -41,7 +41,7 @@ data-asset-path="{{ asset('/')}}">
   @if($configData['blankPage'] == false)
   @include('content/pages/customizer')
 
-  @include('content/pages/buy-now')
+  
   @endif
 
   <div class="sidenav-overlay"></div>

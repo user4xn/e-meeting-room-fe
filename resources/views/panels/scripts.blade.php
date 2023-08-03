@@ -16,6 +16,9 @@
 <script src="{{ asset(mix('js/scripts/customizer.js')) }}"></script>
 @endif
 <!-- END: Theme JS-->
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <!-- BEGIN: Page JS-->
 @yield('page-script')
 <!-- END: Page JS-->
