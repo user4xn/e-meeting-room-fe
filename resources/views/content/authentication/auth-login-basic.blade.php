@@ -122,9 +122,8 @@
         </form>
 
         <p class="text-center mt-2">
-          <span>New on our platform?</span>
-          <a href="{{url('auth/register-basic')}}">
-            <span>Create an account</span>
+          <a href="#">
+            <span>Jadwal Ruangan</span>
           </a>
         </p>
 

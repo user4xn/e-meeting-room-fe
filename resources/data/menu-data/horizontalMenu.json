@@ -3,8 +3,8 @@
     {
       "name": "Dashboard",
       "icon": "home",
-      "slug": "dashboard-analytics",
-      "url": "dashboard/analytics"
+      "slug": "dashboard",
+      "url": "dashboard"
     },
     {
       "name": "User",
