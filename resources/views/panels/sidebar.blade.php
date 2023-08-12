@@ -31,7 +31,7 @@ $configData = Helper::applClasses();
               </g>
             </svg>
           </span>
-          <h2 class="brand-text">EMR</h2>
+          <h2 class="brand-text">SIRUPAT</h2>
         </a>
       </li>
       <li class="nav-item nav-toggle">

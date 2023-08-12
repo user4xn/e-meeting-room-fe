@@ -5,7 +5,7 @@
     <div class="navbar-header d-xl-block d-none">
       <ul class="nav navbar-nav">
         <li class="nav-item">
-          <a class="navbar-brand" href="{{ url('/') }}">
+          <a class="navbar-brand" href="{{ url('/dashboard') }}">
             <span class="brand-logo">
               <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
@@ -38,7 +38,7 @@
                   </g>
                 </g>
               </svg></span>
-            <h2 class="brand-text mb-0">EMR</h2>
+            <h2 class="brand-text mb-0">SIRUPAT</h2>
           </a>
         </li>
       </ul>
@@ -89,15 +89,10 @@
       </a>
     </li>
     <li class="nav-item dropdown dropdown-user">
-      <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);"
-        data-bs-toggle="dropdown" aria-haspopup="true">
+      <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);">
         <div class="user-nav d-sm-flex d-none">
           <span class="user-name fw-bolder">
-            @if (Auth::check())
-              {{ Auth::user()->name }}
-            @else
-              Condro
-            @endif
+            Condro  
           </span>
           <span class="user-status">
             Admin
@@ -105,74 +100,17 @@
         </div>
         <span class="avatar">
           <img class="round"
-            src="{{ Auth::user() ? Auth::user()->profile_photo_url : asset('images/portrait/small/avatar-s-11.jpg') }}"
+            src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}"
             alt="avatar" height="40" width="40">
           <span class="avatar-status-online"></span>
         </span>
       </a>
-      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-        <h6 class="dropdown-header">Manage Profile</h6>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item"
-          href="{{ Route::has('profile.show') ? route('profile.show') : 'javascript:void(0)' }}">
-          <i class="me-50" data-feather="user"></i> Profile
-        </a>
-        @if (Auth::check() && Laravel\Jetstream\Jetstream::hasApiFeatures())
-          <a class="dropdown-item" href="{{ route('api-tokens.index') }}">
-            <i class="me-50" data-feather="key"></i> API Tokens
-          </a>
-        @endif
-        <a class="dropdown-item" href="#">
-          <i class="me-50" data-feather="settings"></i> Settings
-        </a>
-
-        @if (Auth::User() && Laravel\Jetstream\Jetstream::hasTeamFeatures())
-          <div class="dropdown-divider"></div>
-          <h6 class="dropdown-header">Manage Team</h6>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item"
-            href="{{ Auth::user() ? route('teams.show', Auth::user()->currentTeam->id) : 'javascript:void(0)' }}">
-            <i class="me-50" data-feather="settings"></i> Team Settings
-          </a>
-          @can('create', Laravel\Jetstream\Jetstream::newTeamModel())
-            <a class="dropdown-item" href="{{ route('teams.create') }}">
-              <i class="me-50" data-feather="users"></i> Create New Team
-            </a>
-          @endcan
-
-          <div class="dropdown-divider"></div>
-          <h6 class="dropdown-header">
-            Switch Teams
-          </h6>
-          <div class="dropdown-divider"></div>
-          @if (Auth::user())
-            @foreach (Auth::user()->allTeams() as $team)
-              {{-- Below commented code read by artisan command while installing jetstream. !! Do not remove if you want to use jetstream. --}}
-
-              {{-- <x-jet-switchable-team :team="$team" /> --}}
-            @endforeach
-          @endif
-        @endif
-        @if (Auth::check())
-          <a class="dropdown-item" href="{{ route('logout') }}"
-            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <i class="me-50" data-feather="power"></i> Logout
-          </a>
-          <form method="POST" id="logout-form" action="{{ route('logout') }}">
-            @csrf
-          </form>
-        @else
-          <a class="dropdown-item" href="{{ Route::has('login') ? route('login') : 'javascript:void(0)' }}">
-            <i class="me-50" data-feather="log-in"></i> Login
-          </a>
-        @endif
-      </div>
     </li>
     <li class="border-start">  
       &nbsp;&nbsp;
     </li>
     <li>
-      <a href="{{ route('auth-login') }}" class="btn btn-danger">LOGOUT</a>
+      <button class="btn btn-danger button-logout">LOGOUT</button>
     </li>
   </ul>
 </div>

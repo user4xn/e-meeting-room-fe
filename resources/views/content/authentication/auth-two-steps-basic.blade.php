@@ -4,6 +4,8 @@
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 @endsection
 
 @section('content')
@@ -46,45 +48,47 @@
               </g>
             </g>
           </svg>
-          <h2 class="brand-text text-primary ms-1">E-Meeting Room</h2>
+          <h2 class="brand-text text-primary ms-1">Sirupat</h2>
         </a>
 
         <h2 class="card-title fw-bolder mb-1">OTP Verification 💬</h2>
         <p class="card-text mb-75">
           We sent a verification code to your email. Enter the code from the email in the field below.
         </p>
-        <p class="card-text fw-bolder mb-2">d***@gmail.com</p>
+        <p class="card-text fw-bolder mb-2" id="emailText"></p>
 
-        <form class="mt-2">
+        <form class="mt-2" onsubmit="false">
           <h6>Type your 6 digit security code</h6>
           <div class="auth-input-wrapper d-flex align-items-center justify-content-between">
-            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1 otp-input"
               maxlength="1" autofocus="" />
 
-            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1 otp-input"
               maxlength="1" />
 
-            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1 otp-input"
               maxlength="1" />
 
-            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1 otp-input"
               maxlength="1" />
 
-            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1 otp-input"
               maxlength="1" />
 
-            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1"
+            <input type="text" class="form-control auth-input height-50 text-center numeral-mask mx-25 mb-1 otp-input"
               maxlength="1" />
           </div>
-          <a href="{{ route('dashboard') }}">
-            <div type="submit" class="btn btn-primary w-100" tabindex="4">Sign in</div>
-          </a>
+          
+          <button type="submit" class="btn btn-primary w-100 button-verify" tabindex="4" disabled="true">Verify</button>
+          <button class="btn btn-primary w-100 button-loading d-none" tabindex="4" disabled>
+            <span class="spinner-border spinner-border-sm " role="status" aria-hidden="true"></span>
+            Loading...
+          </button>
+          
         </form>
 
         <p class="text-center mt-2">
-          <span>Didn’t get the code?</span><a href="Javascript:void(0)"><span>&nbsp;Resend</span></a>
-          <span>or</span>
-          <a href="Javascript:void(0)"><span>&nbsp;Call Us</span></a>
+          <span>Didn’t get the code?</span><a href="Javascript:void(0)" class="resend-button"><span>&nbsp;Resend</span></a>
         </p>
       </div>
     </div>
@@ -98,5 +102,10 @@
 @endsection
 
 @section('page-script')
+<script>
+  const DASHBOARD_ROUTE = "{{ route('dashboard') }}";
+  const LOGIN_ROUTE = "{{ route('auth-login') }}";
+</script>
 <script src="{{asset(mix('js/scripts/pages/auth-two-steps.js'))}}"></script>
+<script src="{{asset(mix('vendors/js/extensions/toastr.min.js'))}}"></script>
 @endsection

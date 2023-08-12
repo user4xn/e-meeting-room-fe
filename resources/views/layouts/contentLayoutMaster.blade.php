@@ -20,7 +20,7 @@ data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}
   <meta name="description" content="">
   <meta name="keywords" content="">
   <meta name="author" content="">
-  <title>@yield('title') - E-Meeting Room</title>
+  <title>@yield('title') - Sirupat</title>
   <link rel="apple-touch-icon" href="{{asset('images/ico/apple-icon-120.png')}}">
   <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/logo/favicon.ico')}}">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">

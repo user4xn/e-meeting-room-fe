@@ -67,6 +67,11 @@ data-asset-path="{{ asset('/')}}">
   {{-- include footer --}}
   @include('panels/footer')
 
+  <script>
+    const LOGIN_ROUTE = "{{ route('auth-login') }}";
+    const BACKEND_API = "{{ env('BACKEND_URL') }}";
+  </script>
+
   {{-- include default scripts --}}
   @include('panels/scripts')
 

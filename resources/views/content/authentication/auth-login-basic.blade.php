@@ -69,13 +69,13 @@
               </g>
             </g>
           </svg>
-          <h2 class="brand-text text-primary ms-1">E-Meeting Room</h2>
+          <h2 class="brand-text text-primary ms-1">Sirupat</h2>
         </a>
 
-        <h4 class="card-title mb-1">Welcome to EMR! 👋</h4>
+        <h4 class="card-title mb-1">Welcome to Sirupat! 👋</h4>
         <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
 
-        <form class="auth-login-form mt-2" id="formLogin">
+        <form class="auth-login-form mt-2" id="formLogin" method="post" action="">
           <div class="mb-1">
             <label for="login-username" class="form-label">Username</label>
             <input
@@ -93,7 +93,7 @@
           <div class="mb-1">
             <div class="d-flex justify-content-between">
               <label class="form-label" for="login-password">Password</label>
-              <a href="{{url('auth/forgot-password-basic')}}">
+              <a href="{{route('auth-forgot-password')}}">
                 <small>Forgot Password?</small>
               </a>
             </div>
@@ -116,9 +116,13 @@
               <label class="form-check-label" for="remember-me"> Remember Me </label>
             </div>
           </div>
-          <a href="{{ route('auth-verify-email-basic') }}">
-            <div class="btn btn-primary w-100 button-login-form" tabindex="4">Sign in</div>
-          </a>
+          
+          <button class="btn btn-primary w-100 button-login-form" tabindex="4">Sign in</button>
+          <button class="btn btn-primary w-100 button-login-loading-form d-none" tabindex="4" disabled>
+            <span class="spinner-border spinner-border-sm " role="status" aria-hidden="true"></span>
+            Loading...
+          </button>
+          
         </form>
 
         <p class="text-center mt-2">
@@ -157,8 +161,10 @@
 @endsection
 
 @section('page-script')
-<script src="{{asset(mix('js/scripts/pages/auth-login.js'))}}"></script>
 <script>
-  var login_url = "{{ env('BACKEND_URL') }}"+"api/login";
+  const DASHBOARD_ROUTE = "{{ route('dashboard') }}";
+  const OTP_ROUTE = "{{ route('auth-two-steps') }}";
+  const EMAIL_ROUTE = "{{ route('auth-verify-email') }}";
 </script>
+<script src="{{asset(mix('js/scripts/pages/auth-login.js'))}}"></script>
 @endsection

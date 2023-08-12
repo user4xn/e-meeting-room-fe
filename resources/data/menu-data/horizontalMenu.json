@@ -13,6 +13,19 @@
       "url": "app/user/list"
     },
     {
+      "name": "Master Data",
+      "icon": "database",
+      "slug": "",
+      "submenu": [
+        {
+          "url": "app/room/list",
+          "name": "Ruangan",
+          "icon": "circle",
+          "slug": "app-room-list"
+        }
+      ]
+    },
+    {
       "name": "Laporan",
       "icon": "file-text",
       "slug": "",

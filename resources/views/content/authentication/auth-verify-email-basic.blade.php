@@ -67,19 +67,19 @@
               </g>
             </g>
           </svg>
-          <h2 class="brand-text text-primary ms-1">E-Meeting Room</h2>
+          <h2 class="brand-text text-primary ms-1">Sirupat</h2>
         </a>
 
         <h2 class="card-title fw-bolder mb-1">Verify your email ✉️</h2>
         <p class="card-text mb-2">
-          We've sent a link to your email address: <span class="fw-bolder">demo@emeetingroom.com</span> Please follow the
+          We've sent a link to your email address: <span class="fw-bolder" id="emailText"></span> Please follow the
           link inside to continue.
         </p>
 
-        <a href="{{ route('auth-two-steps-basic') }}" class="btn btn-primary w-100">Skip for now</a>
+        <a href="{{ route('auth-login') }}" class="btn btn-primary w-100">Go Back</a>
 
         <p class="text-center mt-2">
-          <span>Didn't receive an email? </span><a href="Javascript:void(0)"><span>&nbsp;Resend</span></a>
+          <span>Didn't receive an email? </span><a href="Javascript:void(0)"><span class="resend-button">&nbsp;Resend</span></a>
         </p>
       </div>
     </div>
@@ -87,3 +87,13 @@
   </div>
 </div>
 @endsection
+
+@section('page-script')
+<script>
+  const DASHBOARD_ROUTE = "{{ route('dashboard') }}";
+  const LOGIN_ROUTE = "{{ route('auth-login') }}";
+</script>
+<script src="{{asset(mix('js/scripts/pages/auth-email-verify.js'))}}"></script>
+<script src="{{asset(mix('vendors/js/extensions/toastr.min.js'))}}"></script>
+@endsection
+

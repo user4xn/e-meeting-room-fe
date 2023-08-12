@@ -29,6 +29,12 @@ class AppsController extends Controller
         return view('/content/apps/user/app-user-list', ['pageConfigs' => $pageConfigs]);
     }
 
+    public function room_list()
+    {
+        $pageConfigs = ['pageHeader' => false];
+        return view('/content/apps/room/app-room-list', ['pageConfigs' => $pageConfigs]);
+    }
+
     // User Account Page
     public function user_view_account()
     {
