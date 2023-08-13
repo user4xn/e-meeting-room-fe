@@ -75,7 +75,6 @@ $(function () {
             errors['login-username'] = 'Invalid credentials';
             errors['login-password'] = '';
             validator.showErrors(errors);
-            return;
           } else {
             console.log(error);
           }
@@ -84,10 +83,6 @@ $(function () {
         buttonLoading.addClass('d-none');
         buttonLogin.removeClass('d-none');
       }
-
-      // Enable login button
-      buttonLoading.addClass('d-none');
-      buttonLogin.removeClass('d-none');
     });
   }
 });
