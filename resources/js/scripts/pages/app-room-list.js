@@ -5,114 +5,133 @@ $(function (window) {
     saveButton = $('.data-save'), 
     submitButton = $('.data-submit');
 
-  var table = dtUserTable.DataTable({
-    processing: true,
-    serverSide: true,
-    ajax: {
-      url: `${BACKEND_API}api/v1/room`,
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
-      },
-      dataSrc: 'data.original.data',
-    },
-    columns: [
-        { data: 'no'},
-        { data: 'room_name'},
-        { data: 'room_desc'},
-        { data: 'room_capacity'},
-        { data: 'created_at'},
-    ],
-    columnDefs: [
-      {
-        targets: -1,
-        title: 'Actions',
-        orderable: false,
-        render: function (data, type, full, meta) {
-          return (
-            '<div class="btn-group">' +
-            '<a href="javascript:;" data-id="'+full.id+'" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
-              'Delete</a></div>' +
-            '</div>'
-          );
-        }
-      }
-    ],
-    order: [[1, 'asc']],
-    dom:
-      '<"d-flex justify-content-between align-items-center header-actions mx-2 row mt-75"' +
-      '<"col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start" l>' +
-      '<"col-sm-12 col-lg-8 ps-xl-75 ps-0"<"dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap"<"me-1"f>B>>' +
-      '>t' +
-      '<"d-flex justify-content-between mx-2 row mb-1"' +
-      '<"col-sm-12 col-md-6"i>' +
-      '<"col-sm-12 col-md-6"p>' +
-      '>',
-    language: {
-      sLengthMenu: 'Show _MENU_',
-      search: 'Search',
-      searchPlaceholder: 'Search..'
-    },
-    // Buttons with Dropdown
-    buttons: [
-      {
-        extend: 'collection',
-        className: 'btn btn-outline-secondary dropdown-toggle me-2',
-        text: feather.icons['external-link'].toSvg({ class: 'font-small-4 me-50' }) + 'Export',
-        buttons: [
-          {
-            extend: 'print',
-            text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
-            className: 'dropdown-item',
-            exportOptions: { columns: [1, 2, 3, 4] }
-          },
-          {
-            extend: 'csv',
-            text: feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) + 'Csv',
-            className: 'dropdown-item',
-            exportOptions: { columns: [1, 2, 3, 4] }
-          },
-          {
-            extend: 'excel',
-            text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
-            className: 'dropdown-item',
-            exportOptions: { columns: [1, 2, 3, 4] }
-          },
-          {
-            extend: 'pdf',
-            text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 me-50' }) + 'Pdf',
-            className: 'dropdown-item',
-            exportOptions: { columns: [1, 2, 3, 4] }
-          },
-          {
-            extend: 'copy',
-            text: feather.icons['copy'].toSvg({ class: 'font-small-4 me-50' }) + 'Copy',
-            className: 'dropdown-item',
-            exportOptions: { columns: [1, 2, 3, 4] }
-          }
-        ],
-        init: function (api, node, config) {
-          $(node).removeClass('btn-secondary');
-          $(node).parent().removeClass('btn-group');
-          setTimeout(function () {
-            $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex mt-50');
-          }, 50);
-        }
-      },
-      {
-        text: 'Add New Room',
-        className: 'add-new btn btn-primary',
-        attr: {
-          'data-bs-toggle': 'modal',
-          'data-bs-target': '#modals-slide-in'
+  if (dtUserTable.length) {
+    var table = dtUserTable.DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: {
+        url: `${BACKEND_API}api/v1/room`,
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
         },
-        init: function (api, node, config) {
-          $(node).removeClass('btn-secondary');
+        dataSrc: function (response) {
+          // Extract recordsTotal and recordsFiltered from the server response
+          var recordsTotal = response.data.recordsTotal;
+          var recordsFiltered = response.data.recordsFiltered;
+  
+          // Set the values for DataTables
+          response.recordsTotal = recordsTotal;
+          response.recordsFiltered = recordsFiltered;
+  
+          // Return the data array from the response
+          return response.data.data;
+        },
+      },
+      columns: [
+          { data: 'no'},
+          { data: 'room_name'},
+          { data: 'room_desc'},
+          { data: 'room_capacity'},
+          { data: 'created_at'},
+      ],
+      columnDefs: [
+        {
+          targets: -1,
+          title: 'Actions',
+          orderable: false,
+          render: function (data, type, full, meta) {
+            return (
+              '<div class="btn-group">' +
+              '<a href="javascript:;" data-id="'+full.id+'" class="dropdown-item delete-record">' +
+                feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
+                'Delete</a></div>' +
+              '</div>'
+            );
+          }
         }
-      }
-    ],
-    responsive: true
-  });
+      ],
+      dom:
+        '<"d-flex justify-content-between align-items-center header-actions mx-2 row mt-75"' +
+        '<"col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start" l>' +
+        '<"col-sm-12 col-lg-8 ps-xl-75 ps-0"<"dt-action-buttons d-flex align-items-center justify-content-center justify-content-lg-end flex-lg-nowrap flex-wrap"<"me-1"f>B>>' +
+        '>t' +
+        '<"d-flex justify-content-between mx-2 row mb-1"' +
+        '<"col-sm-12 col-md-6"i>' +
+        '<"col-sm-12 col-md-6"p>' +
+        '>',
+      language: {
+        sLengthMenu: 'Show _MENU_',
+        search: 'Search',
+        searchPlaceholder: 'Search..'
+      },
+      // Buttons with Dropdown
+      buttons: [
+        {
+          extend: 'collection',
+          className: 'btn btn-outline-secondary dropdown-toggle me-2',
+          text: feather.icons['external-link'].toSvg({ class: 'font-small-4 me-50' }) + 'Export',
+          buttons: [
+            {
+              extend: 'print',
+              text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
+              className: 'dropdown-item',
+              exportOptions: { columns: [1, 2, 3, 4] }
+            },
+            {
+              extend: 'csv',
+              text: feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) + 'Csv',
+              className: 'dropdown-item',
+              exportOptions: { columns: [1, 2, 3, 4] }
+            },
+            {
+              extend: 'excel',
+              text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
+              className: 'dropdown-item',
+              exportOptions: { columns: [1, 2, 3, 4] }
+            },
+            {
+              extend: 'pdf',
+              text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 me-50' }) + 'Pdf',
+              className: 'dropdown-item',
+              exportOptions: { columns: [1, 2, 3, 4] }
+            },
+            {
+              extend: 'copy',
+              text: feather.icons['copy'].toSvg({ class: 'font-small-4 me-50' }) + 'Copy',
+              className: 'dropdown-item',
+              exportOptions: { columns: [1, 2, 3, 4] }
+            }
+          ],
+          init: function (api, node, config) {
+            $(node).removeClass('btn-secondary');
+            $(node).parent().removeClass('btn-group');
+            setTimeout(function () {
+              $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex mt-50');
+            }, 50);
+          }
+        },
+        {
+          text: 'Add New Room',
+          className: 'add-new btn btn-primary',
+          attr: {
+            'data-bs-toggle': 'modal',
+            'data-bs-target': '#modals-slide-in'
+          },
+          init: function (api, node, config) {
+            $(node).removeClass('btn-secondary');
+          }
+        }
+      ],
+      responsive: true,
+      language: {
+        paginate: {
+          // remove previous & next text from pagination
+          previous: '&nbsp;',
+          next: '&nbsp;'
+        }
+      },
+    });
+  }
 
   table.on('click', 'tbody tr td:not(:last-child)', function () {
     var rowData = table.row(this).data(); // Get data for the clicked row
