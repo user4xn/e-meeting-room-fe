@@ -4,7 +4,7 @@
   const jwtToken = localStorage.getItem('jwtToken');
   const nextCheckToken = localStorage.getItem('nextCheckToken');
   const userData = localStorage.getItem('userData');
-
+  
   if (!jwtToken) {
     window.location.href = LOGIN_ROUTE;
   }

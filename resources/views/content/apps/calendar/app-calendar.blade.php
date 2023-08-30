@@ -47,14 +47,12 @@
                 <label class="form-check-label" for="internal">KKP Internal</label>
               </div>
               <div class="form-check form-check-success mb-1">
-                <input
-                  type="checkbox"
-                  class="form-check-input input-filter"
-                  id="eksternal"
-                  data-value="eksternal"
-                  checked
-                />
+                <input type="checkbox" class="form-check-input input-filter" id="eksternal" data-value="eksternal" checked />
                 <label class="form-check-label" for="eksternal">Eksternal</label>
+              </div>
+              <div class="form-check form-check-secondary mb-1">
+                <input type="checkbox" class="form-check-input input-filter" id="unapproved" data-value="unapproved" checked />
+                <label class="form-check-label" for="unapproved">Unapproved</label>
               </div>
             </div>
           </div>
@@ -87,7 +85,7 @@
       <div class="modal-content p-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
         <div class="modal-header mb-1">
-          <h5 class="modal-title">Add Event</h5>
+          <h5 class="modal-title event-sidebar-title">Add Event</h5>
         </div>
         <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
           <form class="event-form needs-validation" data-ajax="false" novalidate>
@@ -96,13 +94,10 @@
               <input type="text" class="form-control" id="title" name="title" placeholder="Event Title" required />
             </div>
             <div class="mb-1">
-              <label for="select-label" class="form-label">Label</label>
+              <label for="select-label" class="form-label">Organization</label>
               <select class="select2 select-label form-select w-100" id="select-label" name="select-label">
-                <option data-label="primary" value="Business" selected>Business</option>
-                <option data-label="danger" value="Personal">Personal</option>
-                <option data-label="warning" value="Family">Family</option>
-                <option data-label="success" value="Holiday">Holiday</option>
-                <option data-label="info" value="ETC">ETC</option>
+                <option data-label="warning" value="Internal">Internal</option>
+                <option data-label="success" value="Eksternal">Eksternal</option>
               </select>
             </div>
             <div class="mb-1 position-relative">
@@ -120,27 +115,19 @@
               </div>
             </div>
             <div class="mb-1">
-              <label for="event-url" class="form-label">Event URL</label>
-              <input type="url" class="form-control" id="event-url" placeholder="https://www.google.com" />
-            </div>
-            <div class="mb-1 select2-primary">
-              <label for="event-guests" class="form-label">Add Guests</label>
-              <select class="select2 select-add-guests form-select w-100" id="event-guests" multiple>
-                <option data-avatar="1-small.png" value="Jane Foster">Jane Foster</option>
-                <option data-avatar="3-small.png" value="Donna Frank">Donna Frank</option>
-                <option data-avatar="5-small.png" value="Gabrielle Robertson">Gabrielle Robertson</option>
-                <option data-avatar="7-small.png" value="Lori Spears">Lori Spears</option>
-                <option data-avatar="9-small.png" value="Sandy Vega">Sandy Vega</option>
-                <option data-avatar="11-small.png" value="Cheryl May">Cheryl May</option>
+              <label for="select-room" class="form-room">Room</label>
+              <select class="select2 select-room form-select w-100" id="select-room" name="select-room">
+                <!-- Options will be appended here -->
               </select>
-            </div>
-            <div class="mb-1">
-              <label for="event-location" class="form-label">Location</label>
-              <input type="text" class="form-control" id="event-location" placeholder="Enter Location" />
             </div>
             <div class="mb-1">
               <label class="form-label">Description</label>
               <textarea name="event-description-editor" id="event-description-editor" class="form-control"></textarea>
+            </div>
+            <div id="badge-area" class="mb-1 d-flex justify-content-between d-none">
+              <span>Status : </span>
+              <span class="badge bg-success rounded-pill badge-approve">Approved</span>
+              <span class="badge bg-secondary rounded-pill badge-unapprove">Unapproved</span>
             </div>
             <div class="mb-1 d-flex">
               <button type="submit" class="btn btn-primary add-event-btn me-1">Add</button>
@@ -169,6 +156,6 @@
 
 @section('page-script')
   <!-- Page js files -->
-  <script src="{{ asset(mix('js/scripts/pages/app-calendar-events.js')) }}"></script>
+  {{-- <script src="{{ asset(mix('js/scripts/pages/app-calendar-events.js')) }}"></script> --}}
   <script src="{{ asset(mix('js/scripts/pages/app-calendar.js')) }}"></script>
 @endsection

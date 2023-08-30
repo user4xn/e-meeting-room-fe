@@ -33,7 +33,7 @@ $(function () {
       e.preventDefault();
       buttonLogin.addClass('d-none');
       buttonLoading.removeClass('d-none');
-
+    
       if (validator.valid()) {
         try {
           // Authentication request
@@ -41,28 +41,24 @@ $(function () {
             username: $('#login-username').val(),
             password: $('#login-password').val()
           });
-
+    
           // Handle successful login
           const responseData = response.data.data;
           const token = responseData.data_auth.access_token;
           const emailVerified = responseData.data_auth.data.email_verified_at;
           const isOtp = responseData.is_verification_otp;
           const email = responseData.data_auth.data.email;
-          
+    
           localStorage.setItem('isOtp', isOtp);
           localStorage.setItem('jwtToken', token);
           localStorage.setItem('userData', JSON.stringify(responseData.data_auth.data));
-
+    
           if (emailVerified === null) {
-            await axios.post(BACKEND_API + "api/v1/auth/resend/verification", {
-              email: email
-            });
+            await resendVerificationEmail(email);
             window.location.href = EMAIL_ROUTE;
           } else {
             if (isOtp) {
-              await axios.post(BACKEND_API + "api/v1/auth/resend/otp", {
-                email: email
-              });
+              await resendOtp(email);
               window.location.href = OTP_ROUTE;
             } else {
               window.location.href = DASHBOARD_ROUTE;
@@ -79,10 +75,32 @@ $(function () {
             console.log(error);
           }
         }
-
+    
         buttonLoading.addClass('d-none');
         buttonLogin.removeClass('d-none');
       }
     });
+    
+    // Function to resend verification email
+    async function resendVerificationEmail(email) {
+      try {
+        await axios.post(BACKEND_API + "api/v1/auth/resend/verification", {
+          email: email
+        });
+      } catch (error) {
+        console.error("Error resending verification email:", error);
+      }
+    }
+    
+    // Function to resend OTP
+    async function resendOtp(email) {
+      try {
+        await axios.post(BACKEND_API + "api/v1/auth/resend/otp", {
+          email: email
+        });
+      } catch (error) {
+        console.error("Error resending OTP:", error);
+      }
+    }
   }
 });

@@ -34,7 +34,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Capacity</th>
-            <th>Created</th>
+            <th>Action</th>
           </tr>
         </thead>
       </table>

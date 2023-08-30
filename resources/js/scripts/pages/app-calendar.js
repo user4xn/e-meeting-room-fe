@@ -34,16 +34,19 @@ document.addEventListener('DOMContentLoaded', function () {
     eventToUpdate,
     sidebar = $('.event-sidebar'),
     calendarsColor = {
-      Internal: 'success',
-      Eksternal: 'warning',
+      Internal: 'warning',
+      Eksternal: 'success',
+      Unapproved: 'secondary',
     },
     eventForm = $('.event-form'),
     addEventBtn = $('.add-event-btn'),
     cancelBtn = $('.btn-cancel'),
     updateEventBtn = $('.update-event-btn'),
     toggleSidebarBtn = $('.btn-toggle-sidebar'),
+    eventSidebarTitle = $('.event-sidebar-title'),
     eventTitle = $('#title'),
     eventLabel = $('#select-label'),
+    eventRoom = $('#select-room'),
     startDate = $('#start-date'),
     endDate = $('#end-date'),
     eventUrl = $('#event-url'),
@@ -153,9 +156,72 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  function fetchRoom() {
+    $.ajax(
+      {
+        url: `${BACKEND_API}api/v1/room`,
+        type: 'GET',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+        },
+        success: function (result) {
+          var selectElement = $("#select-room");
+        
+          selectElement.empty(); 
+          
+          result.data.data.forEach(function(room) { 
+            var option = document.createElement("option");
+            option.value = room.id; 
+            option.textContent = room.room_name;
+            selectElement.append(option);
+          });
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      }
+    );
+  }
+
+  fetchRoom();
+
   // Event click function
   function eventClick(info) {
     eventToUpdate = info.event;
+    eventId = eventToUpdate.id;
+    
+    $.ajax(
+      {
+        url: `${BACKEND_API}api/v1/rent/detail/${eventId}`,
+        type: 'GET',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+        },
+        success: function (result) {
+          eventFetch = result.data;
+          console.log(eventFetch);
+          eventFetch.event_desc !== undefined ? calendarEditor.val(eventFetch.event_desc) : null;
+          sidebar.find(eventRoom).val(eventFetch.room.id).trigger('change');
+          sidebar.find(eventLabel).val(eventFetch.organization).trigger('change');
+          $('#badge-area').removeClass('d-none');
+          if(eventFetch.status === 'approved'){
+            $('.badge-unapprove').addClass('d-none');
+            $('.badge-approve').removeClass('d-none');
+
+          } else {
+            $('.badge-unapprove').removeClass('d-none');
+            $('.badge-approve').addClass('d-none');
+
+            updateEventBtn.removeClass('d-none');
+            btnDeleteEvent.removeClass('d-none');
+          }
+        },
+        error: function (error) {
+          console.log(error);
+        }
+      }
+    );
+
     if (eventToUpdate.url) {
       info.jsEvent.preventDefault();
       window.open(eventToUpdate.url, '_blank');
@@ -164,8 +230,8 @@ document.addEventListener('DOMContentLoaded', function () {
     sidebar.modal('show');
     addEventBtn.addClass('d-none');
     cancelBtn.addClass('d-none');
-    updateEventBtn.removeClass('d-none');
-    btnDeleteEvent.removeClass('d-none');
+    updateEventBtn.addClass('d-none');
+    btnDeleteEvent.addClass('d-none');
 
     eventTitle.val(eventToUpdate.title);
     start.setDate(eventToUpdate.start, true, 'Y-m-d');
@@ -173,16 +239,9 @@ document.addEventListener('DOMContentLoaded', function () {
     eventToUpdate.end !== null
       ? end.setDate(eventToUpdate.end, true, 'Y-m-d')
       : end.setDate(eventToUpdate.start, true, 'Y-m-d');
-    sidebar.find(eventLabel).val(eventToUpdate.extendedProps.calendar).trigger('change');
-    eventToUpdate.extendedProps.location !== undefined ? eventLocation.val(eventToUpdate.extendedProps.location) : null;
-    eventToUpdate.extendedProps.guests !== undefined
-      ? eventGuests.val(eventToUpdate.extendedProps.guests).trigger('change')
-      : null;
-    eventToUpdate.extendedProps.guests !== undefined
-      ? calendarEditor.val(eventToUpdate.extendedProps.description)
-      : null;
+    
+    eventSidebarTitle.html('Detail Event');
 
-    //  Delete Event
     btnDeleteEvent.on('click', function () {
       eventToUpdate.remove();
       // removeEvent(eventToUpdate.id);
@@ -214,32 +273,27 @@ document.addEventListener('DOMContentLoaded', function () {
   // --------------------------------------------------------------------------------------------------
   function fetchEvents(info, successCallback) {
     // Fetch Events from API endpoint reference
-    /* $.ajax(
+    $.ajax(
       {
-        url: '../../../app-assets/data/app-calendar-events.js',
+        url: `${BACKEND_API}api/v1/rent/calendar`,
         type: 'GET',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+        },
         success: function (result) {
-          // Get requested calendars as Array
+          
           var calendars = selectedCalendars();
-
-          return [result.events.filter(event => calendars.includes(event.extendedProps.calendar))];
+          selectedEvents = result.data.events.filter(function (event) {
+            return calendars.includes(event.extendedProps.calendar.toLowerCase());
+          });
+          
+          successCallback(selectedEvents);
         },
         error: function (error) {
           console.log(error);
         }
       }
-    ); */
-
-    var calendars = selectedCalendars();
-    // We are reading event object from app-calendar-events.js file directly by including that file above app-calendar file.
-    // You should make an API call, look into above commented API call for reference
-    selectedEvents = events.filter(function (event) {
-      // console.log(event.extendedProps.calendar.toLowerCase());
-      return calendars.includes(event.extendedProps.calendar.toLowerCase());
-    });
-    // if (selectedEvents.length > 0) {
-    successCallback(selectedEvents);
-    // }
+    );
   }
 
   // Calendar plugins
@@ -249,7 +303,6 @@ document.addEventListener('DOMContentLoaded', function () {
     editable: true,
     dragScroll: true,
     dayMaxEvents: 2,
-    eventResizableFromStart: true,
     customButtons: {
       sidebarToggle: {
         text: 'Sidebar'
@@ -445,10 +498,9 @@ document.addEventListener('DOMContentLoaded', function () {
     eventUrl.val('');
     startDate.val('');
     eventTitle.val('');
-    eventLocation.val('');
     allDaySwitch.prop('checked', false);
-    eventGuests.val('').trigger('change');
     calendarEditor.val('');
+    eventSidebarTitle.html('Add Event');
   }
 
   // When modal hides reset input values

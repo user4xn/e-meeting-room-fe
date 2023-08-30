@@ -9,99 +9,33 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
 @endsection
 
 @section('page-style')
   {{-- Page Css files --}}
   <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 @endsection
 
 @section('content')
 <!-- users list start -->
 <section class="app-user-list">
-  <div class="row">
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">21,459</h3>
-            <span>Total Users</span>
-          </div>
-          <div class="avatar bg-light-primary p-50">
-            <span class="avatar-content">
-              <i data-feather="user" class="font-medium-4"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">4,567</h3>
-            <span>Paid Users</span>
-          </div>
-          <div class="avatar bg-light-danger p-50">
-            <span class="avatar-content">
-              <i data-feather="user-plus" class="font-medium-4"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">19,860</h3>
-            <span>Active Users</span>
-          </div>
-          <div class="avatar bg-light-success p-50">
-            <span class="avatar-content">
-              <i data-feather="user-check" class="font-medium-4"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-sm-6">
-      <div class="card">
-        <div class="card-body d-flex align-items-center justify-content-between">
-          <div>
-            <h3 class="fw-bolder mb-75">237</h3>
-            <span>Pending Users</span>
-          </div>
-          <div class="avatar bg-light-warning p-50">
-            <span class="avatar-content">
-              <i data-feather="user-x" class="font-medium-4"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- list and filter start -->
   <div class="card">
     <div class="card-body border-bottom">
-      <h4 class="card-title">Search & Filter</h4>
-      <div class="row">
-        <div class="col-md-4 user_role"></div>
-        <div class="col-md-4 user_plan"></div>
-        <div class="col-md-4 user_status"></div>
-      </div>
+      <h4 class="card-title mb-0">Master User</h4>
     </div>
     <div class="card-datatable table-responsive pt-0">
-      <table class="user-list-table table">
+      <table class="user-list-table table table-hover">
         <thead class="table-light">
           <tr>
-            <th></th>
+            <th>No</th>
             <th>Name</th>
-            <th>Role</th>
-            <th>Plan</th>
-            <th>Billing</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Action</th>
           </tr>
         </thead>
       </table>
@@ -109,117 +43,193 @@
     <!-- Modal to add new user starts-->
     <div class="modal modal-slide-in new-user-modal fade" id="modals-slide-in">
       <div class="modal-dialog">
-        <form class="add-new-user modal-content pt-0">
+        <form class="add-new-user modal-content pt-0" onsubmit="false" id="jquery-val-form">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
           <div class="modal-header mb-1">
-            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+            <h5 class="modal-add-title" id="exampleModalLabel">Add User</h5>
           </div>
           <div class="modal-body flex-grow-1">
             <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+              <label class="form-label" for="add-user-nik">NIK</label>
               <input
                 type="text"
-                class="form-control dt-full-name"
-                id="basic-icon-default-fullname"
+                class="form-control add-user-nik"
+                id="add-user-nik"
+                placeholder="33712987312"
+                name="add-user-nik"
+              />
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="add-user-username">Username</label>
+              <input
+                type="text"
+                class="form-control add-user-username"
+                id="add-user-username"
+                placeholder="johndoe"
+                name="add-user-username"
+              />
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="add-user-name">Full Name</label>
+              <input
+                type="text"
+                class="form-control add-user-name"
+                id="add-user-name"
                 placeholder="John Doe"
-                name="user-fullname"
+                name="add-user-name"
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-uname">Username</label>
+              <label class="form-label" for="add-user-phone">Phone Number</label>
               <input
                 type="text"
-                id="basic-icon-default-uname"
-                class="form-control dt-uname"
-                placeholder="Web Developer"
-                name="user-name"
+                id="add-user-phone"
+                class="form-control add-user-phone"
+                placeholder="08123231232"
+                name="add-user-phone"
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-email">Email</label>
+              <label class="form-label" for="add-user-email">Email</label>
               <input
-                type="text"
-                id="basic-icon-default-email"
-                class="form-control dt-email"
-                placeholder="john.doe@example.com"
-                name="user-email"
+                type="email"
+                id="add-user-email"
+                class="form-control add-user-email"
+                placeholder="johndoe@gmail.com"
+                name="add-user-email"
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-contact">Contact</label>
+              <label class="form-label" for="add-user-email">Address</label>
+              <textarea 
+                id="add-user-address"
+                class="form-control add-user-address" 
+                placeholder="Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+                name="add-user-address" 
+                cols="30" rows="10" 
+              ></textarea>
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="add-user-password">Password</label>
               <input
-                type="text"
-                id="basic-icon-default-contact"
-                class="form-control dt-contact"
-                placeholder="+1 (609) 933-44-22"
-                name="user-contact"
+                type="password"
+                id="add-user-password"
+                class="form-control add-user-password"
+                placeholder=""
+                name="add-user-password"
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="basic-icon-default-company">Company</label>
+              <label class="form-label" for="add-user-password-confirm">Confirm Password</label>
               <input
-                type="text"
-                id="basic-icon-default-company"
-                class="form-control dt-contact"
-                placeholder="PIXINVENT"
-                name="user-company"
+                type="password"
+                id="add-user-password-confirm"
+                class="form-control add-user-password-confirm"
+                placeholder=""
+                name="add-user-password-confirm"
               />
             </div>
-            <div class="mb-1">
-              <label class="form-label" for="country">Country</label>
-              <select id="country" class="select2 form-select">
-                <option value="Australia">USA</option>
-                <option value="Bangladesh">Bangladesh</option>
-                <option value="Belarus">Belarus</option>
-                <option value="Brazil">Brazil</option>
-                <option value="Canada">Canada</option>
-                <option value="China">China</option>
-                <option value="France">France</option>
-                <option value="Germany">Germany</option>
-                <option value="India">India</option>
-                <option value="Indonesia">Indonesia</option>
-                <option value="Israel">Israel</option>
-                <option value="Italy">Italy</option>
-                <option value="Japan">Japan</option>
-                <option value="Korea">Korea, Republic of</option>
-                <option value="Mexico">Mexico</option>
-                <option value="Philippines">Philippines</option>
-                <option value="Russia">Russian Federation</option>
-                <option value="South Africa">South Africa</option>
-                <option value="Thailand">Thailand</option>
-                <option value="Turkey">Turkey</option>
-                <option value="Ukraine">Ukraine</option>
-                <option value="United Arab Emirates">United Arab Emirates</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="United States">United States</option>
-              </select>
-            </div>
-            <div class="mb-1">
-              <label class="form-label" for="user-role">User Role</label>
-              <select id="user-role" class="select2 form-select">
-                <option value="subscriber">Subscriber</option>
-                <option value="editor">Editor</option>
-                <option value="maintainer">Maintainer</option>
-                <option value="author">Author</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-            <div class="mb-2">
-              <label class="form-label" for="user-plan">Select Plan</label>
-              <select id="user-plan" class="select2 form-select">
-                <option value="basic">Basic</option>
-                <option value="enterprise">Enterprise</option>
-                <option value="company">Company</option>
-                <option value="team">Team</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary me-1 data-submit">Submit</button>
+            <div type="submit" class="btn btn-primary me-1 data-submit">Submit</div>
             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>
         </form>
       </div>
     </div>
     <!-- Modal to add new user Ends-->
+
+    <!-- Modal to detail user starts-->
+    <div class="modal modal-slide-in new-user-modal fade" id="modals-slide-in-detail">
+      <div class="modal-dialog">
+        <form class="add-new-user modal-content pt-0" onsubmit="false">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+          <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Detail of -</h5>
+          </div>
+          <div class="modal-body flex-grow-1">
+            <div class="mb-1">
+              <label class="form-label" for="user-nik">NIK</label>
+              <input
+                type="text"
+                class="form-control user-nik"
+                id="user-nik"
+                placeholder="33712987312"
+                name="user-nik"
+                disabled
+              />
+              <input type="hidden" id="user-id">
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="user-name">Full Name</label>
+              <input
+                type="text"
+                class="form-control user-name"
+                id="user-name"
+                placeholder="John Doe"
+                name="user-name"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="user-username">Username</label>
+              <input
+                type="text"
+                class="form-control user-username"
+                id="user-username"
+                placeholder="John Doe"
+                name="user-username"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="user-phone">Phone Number</label>
+              <input
+                type="text"
+                id="user-phone"
+                class="form-control user-phone"
+                placeholder="08123231232"
+                name="user-phone"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="user-email">Email</label>
+              <input
+                type="email"
+                id="user-email"
+                class="form-control user-email"
+                placeholder="johndoe@gmail.com"
+                name="user-email"
+                disabled
+              />
+            </div>
+            <div class="mb-1">
+              <label class="form-label" for="user-email">Address</label>
+              <textarea 
+                id="user-address"
+                class="form-control user-address" 
+                placeholder="Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+                name="user-address" 
+                cols="30" rows="10" 
+                disabled
+              ></textarea>
+            </div>
+            <div id="area-hidden" class="mb-1 d-none">
+              <label class="form-label" for="user-password">Override Password</label>
+              <input
+                type="password"
+                id="user-password"
+                class="form-control user-password"
+                placeholder=""
+                name="user-password"
+              />
+            </div>
+            <div class="btn btn-primary me-1 data-save" data-state="edit">Edit</div>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modal to detail user Ends-->
   </div>
   <!-- list and filter end -->
 </section>
@@ -241,8 +251,7 @@
   <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
-  <script src="{{ asset(mix('vendors/js/forms/cleave/cleave.min.js')) }}"></script>
-  <script src="{{ asset(mix('vendors/js/forms/cleave/addons/cleave-phone.us.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 @endsection
 
 @section('page-script')

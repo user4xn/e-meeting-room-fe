@@ -1,12 +1,12 @@
 $(function (window) {
   ('use strict');
   
-  var dtUserTable = $('.room-list-table'), 
+  var dtTable = $('.room-list-table'), 
     saveButton = $('.data-save'), 
     submitButton = $('.data-submit');
 
-  if (dtUserTable.length) {
-    var table = dtUserTable.DataTable({
+  if (dtTable.length) {
+    var table = dtTable.DataTable({
       processing: true,
       serverSide: true,
       ajax: {
@@ -32,7 +32,7 @@ $(function (window) {
           { data: 'room_name'},
           { data: 'room_desc'},
           { data: 'room_capacity'},
-          { data: 'created_at'},
+          { data: 'id'},
       ],
       columnDefs: [
         {
@@ -190,7 +190,7 @@ $(function (window) {
         error: function (error) {
           console.error('Update failed:', error);
           toastr['error'](
-            error,
+            error.statusText,
             'Update Failed!',
             {
               closeButton: true,
@@ -233,7 +233,7 @@ $(function (window) {
       error: function (error) {
         console.error('Update failed:', error);
         toastr['error'](
-          error,
+          error.statusText,
           'Update Failed!',
           {
             closeButton: true,
