@@ -136,13 +136,14 @@ $(function (window) {
   table.on('click', 'tbody tr td:not(:last-child)', function () {
     var rowData = table.row(this).data(); // Get data for the clicked row
     // Populate modal fields with data
-    
+    console.log(rowData.qrcode);
     $('.modal-title').text('Detail of '+rowData.room_name);
     $('#room-id').val(rowData.id);
     $('#room-name').val(rowData.room_name);
     $('#room-description').val(rowData.room_desc);
     $('#room-capacity').val(rowData.room_capacity);
     $('#room-created-at').val(rowData.created_at);
+    $('#room-qrcode').attr('src', rowData.qrcode);
 
     // Show the modal
     $('#modals-slide-in-detail').modal('show');

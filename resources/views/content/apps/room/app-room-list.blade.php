@@ -129,6 +129,9 @@
                 disabled
               ></textarea>
             </div>
+            <div class="mb-1">
+              <img id="room-qrcode" src="" alt="qr-room">
+            </div>
             <div class="btn btn-primary me-1 data-save" data-state="edit">Edit</div>
             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>

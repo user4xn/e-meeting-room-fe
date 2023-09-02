@@ -50,7 +50,7 @@
                 <input type="checkbox" class="form-check-input input-filter" id="eksternal" data-value="eksternal" checked />
                 <label class="form-check-label" for="eksternal">Eksternal</label>
               </div>
-              <div class="form-check form-check-secondary mb-1">
+              <div class="form-check form-check-secondary mb-1 d-none">
                 <input type="checkbox" class="form-check-input input-filter" id="unapproved" data-value="unapproved" checked />
                 <label class="form-check-label" for="unapproved">Unapproved</label>
               </div>
@@ -85,7 +85,7 @@
       <div class="modal-content p-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
         <div class="modal-header mb-1">
-          <h5 class="modal-title event-sidebar-title">Add Event</h5>
+          <h5 class="modal-title event-sidebar-title">Add Rental</h5>
         </div>
         <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
           <form class="event-form needs-validation" data-ajax="false" novalidate>
@@ -93,7 +93,13 @@
               <label for="title" class="form-label">Title</label>
               <input type="text" class="form-control" id="title" name="title" placeholder="Event Title" required />
             </div>
-            <div class="mb-1">
+            <div class="">
+              <label for="select-responsible-user" class="form-responsible-user">Responsible User</label>
+              <select class="select2 select-responsible-user form-select w-100" id="select-responsible-user" name="select-responsible-user">
+                <!-- Options will be appended here -->
+              </select>
+            </div>
+            <div class="mb-1 mt-1">
               <label for="select-label" class="form-label">Organization</label>
               <select class="select2 select-label form-select w-100" id="select-label" name="select-label">
                 <option data-label="warning" value="Internal">Internal</option>
@@ -114,13 +120,13 @@
                 <label class="form-check-label" for="customSwitch3">All Day</label>
               </div>
             </div>
-            <div class="mb-1">
+            <div class="">
               <label for="select-room" class="form-room">Room</label>
               <select class="select2 select-room form-select w-100" id="select-room" name="select-room">
                 <!-- Options will be appended here -->
               </select>
             </div>
-            <div class="mb-1">
+            <div class="mb-1 mt-1">
               <label class="form-label">Description</label>
               <textarea name="event-description-editor" id="event-description-editor" class="form-control"></textarea>
             </div>
