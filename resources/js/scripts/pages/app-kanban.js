@@ -202,9 +202,9 @@ $(function () {
     element: '.kanban-wrapper',
     gutter: '15px',
     widthBoard: '250px',
-    dragItems: true,
+    dragItems: false,
     boards: boards,
-    dragBoards: true,
+    dragBoards: false,
     addItemButton: true,
     itemAddOptions: {
       enabled: true, // add a button to board for easy item creation

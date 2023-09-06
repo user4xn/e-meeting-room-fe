@@ -3,14 +3,17 @@
   
   const jwtToken = localStorage.getItem('jwtToken');
   const nextCheckToken = localStorage.getItem('nextCheckToken');
-  const userData = localStorage.getItem('userData');
+  const userData = JSON.parse(localStorage.getItem('userData'))
+
+  // CLEARING
+  localStorage.removeItem('nextRedirect');
   
   if (!jwtToken) {
     window.location.href = LOGIN_ROUTE;
   }
-
-  $('.user-name').text(userData.name);
-  $('.user-status').text(userData.role);
+  console.log(userData);
+  $('#auth-user-name').html(userData.username);
+  $('#auth-user-role').html(userData.role);
 
   async function hitEndpoint() {
     try {

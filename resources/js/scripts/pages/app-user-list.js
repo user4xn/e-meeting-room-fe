@@ -38,14 +38,14 @@ $(function (window) {
       columnDefs: [
         {
           targets: -1,
-          title: 'Actions',
+          title: 'Aksi',
           orderable: false,
           render: function (data, type, full, meta) {
             return (
               '<div class="btn-group">' +
               '<a href="javascript:;" data-id="'+full.id+'" class="dropdown-item delete-record">' +
                 feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
-                'Delete</a></div>' +
+                'Hapus</a></div>' +
               '</div>'
             );
           }
@@ -61,9 +61,9 @@ $(function (window) {
         '<"col-sm-12 col-md-6"p>' +
         '>',
       language: {
-        sLengthMenu: 'Show _MENU_',
-        search: 'Search',
-        searchPlaceholder: 'Search..'
+        sLengthMenu: 'Tampilkan _MENU_',
+        search: 'Pencarian',
+        searchPlaceholder: 'Cari...'
       },
       // Buttons with Dropdown
       buttons: [
@@ -112,7 +112,7 @@ $(function (window) {
           }
         },
         {
-          text: 'Add New User',
+          text: 'Tambah User Baru',
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'modal',
@@ -142,7 +142,7 @@ $(function (window) {
     $('#user-id').val(rowData.id);
     $('#user-username').val(rowData.username);
     $('#user-email').val(rowData.email);
-    $('#user-nik').val(rowData.user_detail.nik);
+    $('#user-nip').val(rowData.user_detail.nip);
     $('#user-name').val(rowData.user_detail.name);
     $('#user-phone').val(rowData.user_detail.phone_number);
     $('#user-address').val(rowData.user_detail.address);
@@ -157,20 +157,20 @@ $(function (window) {
     if (state === 'edit') {
       $('#user-username').prop('disabled', false);
       $('#user-email').prop('disabled', false);
-      $('#user-nik').prop('disabled', false);
+      $('#user-nip').prop('disabled', false);
       $('#user-name').prop('disabled', false);
       $('#user-phone').prop('disabled', false);
       $('#user-address').prop('disabled', false);
       $('#area-hidden').removeClass('d-none');
       
-      saveButton.text('Save');
+      saveButton.text('Simpan');
       saveButton.data('state', 'save'); // Update the state to 'save'
     } else if (state === 'save') {
       var userId = $('#user-id').val(); 
       var updatedData = {
         username: $('#user-username').val(),
         email: $('#user-email').val(),
-        nik: $('#user-nik').val(),
+        nip: $('#user-nip').val(),
         name: $('#user-name').val(),
         phone_number: $('#user-phone').val(),
         address: $('#user-address').val(),
@@ -188,8 +188,8 @@ $(function (window) {
           $('#modals-slide-in-detail').modal('hide');
 
           toastr['success'](
-            'User successfully updated',
-            'Agreed!',
+            'Berhasil update pengguna!',
+            'Sukses!',
             {
               closeButton: true,
               tapToDismiss: false
@@ -202,7 +202,7 @@ $(function (window) {
           console.error('Update failed:', error);
           toastr['error'](
             error.statusText,
-            'Update Failed!',
+            'Error!',
             {
               closeButton: true,
               tapToDismiss: false
@@ -217,7 +217,7 @@ $(function (window) {
     var insertData = {
       username: $('#add-user-username').val(),
       email: $('#add-user-email').val(),
-      nik: $('#add-user-nik').val(),
+      nip: $('#add-user-nip').val(),
       name: $('#add-user-name').val(),
       phone_number: $('#add-user-phone').val(),
       address: $('#add-user-address').val(),
@@ -235,8 +235,8 @@ $(function (window) {
         $('#modals-slide-in').modal('hide');
 
         toastr['success'](
-          'Successfully add user',
-          'Certainly!',
+          'Berhasil menambahkan pengguna baru',
+          'Oke!',
           {
             closeButton: true,
             tapToDismiss: false
@@ -249,7 +249,7 @@ $(function (window) {
         console.error('Update failed:', error);
         toastr['error'](
           error.statusText,
-          'Update Failed!',
+          'Gagal!',
           {
             closeButton: true,
             tapToDismiss: false
@@ -262,7 +262,7 @@ $(function (window) {
   $('#modals-slide-in-detail').on('hidden.bs.modal', function () {
     $('#user-username').prop('disabled', true);
     $('#user-email').prop('disabled', true);
-    $('#user-nik').prop('disabled', true);
+    $('#user-nip').prop('disabled', true);
     $('#user-name').prop('disabled', true);
     $('#user-phone').prop('disabled', true);
     $('#user-address').prop('disabled', true);
@@ -276,7 +276,7 @@ $(function (window) {
   $('#modals-slide-in').on('hidden.bs.modal', function () {
     $('#add-user-username').val('');
     $('#add-user-email').val('');
-    $('#add-user-nik').val('');
+    $('#add-user-nip').val('');
     $('#add-user-name').val('');
     $('#add-user-phone').val('');
     $('#add-user-address').val('');
@@ -291,13 +291,14 @@ $(function (window) {
     var id = $(this).data('id');
 
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You won\'t be able to revert this!',
+      title: 'Apa anda yakin?',
+      text: 'Anda tidak bisa mengembalikan ini!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: primaryColor,
       cancelButtonColor: secondaryColor,
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Jangan'
     }).then((result) => {
       if (result.isConfirmed) {
         // Send DELETE request
@@ -310,8 +311,8 @@ $(function (window) {
           success: function (response) {
             // Use Toastr for success message
             toastr['success'](
-              'User successfully deleted',
-              'Very Well!',
+              'Pengguna Berhasil Dihapus',
+              'Ok!',
               {
                 closeButton: true,
                 tapToDismiss: false
@@ -323,7 +324,7 @@ $(function (window) {
             // Use Toastr for error message
             toastr['error'](
               errorThrown,
-              'Error deleting user',
+              'Error menghapus pengguna!',
               {
                 closeButton: true,
                 tapToDismiss: false

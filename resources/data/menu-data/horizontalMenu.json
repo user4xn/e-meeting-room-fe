@@ -1,13 +1,13 @@
 {
   "menu": [
     {
-      "name": "Dashboard",
+      "name": "Dasbor",
       "icon": "home",
       "slug": "dashboard",
       "url": "dashboard"
     },
     {
-      "name": "User",
+      "name": "Pengguna",
       "icon": "user",
       "slug": "app-user-list",
       "url": "app/user/list"
@@ -26,13 +26,13 @@
       ]
     },
     {
-      "name": "Laporan",
+      "name": "Berkas",
       "icon": "file-text",
       "slug": "",
       "submenu": [
         {
           "url": "app/report/room",
-          "name": "Rapat",
+          "name": "Laporan",
           "icon": "circle",
           "slug": "app-report-room"
         }
@@ -46,13 +46,13 @@
     },
     {
       "url": "app/booking",
-      "name": "Booking",
+      "name": "Daftar Pengajuan",
       "icon": "grid",
       "slug": "app-booking"
     },
     {
       "url": "app/participant",
-      "name": "Peserta Rapat",
+      "name": "Peserta Meeting",
       "icon": "users",
       "slug": "app-participant"
     }

@@ -1,6 +1,6 @@
 [
   {
-    "id": "board-in-progress",
+    "id": "board-done",
     "title": "Disetujui",
     "item": [
       {
@@ -69,7 +69,7 @@
     ]
   },
   {
-    "id": "board-done",
+    "id": "board-rejected",
     "title": "Ditolak",
     "item": [
       {

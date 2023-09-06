@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'User List')
+@section('title', 'Data Pengguna')
 
 @section('vendor-style')
   {{-- Page Css files --}}
@@ -24,18 +24,18 @@
   <!-- list and filter start -->
   <div class="card">
     <div class="card-body border-bottom">
-      <h4 class="card-title mb-0">Master User</h4>
+      <h4 class="card-title mb-0">Data Pengguna</h4>
     </div>
     <div class="card-datatable table-responsive pt-0">
       <table class="user-list-table table table-hover">
         <thead class="table-light">
           <tr>
-            <th>No</th>
-            <th>Name</th>
+            <th>#</th>
+            <th>Nama</th>
             <th>Username</th>
             <th>Email</th>
-            <th>Phone Number</th>
-            <th>Action</th>
+            <th>No Telepon</th>
+            <th>Aksi</th>
           </tr>
         </thead>
       </table>
@@ -46,17 +46,17 @@
         <form class="add-new-user modal-content pt-0" onsubmit="false" id="jquery-val-form">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
           <div class="modal-header mb-1">
-            <h5 class="modal-add-title" id="exampleModalLabel">Add User</h5>
+            <h5 class="modal-add-title" id="exampleModalLabel">Tambah User</h5>
           </div>
           <div class="modal-body flex-grow-1">
             <div class="mb-1">
-              <label class="form-label" for="add-user-nik">NIK</label>
+              <label class="form-label" for="add-user-nip">NIP</label>
               <input
                 type="text"
-                class="form-control add-user-nik"
-                id="add-user-nik"
+                class="form-control add-user-nip"
+                id="add-user-nip"
                 placeholder="33712987312"
-                name="add-user-nik"
+                name="add-user-nip"
               />
             </div>
             <div class="mb-1">
@@ -70,7 +70,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="add-user-name">Full Name</label>
+              <label class="form-label" for="add-user-name">Nama Lengkap</label>
               <input
                 type="text"
                 class="form-control add-user-name"
@@ -80,7 +80,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="add-user-phone">Phone Number</label>
+              <label class="form-label" for="add-user-phone">Nomor Telepon</label>
               <input
                 type="text"
                 id="add-user-phone"
@@ -100,7 +100,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="add-user-email">Address</label>
+              <label class="form-label" for="add-user-email">Alamat</label>
               <textarea 
                 id="add-user-address"
                 class="form-control add-user-address" 
@@ -120,7 +120,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="add-user-password-confirm">Confirm Password</label>
+              <label class="form-label" for="add-user-password-confirm">Konfirmasi Password</label>
               <input
                 type="password"
                 id="add-user-password-confirm"
@@ -129,8 +129,8 @@
                 name="add-user-password-confirm"
               />
             </div>
-            <div type="submit" class="btn btn-primary me-1 data-submit">Submit</div>
-            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <div type="submit" class="btn btn-primary me-1 data-submit">Simpan</div>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
           </div>
         </form>
       </div>
@@ -147,19 +147,19 @@
           </div>
           <div class="modal-body flex-grow-1">
             <div class="mb-1">
-              <label class="form-label" for="user-nik">NIK</label>
+              <label class="form-label" for="user-nip">NIP</label>
               <input
                 type="text"
-                class="form-control user-nik"
-                id="user-nik"
+                class="form-control user-nip"
+                id="user-nip"
                 placeholder="33712987312"
-                name="user-nik"
+                name="user-nip"
                 disabled
               />
               <input type="hidden" id="user-id">
             </div>
             <div class="mb-1">
-              <label class="form-label" for="user-name">Full Name</label>
+              <label class="form-label" for="user-name">Nama Lengkap</label>
               <input
                 type="text"
                 class="form-control user-name"
@@ -181,7 +181,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="user-phone">Phone Number</label>
+              <label class="form-label" for="user-phone">Nomor Telepon</label>
               <input
                 type="text"
                 id="user-phone"
@@ -203,7 +203,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="user-email">Address</label>
+              <label class="form-label" for="user-email">Alamat</label>
               <textarea 
                 id="user-address"
                 class="form-control user-address" 
@@ -214,7 +214,7 @@
               ></textarea>
             </div>
             <div id="area-hidden" class="mb-1 d-none">
-              <label class="form-label" for="user-password">Override Password</label>
+              <label class="form-label" for="user-password">Ganti Password</label>
               <input
                 type="password"
                 id="user-password"
@@ -224,7 +224,7 @@
               />
             </div>
             <div class="btn btn-primary me-1 data-save" data-state="edit">Edit</div>
-            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
           </div>
         </form>
       </div>

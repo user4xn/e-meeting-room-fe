@@ -24,17 +24,17 @@
   <!-- list and filter start -->
   <div class="card">
     <div class="card-body border-bottom">
-      <h4 class="card-title mb-0">Master Room</h4>
+      <h4 class="card-title mb-0">Data Ruangan</h4>
     </div>
     <div class="card-datatable table-responsive pt-0">
       <table class="room-list-table table table-hover">
         <thead class="table-light">
           <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Capacity</th>
-            <th>Action</th>
+            <th>#</th>
+            <th>Nama Ruangan</th>
+            <th>Deskripsi</th>
+            <th>Kapasitas</th>
+            <th>Aksi</th>
           </tr>
         </thead>
       </table>
@@ -45,11 +45,11 @@
         <form class="add-new-room modal-content pt-0" onsubmit="false">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
           <div class="modal-header mb-1">
-            <h5 class="modal-add-title" id="exampleModalLabel">Add Room</h5>
+            <h5 class="modal-add-title" id="exampleModalLabel">Tambah Ruangan</h5>
           </div>
           <div class="modal-body flex-grow-1">
             <div class="mb-1">
-              <label class="form-label" for="add-room-name">Room Name</label>
+              <label class="form-label" for="add-room-name">Nama Ruangan</label>
               <input
                 type="text"
                 class="form-control dt-name"
@@ -59,7 +59,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="add-room-capacity">Max Capacity</label>
+              <label class="form-label" for="add-room-capacity">Kapasitas Maksimal</label>
               <input
                 type="number"
                 id="add-room-capacity"
@@ -69,7 +69,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="add-room-description">Description</label>
+              <label class="form-label" for="add-room-description">Deskripsi Ruangan</label>
               <textarea 
                 id="add-room-description"
                 class="form-control dt-description" 
@@ -78,8 +78,8 @@
                 cols="30" rows="10" 
               ></textarea>
             </div>
-            <div type="submit" class="btn btn-primary me-1 data-submit">Submit</div>
-            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <div type="submit" class="btn btn-primary me-1 data-submit">Simpan</div>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
           </div>
         </form>
       </div>
@@ -96,7 +96,7 @@
           </div>
           <div class="modal-body flex-grow-1">
             <div class="mb-1">
-              <label class="form-label" for="room-name">Room Name</label>
+              <label class="form-label" for="room-name">Nama Ruangan</label>
               <input
                 type="text"
                 class="form-control dt-name"
@@ -108,7 +108,7 @@
               <input type="hidden" id="room-id">
             </div>
             <div class="mb-1">
-              <label class="form-label" for="room-capacity">Max Capacity</label>
+              <label class="form-label" for="room-capacity">Kapasitas Maksimal</label>
               <input
                 type="number"
                 id="room-capacity"
@@ -119,7 +119,7 @@
               />
             </div>
             <div class="mb-1">
-              <label class="form-label" for="room-description">Description</label>
+              <label class="form-label" for="room-description">Deskripsi</label>
               <textarea 
                 id="room-description"
                 class="form-control dt-description" 
@@ -129,11 +129,12 @@
                 disabled
               ></textarea>
             </div>
-            <div class="mb-1">
+            <div class="image-container mb-1 d-flex justify-content-center border p-4 position-relative d-inline-block">
               <img id="room-qrcode" src="" alt="qr-room">
+              <button class="download-button btn btn-primary">Download</button>
             </div>
             <div class="btn btn-primary me-1 data-save" data-state="edit">Edit</div>
-            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
           </div>
         </form>
       </div>
@@ -142,6 +143,33 @@
   </div>
   <!-- list and filter end -->
 </section>
+<style>
+  .download-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  #room-qrcode {
+    width: 240px;
+    height: 240px;
+    transition: transform 0.2s;
+  }/* Hover effect */
+  .image-container:hover #room-qrcode {
+    transform: scale(1.1);
+  }
+
+  .image-container:hover .download-button {
+    opacity: 1;
+  }
+</style>
 <!-- rooms list ends -->
 @endsection
 

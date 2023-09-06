@@ -5,12 +5,17 @@ $(function () {
   const jwtToken = localStorage.getItem('jwtToken');
   const isOtpEnabled = localStorage.getItem('isOtp');
   const userData = JSON.parse(localStorage.getItem('userData'));
+  const redirect = localStorage.getItem('nextRedirect');
 
   // Redirect based on conditions
   if (jwtToken) {
     if (userData.email_verified_at !== null) {
       if (isOtpEnabled === 'false') {
-        window.location.href = DASHBOARD_ROUTE;
+        if(!redirect) { 
+          window.location.href = DASHBOARD_ROUTE;
+        } else {
+          window.location.href = redirect;
+        }
       }
     }
   }
@@ -61,7 +66,11 @@ $(function () {
               await resendOtp(email);
               window.location.href = OTP_ROUTE;
             } else {
-              window.location.href = DASHBOARD_ROUTE;
+              if(!redirect) { 
+                window.location.href = DASHBOARD_ROUTE;
+              } else {
+                window.location.href = redirect;
+              }
             }
           }
         } catch (error) {

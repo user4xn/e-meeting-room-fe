@@ -86,14 +86,15 @@ class AppsController extends Controller
     }
 
     // Calender App
-    public function rentIndex()
-    {
+    public function rentIndex($room_id = '')
+    {   
         $pageConfigs = [
             'pageHeader' => false
         ];
 
         return view('/content/apps/calendar/app-calendar', [
-            'pageConfigs' => $pageConfigs
+            'pageConfigs' => $pageConfigs,
+            'room_id' => $room_id
         ]);
     }
 
@@ -154,10 +155,10 @@ class AppsController extends Controller
     {
         $pageConfigs = [
             'pageHeader' => false,
-            'pageClass' => 'kanban-application',
+            'pageClass' => 'booking-application',
         ];
 
-        return view('/content/apps/kanban/app-kanban', ['pageConfigs' => $pageConfigs]);
+        return view('/content/apps/booking/app-booking', ['pageConfigs' => $pageConfigs]);
     }
 
     // Ecommerce Shop

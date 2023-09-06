@@ -50,11 +50,11 @@ $(function () {
     if (remainingCooldown > 0) {
       const secondsRemaining = Math.ceil(remainingCooldown / 1000);
       resendButton.prop('disabled', true);
-      resendButton.text(`Resend (${secondsRemaining}s)`);
+      resendButton.text(`Kirim Ulang (${secondsRemaining}s)`);
       setTimeout(updateResendButtonState, 1000);
     } else {
       resendButton.prop('disabled', false);
-      resendButton.text('Resend');
+      resendButton.text('Kirim Ulang');
     }
   }
 

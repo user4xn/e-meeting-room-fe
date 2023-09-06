@@ -13,10 +13,15 @@ $(function () {
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
   const isOtpEnabled = localStorage.getItem('isOtp');
   const userData = JSON.parse(localStorage.getItem('userData'));
+  const redirect = localStorage.getItem('nextRedirect');
 
   if(userData){
     if (isOtpEnabled === 'false') {
-      window.location.href = DASHBOARD_ROUTE;
+      if(!redirect) { 
+        window.location.href = DASHBOARD_ROUTE;
+      } else {
+        window.location.href = redirect;
+      }OUTE;
     }
   } else {
     window.location.href = LOGIN_ROUTE;
@@ -51,11 +56,11 @@ $(function () {
     if (remainingCooldown > 0) {
       const secondsRemaining = Math.ceil(remainingCooldown / 1000);
       resendButton.prop('disabled', true);
-      resendButton.text(`Resend (${secondsRemaining}s)`);
+      resendButton.text(` Kirim Ulang (${secondsRemaining}s)`);
       setTimeout(updateResendButtonState, 1000);
     } else {
       resendButton.prop('disabled', false);
-      resendButton.text('Resend');
+      resendButton.text(' Kirim Ulang');
     }
   }
 
@@ -107,8 +112,8 @@ $(function () {
 
       if (response.status === 200) {
         toastr['success'](
-          'You are being redirected, please wait...',
-          'Successfully Verify OTP',
+          'Anda akan segera dialihkan, mohon tunggu..',
+          'Berhasil Verifikasi OTP',
           {
             closeButton: true,
             tapToDismiss: false,
@@ -119,7 +124,11 @@ $(function () {
         localStorage.setItem('isOtp', false);
 
         setTimeout(function () {
-          window.location.href = DASHBOARD_ROUTE;
+          if(!redirect) { 
+            window.location.href = DASHBOARD_ROUTE;
+          } else {
+            window.location.href = redirect;
+          }
         }, 2000);
       }
       
@@ -127,7 +136,7 @@ $(function () {
       console.log(error);
       if (error.response.status === 400) {
         toastr['error'](
-          'Please insert valid OTP code from your email!',
+          'Harap masukan kode OTP yang valid!',
           'Invalid OTP!',
           {
             closeButton: true,

@@ -3,7 +3,8 @@ $(function (window) {
   
   var dtTable = $('.room-list-table'), 
     saveButton = $('.data-save'), 
-    submitButton = $('.data-submit');
+    submitButton = $('.data-submit'),
+    downloadButton = $('.download-button');
 
   if (dtTable.length) {
     var table = dtTable.DataTable({
@@ -37,14 +38,14 @@ $(function (window) {
       columnDefs: [
         {
           targets: -1,
-          title: 'Actions',
+          title: 'Aksi',
           orderable: false,
           render: function (data, type, full, meta) {
             return (
               '<div class="btn-group">' +
               '<a href="javascript:;" data-id="'+full.id+'" class="dropdown-item delete-record">' +
                 feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
-                'Delete</a></div>' +
+                'Hapus</a></div>' +
               '</div>'
             );
           }
@@ -60,9 +61,9 @@ $(function (window) {
         '<"col-sm-12 col-md-6"p>' +
         '>',
       language: {
-        sLengthMenu: 'Show _MENU_',
-        search: 'Search',
-        searchPlaceholder: 'Search..'
+        sLengthMenu: 'Tampilkan _MENU_',
+        search: 'Pencarian',
+        searchPlaceholder: 'Cari...'
       },
       // Buttons with Dropdown
       buttons: [
@@ -111,7 +112,7 @@ $(function (window) {
           }
         },
         {
-          text: 'Add New Room',
+          text: 'Tambah Ruangan Baru',
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'modal',
@@ -144,6 +145,7 @@ $(function (window) {
     $('#room-capacity').val(rowData.room_capacity);
     $('#room-created-at').val(rowData.created_at);
     $('#room-qrcode').attr('src', rowData.qrcode);
+    $('#room-qrcode').data('room', rowData.room_name+'-'+rowData.id);
 
     // Show the modal
     $('#modals-slide-in-detail').modal('show');
@@ -157,7 +159,7 @@ $(function (window) {
       $('#room-description').prop('disabled', false);
       $('#room-capacity').prop('disabled', false);
       
-      saveButton.text('Save');
+      saveButton.text('Simpan');
       saveButton.data('state', 'save'); // Update the state to 'save'
     } else if (state === 'save') {
       var roomId = $('#room-id').val(); 
@@ -178,8 +180,8 @@ $(function (window) {
           $('#modals-slide-in-detail').modal('hide');
 
           toastr['success'](
-            'Room successfully updated',
-            'Agreed!',
+            'Berhasil update ruangan',
+            'Sukses!',
             {
               closeButton: true,
               tapToDismiss: false
@@ -192,7 +194,7 @@ $(function (window) {
           console.error('Update failed:', error);
           toastr['error'](
             error.statusText,
-            'Update Failed!',
+            'Update Gagal!',
             {
               closeButton: true,
               tapToDismiss: false
@@ -221,8 +223,8 @@ $(function (window) {
         $('#modals-slide-in').modal('hide');
 
         toastr['success'](
-          'Successfully add room',
-          'Certainly!',
+          'Berhasil menambah ruangan baru',
+          'Ok!',
           {
             closeButton: true,
             tapToDismiss: false
@@ -235,7 +237,7 @@ $(function (window) {
         console.error('Update failed:', error);
         toastr['error'](
           error.statusText,
-          'Update Failed!',
+          'Gagal menambah ruangan!',
           {
             closeButton: true,
             tapToDismiss: false
@@ -268,13 +270,14 @@ $(function (window) {
     var id = $(this).data('id');
 
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'You won\'t be able to revert this!',
+      title: 'Apa anda yakin?',
+      text: 'Anda tidak bisa mengembalikan ini!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: primaryColor,
       cancelButtonColor: secondaryColor,
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Ya, hapus!',
+      cancelButtonText: 'Jangan'
     }).then((result) => {
       if (result.isConfirmed) {
         // Send DELETE request
@@ -287,8 +290,8 @@ $(function (window) {
           success: function (response) {
             // Use Toastr for success message
             toastr['success'](
-              'Room successfully deleted',
-              'Very Well!',
+              'Ruangan berhasil dihapus',
+              'Sukses!',
               {
                 closeButton: true,
                 tapToDismiss: false
@@ -300,7 +303,7 @@ $(function (window) {
             // Use Toastr for error message
             toastr['error'](
               errorThrown,
-              'Error deleting room',
+              'Error menghapus ruangan',
               {
                 closeButton: true,
                 tapToDismiss: false
@@ -310,6 +313,18 @@ $(function (window) {
         });
       }
     });
+  });
+
+  downloadButton.on('click', function(e){
+    e.preventDefault();
+    const image = $('#room-qrcode');
+    const label = image.data('room');
+    const link = document.createElement('a');
+    link.href = image.attr('src');
+    link.download = 'sirupat-qr-'+label+'.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   });
 
 });

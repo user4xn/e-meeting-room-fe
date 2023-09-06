@@ -8,7 +8,8 @@
     "production": "mix --production"
   },
   "dependencies": {
-    "bootstrap": "~5.1.0"
+    "bootstrap": "~5.1.0",
+    "webpack-livereload-plugin": "1"
   },
   "devDependencies": {
     "axios": "^0.21",

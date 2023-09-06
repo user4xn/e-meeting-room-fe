@@ -103,8 +103,10 @@
     "/js/scripts/forms/form-wizard.js": "/js/scripts/forms/form-wizard.js",
     "/js/scripts/forms/pickers/form-pickers.js": "/js/scripts/forms/pickers/form-pickers.js",
     "/js/scripts/maps/map-leaflet.js": "/js/scripts/maps/map-leaflet.js",
+    "/js/scripts/miscellaneous/page-room-scan.js": "/js/scripts/miscellaneous/page-room-scan.js",
     "/js/scripts/pages/app-access-permission.js": "/js/scripts/pages/app-access-permission.js",
     "/js/scripts/pages/app-access-roles.js": "/js/scripts/pages/app-access-roles.js",
+    "/js/scripts/pages/app-booking.js": "/js/scripts/pages/app-booking.js",
     "/js/scripts/pages/app-calendar-events.js": "/js/scripts/pages/app-calendar-events.js",
     "/js/scripts/pages/app-calendar.js": "/js/scripts/pages/app-calendar.js",
     "/js/scripts/pages/app-chat.js": "/js/scripts/pages/app-chat.js",
@@ -1441,5 +1443,6 @@
     "/data/projects-list.json": "/data/projects-list.json",
     "/data/search.json": "/data/search.json",
     "/data/table-datatable.json": "/data/table-datatable.json",
-    "/data/user-list.json": "/data/user-list.json"
+    "/data/user-list.json": "/data/user-list.json",
+    "/images/logo/favicon-base.ico": "/images/logo/favicon-base.ico"
 }

@@ -34,9 +34,10 @@ document.addEventListener('DOMContentLoaded', function () {
   eventToUpdate,
   sidebar = $('.event-sidebar'),
   calendarsColor = {
-    Internal: 'warning',
+    Internal: 'info',
     Eksternal: 'success',
     Unapproved: 'secondary',
+    Expired: 'warning',
   },
   eventForm = $('.event-form'),
   addEventBtn = $('.add-event-btn'),
@@ -45,21 +46,18 @@ document.addEventListener('DOMContentLoaded', function () {
   toggleSidebarBtn = $('.btn-toggle-sidebar'),
   eventSidebarTitle = $('.event-sidebar-title'),
   eventTitle = $('#title'),
-  eventLabel = $('#select-label'),
+  eventOrganization = $('#select-label'),
   eventRoom = $('#select-room'),
   eventResponsible = $('#select-responsible-user'),
   startDate = $('#start-date'),
   endDate = $('#end-date'),
-  eventUrl = $('#event-url'),
-  eventGuests = $('#event-guests'),
-  eventLocation = $('#event-location'),
   allDaySwitch = $('.allDay-switch'),
   selectAll = $('.select-all'),
   calEventFilter = $('.calendar-events-filter'),
   filterInput = $('.input-filter'),
-  btnDeleteEvent = $('.btn-delete-event'),
+  btnDeleteEvent = $('#btn-delete-event'),
   eventDescription = $('#event-description-editor'),
-  start,end;
+  start,end,infoEventId;
 
   $('.add-event button').on('click', function (e) {
     $('.event-sidebar').addClass('show');
@@ -67,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('.app-calendar .body-content-overlay').addClass('show');
   });
 
-  if (eventLabel.length) {
+  if (eventOrganization.length) {
     function renderBullets(option) {
       if (!option.id) {
         return option.text;
@@ -81,9 +79,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       return $bullet;
     }
-    eventLabel.wrap('<div class="position-relative"></div>').select2({
+    eventOrganization.wrap('<div class="position-relative"></div>').select2({
       placeholder: 'Select Organization',
-      dropdownParent: eventLabel.parent(),
+      dropdownParent: eventOrganization.parent(),
       templateResult: renderBullets,
       templateSelection: renderBullets,
       minimumResultsForSearch: -1,
@@ -95,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (eventRoom.length) {
     eventRoom.select2({
-      placeholder: 'Select Room',
+      placeholder: 'Pilih Ruangan',
       dropdownParent: eventRoom.parent(),
       minimumResultsForSearch: -1,
       escapeMarkup: function (es) {
@@ -106,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (eventResponsible.length) {
     eventResponsible.select2({
-      placeholder: 'Select User',
+      placeholder: 'Piling Pengguna',
       dropdownParent: eventResponsible.parent(),
       minimumResultsForSearch: -1,
       escapeMarkup: function (es) {
@@ -146,6 +144,22 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   }
+
+  // Check if the code has been executed previously
+  if (ROOM_ID !== '') {
+    var currentDate = moment();
+    var date = currentDate.format('YYYY-MM-DD HH:mm');
+
+    resetValues();
+    sidebar.modal('show');
+    addEventBtn.removeClass('d-none');
+    updateEventBtn.addClass('d-none');
+    btnDeleteEvent.addClass('d-none');
+    start.setDate(date, true);
+    end.setDate(date, true);
+    sidebar.find(eventRoom).val(ROOM_ID).trigger('change');
+  }
+
 
   function fetchRoom() {
     $.ajax(
@@ -210,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function eventClick(info) {
     eventToUpdate = info.event;
     eventId = eventToUpdate.id;
-    
+    console.log(eventId);
     $.ajax(
       {
         url: `${BACKEND_API}api/v1/rent/detail/${eventId}`,
@@ -220,14 +234,22 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         success: function (result) {
           eventFetch = result.data;
+          infoEventId =  eventFetch.id;
           eventFetch.event_desc !== undefined ? eventDescription.val(eventFetch.event_desc) : null;
-          sidebar.find(eventRoom).val(eventFetch.room.id).trigger('change');
-          sidebar.find(eventLabel).val(eventFetch.organization).trigger('change');
+          sidebar.find(eventRoom).val(eventFetch.room_id).trigger('change');
+          sidebar.find(eventOrganization).val(eventFetch.organization).trigger('change');
           sidebar.find(eventResponsible).val(eventFetch.user_id).trigger('change');
           $('#badge-area').removeClass('d-none');
-          if(eventFetch.status === 'approved'){
-            $('.badge-unapprove').addClass('d-none');
-            $('.badge-approve').removeClass('d-none');
+          if(eventFetch.status === 'approved' || eventFetch.status === 'expired'){
+            if(eventFetch.status === 'approved') {
+              $('.badge-unapprove').addClass('d-none'); 
+              $('.badge-expired').addClass('d-none'); 
+              $('.badge-approve').removeClass('d-none');
+            } else {
+              $('.badge-unapprove').addClass('d-none'); 
+              $('.badge-expired').removeClass('d-none'); 
+              $('.badge-approve').addClass('d-none');
+            }
 
             endDate.prop('disabled', true);
             startDate.prop('disabled', true);
@@ -235,12 +257,13 @@ document.addEventListener('DOMContentLoaded', function () {
             allDaySwitch.prop('disabled', true);
             eventDescription.prop('disabled', true);
             eventRoom.prop('disabled', true);
-            eventLabel.prop('disabled', true);
+            eventOrganization.prop('disabled', true);
             eventResponsible.prop('disabled', true);
             
           } else {
             $('.badge-unapprove').removeClass('d-none');
             $('.badge-approve').addClass('d-none');
+            $('.badge-expired').addClass('d-none');
 
             updateEventBtn.removeClass('d-none');
             btnDeleteEvent.removeClass('d-none');
@@ -252,11 +275,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     );
 
-    if (eventToUpdate.url) {
-      info.jsEvent.preventDefault();
-      window.open(eventToUpdate.url, '_blank');
-    }
-
     sidebar.modal('show');
     addEventBtn.addClass('d-none');
     cancelBtn.addClass('d-none');
@@ -266,20 +284,57 @@ document.addEventListener('DOMContentLoaded', function () {
     eventTitle.val(eventToUpdate.title);
     start.setDate(eventToUpdate.start, true, 'Y-m-d');
     eventToUpdate.allDay === true ? allDaySwitch.prop('checked', true) : allDaySwitch.prop('checked', false);
-    eventToUpdate.end !== null
-    ? end.setDate(eventToUpdate.end, true, 'Y-m-d')
-    : end.setDate(eventToUpdate.start, true, 'Y-m-d');
+    eventToUpdate.end !== null ? end.setDate(eventToUpdate.end, true, 'Y-m-d') : end.setDate(eventToUpdate.start, true, 'Y-m-d');
     
     eventSidebarTitle.html('Detail Rental');
-
-    btnDeleteEvent.on('click', function () {
-      eventToUpdate.remove();
-      
-      sidebar.modal('hide');
-      $('.event-sidebar').removeClass('show');
-      $('.app-calendar .body-content-overlay').removeClass('show');
-    });
   }
+
+  let confirmationTimer = null;
+
+  btnDeleteEvent.on('click', function (e) {
+    e.preventDefault();
+
+    if (confirmationTimer === null) {
+      btnDeleteEvent.html('Konfirmasi');
+      confirmationTimer = setTimeout(function () {
+        btnDeleteEvent.html('Hapus');
+        confirmationTimer = null;
+      }, 5000); 
+    } else {
+      clearTimeout(confirmationTimer);
+      $.ajax({
+        url: `${BACKEND_API}api/v1/rent/delete/${infoEventId}`,
+        type: 'DELETE',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+        },
+        success: function (result) {
+          toastr['success'](
+            'Berhasil Hapus Agenda',
+            'Ok!',
+            {
+              closeButton: true,
+              tapToDismiss: false
+            }
+          );
+          refreshCalendarEvents();
+          sidebar.modal('hide');
+        },
+        error: function (error) {
+          toastr['error'](
+            'Gagal hapus data agenda: ' + error.statusText,
+            'Hapus Gagal!',
+            {
+              closeButton: true,
+              tapToDismiss: false
+            }
+          );
+        }
+      });
+      btnDeleteEvent.html('Hapus');
+      confirmationTimer = null;
+    }
+  });
 
   function modifyToggler() {
     $('.fc-sidebarToggle-button')
@@ -346,14 +401,32 @@ document.addEventListener('DOMContentLoaded', function () {
       ];
     },
     dateClick: function (info) {
-      var date = moment(info.date).format('YYYY-MM-DD');
-      resetValues();
-      sidebar.modal('show');
-      addEventBtn.removeClass('d-none');
-      updateEventBtn.addClass('d-none');
-      btnDeleteEvent.addClass('d-none');
-      startDate.val(date);
-      endDate.val(date);
+      var invalidDate = moment().subtract(1, 'days');
+      var currentDate = moment();
+      var selectedDate = moment(info.date).set({
+        hour: currentDate.hour(),
+        minute: currentDate.minute()
+      });
+      
+      if (selectedDate.isBefore(invalidDate)) {
+        toastr['error'](
+          'Tidak bisa menambahkan pada tanggal yang terlewat',
+          'Tidak Valid',
+          {
+            closeButton: true,
+            tapToDismiss: false
+          }
+        );
+      } else {
+        var date = selectedDate.format('YYYY-MM-DD HH:mm');
+        resetValues();
+        sidebar.modal('show');
+        addEventBtn.removeClass('d-none');
+        updateEventBtn.addClass('d-none');
+        btnDeleteEvent.addClass('d-none');
+        start.setDate(date, true);
+        end.setDate(date, true);
+      }
     },
     eventClick: function (info) {
       eventClick(info);
@@ -368,11 +441,7 @@ document.addEventListener('DOMContentLoaded', function () {
   calendar.render();
 
   function refreshCalendarEvents() {
-    fetchEvents().then(function (newEvents) {
-      calendar.refetchEvents();
-    }).catch(function (error) {
-      console.error("Error fetching events:", error);
-    });
+    calendar.refetchEvents();
   }
   
   modifyToggler();
@@ -395,10 +464,10 @@ document.addEventListener('DOMContentLoaded', function () {
         'select-responsible-user': { required: true }
       },
       messages: {
-        'select-responsible-user': { required: 'User is required' },
-        'select-room': { required: 'Room is required' },
-        'start-date': { required: 'Start Date is required' },
-        'end-date': { required: 'End Date is required' }
+        'select-responsible-user': { required: 'Pengguna wajib diisi' },
+        'select-room': { required: 'Ruagan wajib diisi' },
+        'start-date': { required: 'Tanggal mulai wajib diisi' },
+        'end-date': { required: 'Tanggal berakhir wajib diisi' }
       }
     });
   }
@@ -409,76 +478,23 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function addEvent(eventData) {
-    calendar.addEvent(eventData);
-    calendar.refetchEvents();
-  }
-
-  function updateEvent(eventData) {
-    var propsToUpdate = ['id', 'title', 'url'];
-    var extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description'];
-
-    updateEventInCalendar(eventData, propsToUpdate, extendedPropsToUpdate);
-  }
-
-  function removeEvent(eventId) {
-    removeEventInCalendar(eventId);
-  }
-  
-  const updateEventInCalendar = (updatedEventData, propsToUpdate, extendedPropsToUpdate) => {
-    const existingEvent = calendar.getEventById(updatedEventData.id);
-
-    for (var index = 0; index < propsToUpdate.length; index++) {
-      var propName = propsToUpdate[index];
-      existingEvent.setProp(propName, updatedEventData[propName]);
-    }
-
-    existingEvent.setDates(updatedEventData.start, updatedEventData.end, { allDay: updatedEventData.allDay });
-
-    for (var index = 0; index < extendedPropsToUpdate.length; index++) {
-      var propName = extendedPropsToUpdate[index];
-      existingEvent.setExtendedProp(propName, updatedEventData.extendedProps[propName]);
-    }
-  };
-
   function removeEventInCalendar(eventId) {
     calendar.getEventById(eventId).remove();
   }
 
   $(addEventBtn).on('click', function () {
     if (eventForm.valid()) {
-      var newEvent = {
-        id: calendar.getEvents().length + 1,
-        title: eventTitle.val(),
-        start: startDate.val(),
-        end: endDate.val(),
-        startStr: startDate.val(),
-        endStr: endDate.val(),
-        display: 'block',
-        extendedProps: {
-          location: eventLocation.val(),
-          guests: eventGuests.val(),
-          calendar: eventLabel.val(),
-          description: eventDescription.val()
-        }
-      };
-      if (allDaySwitch.prop('checked')) {
-        newEvent.allDay = true;
-      }
-
       var formData = {
         datetime_start: startDate.val(),
         datetime_end: endDate.val(),
         event_name: eventTitle.val(),
-        is_all_day: allDaySwitch.val(),
+        is_all_day: allDaySwitch.prop('checked') ? 1 : 0,
         event_desc: eventDescription.val(),
         room_id: eventRoom.val(),
-        organization: eventLabel.val(),
+        organization: eventOrganization.val(),
         user_id: eventResponsible.val(),
         guest_count: 0,
       }
-
-      console.log(formData);
 
       $.ajax(
         {
@@ -489,39 +505,83 @@ document.addEventListener('DOMContentLoaded', function () {
           },
           data: formData,
           success: function (result) {
-            console.log(result);
+            toastr['success'](
+              'Berhasil mengajukan agenda baru',
+              'Sukses!',
+              {
+                closeButton: true,
+                tapToDismiss: false
+              }
+            );
             refreshCalendarEvents();
           },
           error: function (error) {
-            console.log(error);
+            toastr['error'](
+              'Gagal megajukan agenda:'+error.statusText,
+              'Error!',
+              {
+                closeButton: true,
+                tapToDismiss: false
+              }
+            );
           }
         }
       );
-      // addEvent(newEvent);
     }
   });
 
   updateEventBtn.on('click', function () {
-    if (eventForm.valid()) {
-      var eventData = {
-        id: eventToUpdate.id,
-        title: sidebar.find(eventTitle).val(),
-        start: sidebar.find(startDate).val(),
-        end: sidebar.find(endDate).val(),
-        extendedProps: {
-          calendar: eventLabel.val(),
-          description: eventDescription.val()
-        },
-        display: 'block',
-        allDay: allDaySwitch.prop('checked') ? true : false
-      };
-      
-      updateEvent(eventData);
-      sidebar.modal('hide');
+    if (eventForm.valid() && infoEventId !== null) {
+      var formData = {
+        datetime_start: startDate.val(),
+        datetime_end: endDate.val(),
+        event_name: eventTitle.val(),
+        is_all_day: allDaySwitch.prop('checked') ? 1 : 0,
+        event_desc: eventDescription.val(),
+        room_id: eventRoom.val(),
+        organization: eventOrganization.val(),
+        user_id: eventResponsible.val(),
+        guest_count: 0,
+      }
+
+      $.ajax(
+        {
+          url: `${BACKEND_API}api/v1/rent/update/${infoEventId}`,
+          type: 'POST',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+          },
+          data: formData,
+          success: function (result) {
+            toastr['success'](
+              'Berhasil update agenda',
+              'Ok!',
+              {
+                closeButton: true,
+                tapToDismiss: false
+              }
+            );
+            refreshCalendarEvents();
+          },
+          error: function (error) {
+            toastr['error'](
+              'Failed updated rent:'+error.statusText,
+              'Updated Failed!',
+              {
+                closeButton: true,
+                tapToDismiss: false
+              }
+            );
+          }
+        }
+      );
     }
   });
 
   function resetValues() {
+    infoEventId = null;
+    btnDeleteEvent.data('state', 0);
+
     endDate.val('');
     startDate.val('');
     eventTitle.val('');
@@ -529,7 +589,8 @@ document.addEventListener('DOMContentLoaded', function () {
     eventDescription.val('');
     eventRoom.val('').trigger('change');
     
-    eventSidebarTitle.html('Add Rental');
+    eventSidebarTitle.html('Ajukan Sewa Baru');
+    btnDeleteEvent.html('Delete');
 
     endDate.prop('disabled', false);
     startDate.prop('disabled', false);
@@ -537,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function () {
     allDaySwitch.prop('disabled', false);
     eventDescription.prop('disabled', false);
     eventRoom.prop('disabled', false);
-    eventLabel.prop('disabled', false);
+    eventOrganization.prop('disabled', false);
     eventResponsible.prop('disabled', false);
   }
 
