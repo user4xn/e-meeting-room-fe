@@ -20,7 +20,8 @@ use App\Http\Controllers\AuthenticationController;
 // Main Page Route
 Route::get('/', [AuthenticationController::class, 'login_basic'])->name('auth-login');
 Route::get('room/scan/{room_id}', [MiscellaneousController::class, 'room_scan'])->name('app-room-scan');
-Route::get('room/schedule/{room_id}', [MiscellaneousController::class, 'room_schedule'])->name('app-room-schedule');
+Route::get('room/schedule/{room_id?}', [MiscellaneousController::class, 'room_schedule'])->name('app-room-schedule');
+Route::get('room/guest-form/{room_id}', [MiscellaneousController::class, 'room_form'])->name('app-guest-form');
 
 /* Route Dashboards */
 Route::group(['prefix' => 'dashboard'], function () {

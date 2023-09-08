@@ -6,20 +6,25 @@ use Illuminate\Http\Request;
 
 class MiscellaneousController extends Controller
 {
-  // Coming Soon
   public function room_scan($id)
   {
     $pageConfigs = ['blankPage' => true];
 
     return view('/content/miscellaneous/page-room-scan', ['pageConfigs' => $pageConfigs, 'room_id' => $id]);
   }
-
-  // Error
-  public function room_schedule()
+  
+  public function room_schedule($id = '')
   {
     $pageConfigs = ['blankPage' => true];
 
-    return view('/content/miscellaneous/error', ['pageConfigs' => $pageConfigs]);
+    return view('/content/miscellaneous/page-room-schedule', ['pageConfigs' => $pageConfigs, 'room_id' => $id]);
+  }
+
+  public function room_form($id)
+  {
+    $pageConfigs = ['blankPage' => true];
+
+    return view('/content/miscellaneous/page-room-form', ['pageConfigs' => $pageConfigs, 'room_id' => $id]);
   }
 
   // Error

@@ -59,11 +59,11 @@ $(function () {
           localStorage.setItem('userData', JSON.stringify(responseData.data_auth.data));
     
           if (emailVerified === null) {
-            await resendVerificationEmail(email);
+            resendVerificationEmail(email);
             window.location.href = EMAIL_ROUTE;
           } else {
             if (isOtp) {
-              await resendOtp(email);
+              resendOtp(email);
               window.location.href = OTP_ROUTE;
             } else {
               if(!redirect) { 
@@ -91,9 +91,9 @@ $(function () {
     });
     
     // Function to resend verification email
-    async function resendVerificationEmail(email) {
+    function resendVerificationEmail(email) {
       try {
-        await axios.post(BACKEND_API + "api/v1/auth/resend/verification", {
+        axios.post(BACKEND_API + "api/v1/auth/resend/verification", {
           email: email
         });
       } catch (error) {
@@ -102,9 +102,9 @@ $(function () {
     }
     
     // Function to resend OTP
-    async function resendOtp(email) {
+    function resendOtp(email) {
       try {
-        await axios.post(BACKEND_API + "api/v1/auth/resend/otp", {
+        axios.post(BACKEND_API + "api/v1/auth/resend/otp", {
           email: email
         });
       } catch (error) {
@@ -112,4 +112,66 @@ $(function () {
       }
     }
   }
+
+  var primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-primary');
+
+  $('#button-schedule').on('click', function () {
+    // Fetch room data and update the Swal input options
+    fetchRoom().then(function (roomData) {
+      if (roomData) {
+        // Create an object to store the room options
+        var roomOptions = {};
+  
+        // Populate the room options object with room data
+        roomData.forEach(function (room) {
+          roomOptions[room.id] = room.room_name;
+        });
+  
+        // Create a Swal dialog with updated select input options
+        Swal.fire({
+          title: 'Pilih Ruangan',
+          input: 'select',
+          inputOptions: roomOptions, // Update the input options here
+          inputPlaceholder: 'Pilih Ruangan',
+          showCancelButton: true,
+          confirmButtonText: 'Buka',
+          cancelButtonText: 'Batal',
+          confirmButtonColor: primaryColor,
+          inputValidator: (value) => {
+            return new Promise((resolve) => {
+              if (value !== '') {
+                resolve();
+              } else {
+                resolve('Mohon pilih ruangan');
+              }
+            });
+          },
+        }).then(function (result) {
+          if (result.isConfirmed) {
+            var roomId = result.value;
+            window.location.href = SCHEDULE_ROUTE+`/${roomId}`;
+          }
+        });
+      }
+    }).catch(function (error) {
+      console.error("Error fetching room data:", error);
+    });
+  });
+  
+  function fetchRoom() {
+    try {
+      return axios.get(BACKEND_API + "api/v1/guest/list/room")
+        .then(function (response) {
+          return response.data.data; // Return the room data
+        })
+        .catch(function (error) {
+          console.error("Error fetching room data:", error);
+          return null;
+        });
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      return null;
+    }
+  }
+  
 });

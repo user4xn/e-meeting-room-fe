@@ -73,7 +73,7 @@
         </form>
 
         <p class="text-center mt-2">
-          <a href="#">
+          <a href="#" id="button-schedule">
             <span>Jadwal Ruangan</span>
           </a>
         </p>
@@ -93,6 +93,7 @@
   const DASHBOARD_ROUTE = "{{ route('dashboard') }}";
   const OTP_ROUTE = "{{ route('auth-two-steps') }}";
   const EMAIL_ROUTE = "{{ route('auth-verify-email') }}";
+  const SCHEDULE_ROUTE = "{{ route('app-room-schedule') }}";
 </script>
 <script src="{{asset(mix('js/scripts/pages/auth-login.js'))}}"></script>
 @endsection

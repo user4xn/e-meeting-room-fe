@@ -101,7 +101,7 @@
             </div>
             <div class="">
               <label for="select-responsible-user" class="form-responsible-user">Penanggung Jawab</label>
-              <select class="select2 select-responsible-user form-select w-100" id="select-responsible-user" name="select-responsible-user">
+              <select class="select2 select-responsible-user form-select" id="select-responsible-user" name="select-responsible-user">
                 <!-- Options will be appended here -->
               </select>
             </div>
@@ -128,13 +128,13 @@
             </div>
             <div class="">
               <label for="select-room" class="form-room">Ruangan</label>
-              <select class="select2 select-room form-select w-100" id="select-room" name="select-room">
+              <select class="select2 select-room form-select" id="select-room" name="select-room">
                 <!-- Options will be appended here -->
               </select>
             </div>
             <div class="mb-1 mt-1">
               <label class="form-label">Deskripsi</label>
-              <textarea name="event-description-editor" id="event-description-editor" class="form-control"></textarea>
+              <textarea name="event-description-editor" id="event-description-editor" class="form-control" rows="10"></textarea>
             </div>
             <div id="badge-area" class="mb-1 d-flex justify-content-between d-none">
               <span>Status : </span>
@@ -145,7 +145,7 @@
             <div class="mb-1 d-flex">
               <button type="submit" class="btn btn-primary add-event-btn me-1">Tambah</button>
               <button type="button" class="btn btn-outline-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
-              <button type="submit" class="btn btn-primary update-event-btn d-none me-1">Update</button>
+              <button type="submit" class="btn btn-primary update-event-btn d-none me-1">Simpan</button>
               <button class="btn btn-outline-danger btn-delete-event d-none" id="btn-delete-event">Hapus</button>
             </div>
           </form>

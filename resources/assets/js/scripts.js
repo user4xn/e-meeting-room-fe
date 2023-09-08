@@ -11,7 +11,7 @@
   if (!jwtToken) {
     window.location.href = LOGIN_ROUTE;
   }
-  console.log(userData);
+  
   $('#auth-user-name').html(userData.username);
   $('#auth-user-role').html(userData.role);
 

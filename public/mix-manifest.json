@@ -104,6 +104,7 @@
     "/js/scripts/forms/pickers/form-pickers.js": "/js/scripts/forms/pickers/form-pickers.js",
     "/js/scripts/maps/map-leaflet.js": "/js/scripts/maps/map-leaflet.js",
     "/js/scripts/miscellaneous/page-room-scan.js": "/js/scripts/miscellaneous/page-room-scan.js",
+    "/js/scripts/miscellaneous/page-room-schedule.js": "/js/scripts/miscellaneous/page-room-schedule.js",
     "/js/scripts/pages/app-access-permission.js": "/js/scripts/pages/app-access-permission.js",
     "/js/scripts/pages/app-access-roles.js": "/js/scripts/pages/app-access-roles.js",
     "/js/scripts/pages/app-booking.js": "/js/scripts/pages/app-booking.js",
@@ -1443,6 +1444,5 @@
     "/data/projects-list.json": "/data/projects-list.json",
     "/data/search.json": "/data/search.json",
     "/data/table-datatable.json": "/data/table-datatable.json",
-    "/data/user-list.json": "/data/user-list.json",
-    "/images/logo/favicon-base.ico": "/images/logo/favicon-base.ico"
+    "/data/user-list.json": "/data/user-list.json"
 }

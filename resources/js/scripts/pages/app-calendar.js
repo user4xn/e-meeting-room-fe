@@ -104,11 +104,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (eventResponsible.length) {
     eventResponsible.select2({
-      placeholder: 'Piling Pengguna',
+      placeholder: 'Pilih Pengguna',
       dropdownParent: eventResponsible.parent(),
       minimumResultsForSearch: -1,
       escapeMarkup: function (es) {
         return es;
+      }
+    });
+  }
+
+  if (endDate.length) {
+    end = endDate.flatpickr({
+      enableTime: true,
+      altFormat: 'Y-m-dTH:H:i:S', // Use 'H' for 24-hour format
+      time_24hr: true,
+      onReady: function (selectedDates, dateStr, instance) {
+        if (instance.isMobile) {
+          $(instance.mobileInput).attr('step', null);
+        }
       }
     });
   }
@@ -124,42 +137,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       },
       onChange: function(selectedDates, dateStr, instance) {
-        // When the startDate changes, update the minDate of the endDate picker
         if (endDate.length) {
-          end.set('minDate', selectedDates[0]);
+          end.set('minDate', dateStr);
+          end.setDate(dateStr, true);
         }
       }
     });
   }
-  
-  if (endDate.length) {
-    end = endDate.flatpickr({
-      enableTime: true,
-      altFormat: 'Y-m-dTH:H:i:S', // Use 'H' for 24-hour format
-      time_24hr: true,
-      onReady: function (selectedDates, dateStr, instance) {
-        if (instance.isMobile) {
-          $(instance.mobileInput).attr('step', null);
-        }
-      }
-    });
-  }
-
-  // Check if the code has been executed previously
-  if (ROOM_ID !== '') {
-    var currentDate = moment();
-    var date = currentDate.format('YYYY-MM-DD HH:mm');
-
-    resetValues();
-    sidebar.modal('show');
-    addEventBtn.removeClass('d-none');
-    updateEventBtn.addClass('d-none');
-    btnDeleteEvent.addClass('d-none');
-    start.setDate(date, true);
-    end.setDate(date, true);
-    sidebar.find(eventRoom).val(ROOM_ID).trigger('change');
-  }
-
 
   function fetchRoom() {
     $.ajax(
@@ -181,6 +165,20 @@ document.addEventListener('DOMContentLoaded', function () {
             option.textContent = item.room_name;
             eventRoom.append(option);
           });
+
+          if (ROOM_ID !== '') {
+            var currentDate = moment();
+            var date = currentDate.format('YYYY-MM-DD HH:mm');
+      
+            resetValues();
+            sidebar.modal('show');
+            addEventBtn.removeClass('d-none');
+            updateEventBtn.addClass('d-none');
+            btnDeleteEvent.addClass('d-none');
+            start.setDate(date, true);
+            end.setDate(date, true);
+            sidebar.find(eventRoom).val(ROOM_ID).trigger('change');
+          }
         },
         error: function (error) {
           console.log(error);
@@ -224,7 +222,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function eventClick(info) {
     eventToUpdate = info.event;
     eventId = eventToUpdate.id;
-    console.log(eventId);
     $.ajax(
       {
         url: `${BACKEND_API}api/v1/rent/detail/${eventId}`,
@@ -418,14 +415,27 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         );
       } else {
-        var date = selectedDate.format('YYYY-MM-DD HH:mm');
+        var dateTime = selectedDate.format('YYYY-MM-DD HH:mm');
+        var selDate = selectedDate.format('YYYY-MM-DD');
+        var curDate = currentDate.format('YYYY-MM-DD');
+        var curTime = currentDate.format('HH:mm');
+        
         resetValues();
         sidebar.modal('show');
         addEventBtn.removeClass('d-none');
         updateEventBtn.addClass('d-none');
         btnDeleteEvent.addClass('d-none');
-        start.setDate(date, true);
-        end.setDate(date, true);
+        start.set('minDate', curDate);
+        
+        if(selDate === curDate) {
+          start.set('minTime', curTime);
+          start.setDate(dateTime, true);
+          end.setDate(dateTime, true);
+        } else {
+          start.set('minTime', null);
+          start.setDate(selDate, true);
+          end.setDate(selDate, true);
+        }
       }
     },
     eventClick: function (info) {
