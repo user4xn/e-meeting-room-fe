@@ -310,7 +310,15 @@
           filterData();
         },
         error: function (error) {
-          console.log(error);
+          toastr['error'](
+            'Waktu sudah digunakan oleh meeting lain, harap ganti jam meeting',
+            'Gagal',
+            {
+              closeButton: true,
+              tapToDismiss: false
+            }
+          );
+          console.log(error.responseJSON);
         }
       }
     );

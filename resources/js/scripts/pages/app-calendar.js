@@ -258,9 +258,16 @@ document.addEventListener('DOMContentLoaded', function () {
             eventResponsible.prop('disabled', true);
             
           } else {
-            $('.badge-unapprove').removeClass('d-none');
-            $('.badge-approve').addClass('d-none');
-            $('.badge-expired').addClass('d-none');
+            if(eventFetch.status === 'done') {
+              $('.badge-unapprove').html('Selesai');
+              $('.badge-unapprove').removeClass('d-none');
+              $('.badge-approve').addClass('d-none');
+              $('.badge-expired').addClass('d-none');
+            } else {
+              $('.badge-unapprove').html('Belum Disetujui');
+              $('.badge-approve').addClass('d-none');
+              $('.badge-expired').addClass('d-none');
+            }
 
             updateEventBtn.removeClass('d-none');
             btnDeleteEvent.removeClass('d-none');
