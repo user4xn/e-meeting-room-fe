@@ -13,10 +13,6 @@
   roomName = $('#room-name'),
   currEvent;
 
-  setInterval(() => {
-      spinner.hide();
-  }, 1000);
-
   function fetchStatus() {
     $.ajax(
       {
@@ -29,10 +25,15 @@
           roomDesc.html(data.room_desc);
           roomDatetime.html('Agenda : '+data.date_now);
           roomParticipant.html((data.current_event !== null ? data.current_event.guest_count : '0' )+'/'+data.room_capacity+' Peserta');
-          eventTitleCurrent.html((data.current_event !== null ? data.current_event.event_name : '-'));
+          eventTitleCurrent.html((data.current_event !== null ? data.current_event.event_name : '<span class="text-muted"> belum ada agenda </span>'));
           
           if(data.current_event !== null) {
-            buttonForm.attr('disabled', false);
+            if(data.room_capacity === data.current_event.guest_count) {
+              buttonForm.html('Penuh!');
+              buttonForm.attr('disabled', true);
+            } else {
+              buttonForm.attr('disabled', false);
+            }
           } else {
             buttonForm.attr('disabled', true);
           }
@@ -48,7 +49,12 @@
             timelineArea.addClass('ms-0')
             timelineArea.html(nodata);
           }
-        },
+
+          spinner.addClass("fade-out");
+          setTimeout(function(){
+            spinner.hide();
+          }, 1000);
+          },
         error: function (error) {
           console.log(error);
         }
@@ -76,6 +82,7 @@
                   </p>
                   <div class="text-start">
                     <span class="badge ${item.organization === 'Internal' ? 'bg-light-success' : 'bg-light-danger'} rounded-pill bg-glow">${item.organization === 'Internal' ? 'Internal KKP' : 'Eksternal'}</span>
+                    ${item.time_start !== item.time_end ? '<span class="badge bg-light-warning rounded-pill bg-glow">'+item.time_start.substr(0,5)+' - '+item.time_end.substr(0,5)+'</span>' : ''}
                   </div>
               </div>
           </li>
@@ -125,7 +132,8 @@
   });
 
   buttonForm.on('click', function(){
-    localStorage.setItem('currEvent', currEvent);
+    console.log(JSON.stringify(currEvent));
+    localStorage.setItem('currEvent', JSON.stringify(currEvent));
     window.location.href = FORM_ROUTE;
   });
 })(window);

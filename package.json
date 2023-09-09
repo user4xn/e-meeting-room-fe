@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bootstrap": "~5.1.0",
+    "signature_pad": "^4.1.6",
     "webpack-livereload-plugin": "1"
   },
   "devDependencies": {

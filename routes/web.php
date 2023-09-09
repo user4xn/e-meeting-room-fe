@@ -25,17 +25,19 @@ Route::get('room/guest-form/{room_id}', [MiscellaneousController::class, 'room_f
 
 /* Route Dashboards */
 Route::group(['prefix' => 'dashboard'], function () {
-    Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
 });
 /* Route Dashboards */
 
 /* Route Apps */
 Route::group(['prefix' => 'app'], function () {
-    Route::get('participant', [AppsController::class, 'participantIndex'])->name('app-participant');
+    Route::get('participant/ongoing', [AppsController::class, 'participantOngoing'])->name('app-participant-ongoing');
+    Route::get('participant/history', [AppsController::class, 'participantHistory'])->name('app-participant-ongoing');
     Route::get('rent/{room_id?}', [AppsController::class, 'rentIndex'])->name('app-rent');
     Route::get('booking', [AppsController::class, 'bookingIndex'])->name('app-booking');
     Route::get('report/room', [AppsController::class, 'reportRoomIndex'])->name('app-report-room');
     Route::get('report/room/detail', [AppsController::class, 'reportRoomDetail'])->name('app-report-room-detail');
+    Route::get('report/room/print', [AppsController::class, 'reportRoomPrint'])->name('app-report-room-print');
     Route::get('user/list', [AppsController::class, 'user_list'])->name('app-user-list');
     Route::get('room/list', [AppsController::class, 'room_list'])->name('app-room-list');
 });

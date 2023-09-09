@@ -21,7 +21,7 @@
 <!-- Dashboard Analytics Start -->
 <section id="dashboard-analytics">
   <div class="row match-height">
-    <!-- Greetings Card starts -->
+    {{-- <!-- Greetings Card starts -->
     <div class="col-lg-6 col-md-12 col-sm-12">
       <div class="card card-congratulations">
         <div class="card-body text-center">
@@ -83,7 +83,7 @@
         <div id="order-chart"></div>
       </div>
     </div>
-    <!-- Orders Chart Card ends -->
+    <!-- Orders Chart Card ends --> --}}
   </div>
 </section>
 <!-- Dashboard Analytics end -->

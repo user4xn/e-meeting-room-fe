@@ -3,10 +3,17 @@ $configData = Helper::applClasses();
 @endphp
 @extends('layouts/fullLayoutMaster')
 
-@section('title', 'Scan Ruangan')
+@section('title', 'Form Absensi Peserta')
+
+@section('vendor-style')
+  <!-- Vendor css files -->
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+@endsection
 
 @section('page-style')
   <link rel="stylesheet" href="{{ asset(mix('css/base/pages/page-misc.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 @endsection
 
 @section('content')
@@ -23,34 +30,62 @@ $configData = Helper::applClasses();
       </a>
       <div class="card">
         <div class="loading-overlay">
+          <svg class="checkmark d-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
         <div class="card-header border-bottom">
-          <h3 class="card-title">Informasi Ruangan</h3>
-          <a href="#" class="text-danger booking-button">Booking Cepat Ruangan</a>
+          <div class="card-title d-flex flex-column w-100">
+            <span class="h1 fw-bolder">Form Absensi</span>
+            <h6 class="event-title">Loading..</h6>
+          </div>
         </div>
         <div class="card-body text-start py-2">
-          <h1 class="fw-bolder" id="room-name">-</h1>
-          
-          <div class="mt-1" id="room-desc">
-            -
+          <div class="mb-1 border bg-body p-2">
+            <span class="mb-1">Tata Tertib Ruangan :</span>
+            <ul class="mt-1">
+              <li>Selalu booking ruang meeting sebelum menggunakannya</li>
+              <li>Tinggalkan ruang meeting sebersih mungkin</li>
+              <li>Menjaga ketenangan semaksimal mungkin</li>
+              <li>Meninggalkan ruangan sesuai jam booking</li>
+              <li>hindari mengonsumsi makanan berbau menyengat</li>
+            </ul>
           </div>
-          <div class="mt-1">Jumlah Peserta : <span class="badge rounded-pill bg-primary" id="room-participant-max">0/0 Peserta</span></div>
-          <div class="mt-1 text-center p-2 bg-body">
-            <div>
-              Agenda Berlangsung :<br>
-              <span class="fw-bold" id="event-title-current">-</span>
-            </div>
-            <button class="btn btn-primary mt-3 w-50 form-button" disabled>Absen</button>
+          <div class="mt-3">
+            <form class="guest-form needs-validation" data-ajax="false" novalidate>
+              <div class="mb-1">
+                <label for="title" class="form-label">Nama</label>
+                <input type="text" class="form-control" id="guest-name" name="guest-name" placeholder="Masukan nama anda.." required />
+              </div>
+              <div class="mb-1">
+                <label for="title" class="form-label">No Handphone</label>
+                <input type="text" class="form-control" id="guest-phone" name="guest-phone" placeholder="Masukan nomor handphone anda.." required />
+              </div>
+              <div class="mb-1">
+                <label for="title" class="form-label">Jabatan</label>
+                <input type="text" class="form-control" id="guest-position" name="guest-position" placeholder="Masukan jabatan anda.." required />
+              </div>
+              <div class="mb-1">
+                <label for="title" class="form-label">Unit Kerja</label>
+                <input type="text" class="form-control" id="work-unit" name="work-unit" placeholder="Masukan unit kerja anda.." required />
+              </div>
+              <div class="mb-1">
+                <label for="title" class="form-label">Tanda Tangan</label>
+                <div class="text-center p-2 pb-0">
+                  <div id="signature-container">
+                      <canvas class="border rounded" id="signature-pad" height="200"></canvas>
+                  </div>
+                  <span class="text-danger d-none error-signature">Tanda tangan wajib diisi</span>
+                  <button class="btn w-100 mt-1" id="clear-signature">Ulangi</button>
+                </div>
+                <input type="hidden" id="signature" name="signature" value="">
+              </div>
+            </form>
           </div>
         </div>
         <div class="card-footer border-top">
-          <div class="mb-3 bg-body border rounded-pill p-2" id="room-datetime">-</div>
-          <ul class="timeline">
-            
-          </ul>
+          <button class="btn btn-primary w-100 store-button">Kirim</button>
         </div>
       </div>
       <div class="mt-2 text-center">
@@ -72,12 +107,65 @@ $configData = Helper::applClasses();
     justify-content: center;
     align-items: center;
     z-index: 9998;
-    transition: transform 0.2s;
   }
 
   .spinner-border {
     width: 3rem;
     height: 3rem;
+  }
+
+  .fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: green;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .checkmark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: green;
+    stroke-miterlimit: 10;
+    margin: 10% auto;
+    box-shadow: inset 0px 0px 0px #7ac142;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+  }
+
+  .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+
+  @keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes scale {
+    0%, 100% {
+      transform: none;
+    }
+    50% {
+      transform: scale3d(1.1, 1.1, 1);
+    }
+  }
+  @keyframes fill {
+    100% {
+      box-shadow: inset 0px 0px 0px 30px #fff;
+    }
   }
 </style>
 <!-- / Coming soon page-->
@@ -86,12 +174,19 @@ $configData = Helper::applClasses();
 <script>
   const G_BACKEND_API = "{{ env('BACKEND_URL') }}";
   const ROOM_ID = "{{ $room_id }}";
-  const RENT_ROUTE = "{{ route('app-rent', $room_id) }}"
   const LOGIN_ROUTE = "{{ route('auth-login') }}"
-  const FORM_ROUTE = "{{ route('app-guest-form', $room_id) }}"
 </script>
+
+@section('vendor-script')
+  <!-- Vendor js files -->
+  <script src="{{ asset(mix('vendors/js/extensions/moment.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
+    
+@endsection
 
 @section('page-script')
   <!-- Page js files -->
-  <script src="{{ asset(mix('js/scripts/miscellaneous/page-room-scan.js')) }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <script src="{{ asset(mix('js/scripts/miscellaneous/page-room-form.js')) }}"></script>
 @endsection

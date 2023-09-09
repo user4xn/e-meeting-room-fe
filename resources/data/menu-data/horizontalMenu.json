@@ -51,10 +51,23 @@
       "slug": "app-booking"
     },
     {
-      "url": "app/participant",
       "name": "Peserta Meeting",
       "icon": "users",
-      "slug": "app-participant"
+      "slug": "",
+      "submenu": [
+        {
+          "url": "app/participant/ongoing",
+          "name": "Berlangsung",
+          "icon": "circle",
+          "slug": "app-participant-ongoing"
+        },
+        {
+          "url": "app/participant/history",
+          "name": "Histori",
+          "icon": "circle",
+          "slug": "app-participant-history"
+        }
+      ]
     }
   ]
 }

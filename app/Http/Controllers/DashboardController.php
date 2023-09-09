@@ -19,6 +19,6 @@ class DashboardController extends Controller
   {
     $pageConfigs = ['pageHeader' => false];
 
-    return view('/content/dashboard/dashboard-ecommerce', ['pageConfigs' => $pageConfigs]);
+    return view('/content/dashboard/dashboard-sirupat', ['pageConfigs' => $pageConfigs]);
   }
 }

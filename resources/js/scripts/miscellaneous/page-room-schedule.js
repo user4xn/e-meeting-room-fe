@@ -40,6 +40,8 @@
         type: 'GET',
         success: function (result) {
           var data = result.data;
+
+          $('#state-invalid').addClass('d-none');
           
           roomName.html(data.room_name);
           roomDesc.html(data.room_desc);
@@ -48,14 +50,6 @@
           eventTitleCurrent.html((data.current_event !== null ? data.current_event.event_name : '-'));
           eventDescCurrent.html((data.current_event !== null ? data.current_event.event_desc : '-'));
           roomQr.attr('src', data.qrcode);
-
-          if(data.current_event !== null && data.current_event.date_start !== data.current_event.date_end) {
-            eventStartCurrent.html(data.current_event.time_start ? data.current_event.time_start.substr(0,5) : '00:00');
-            eventEndCurrent.html(data.current_event.time_end ? data.current_event.time_end.substr(0,5) : '00:00');
-            eventSubCurrent.html('');
-          } else {
-            eventSubCurrent.show();
-          }
           
           if(data.current_event === null) {
             eventCurrentContainer.removeClass('bg-primary')
@@ -63,6 +57,17 @@
             eventCurrent.addClass('d-none');
             eventCurrentNone.removeClass('d-none');
           } else {
+            if(data.current_event.date_start !== data.current_event.date_end) {
+              eventStartCurrent.html(data.current_event.date_start ? indoMonth(data.current_event.date_start) : 'undefined');
+              eventEndCurrent.html(data.current_event.date_end ? indoMonth(data.current_event.date_end) : 'undefined');
+              eventSubCurrent.removeClass('d-none');
+              eventSubCurrent.html(data.current_event.time_start.substr(0,5) +' - '+ data.current_event.time_end.substr(0,5));
+            } else {
+              eventStartCurrent.html(data.current_event.time_start ? data.current_event.time_start.substr(0,5) : '00:00');
+              eventEndCurrent.html(data.current_event.time_end ? data.current_event.time_end.substr(0,5) : '00:00');
+              eventSubCurrent.addClass('d-none');
+            }
+            
             eventCurrentContainer.removeClass('bg-secondary')
             eventCurrentContainer.addClass('bg-primary')
             eventCurrent.removeClass('d-none');
@@ -106,7 +111,6 @@
     var today = moment().format('YYYY-MM-DD');
 
     array.forEach(item => {
-      console.log(item.organization);
         var timeReform = item.date_start !== today ? indoDate(item.date_start) : timeAgo(item.time_start);
         var template = `
           <li class="timeline-item">
@@ -182,6 +186,22 @@
     
     // Format the date
     var formattedDate = dayNames[date.getDay()] + ", " + day + " " + monthNames[month - 1] + " " + year;
+    return formattedDate;
+  }
+
+  function indoMonth(dateString) {
+    var monthMinName = [
+      "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
+      "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+    ];
+
+    // Parse the date string
+    var parts = dateString.split("-");
+    var month = parseInt(parts[1]);
+    var day = parseInt(parts[2]);
+    
+    // Format the date
+    var formattedDate = day + " " + monthMinName[month - 1];
     return formattedDate;
   }
 })(window);

@@ -40,6 +40,12 @@
             Ditolak&nbsp;<span id="count-rejected"></span>
           </button>
         </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link" data-bs-toggle="tab" data-bs-target="#navs-done" role="tab">
+            <span class="bullet bullet-info bullet-sm me-50"></span>
+            Selesai&nbsp;<span id="count-done"></span>
+          </button>
+        </li>
       </ul>
     </div>
     <div class="card-body">
@@ -92,6 +98,14 @@
             Loading ...
           </div>
           <div class="row d-none" id="area-rejected">
+            <span class="text-muted py-4">(Belum ada data)</span>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="navs-done" role="tabpanel">
+          <div class="loading-state row p-5 d-flex justify-content-center text-muted rounded mx-0">
+            Loading ...
+          </div>
+          <div class="row d-none" id="area-done">
             <span class="text-muted py-4">(Belum ada data)</span>
           </div>
         </div>

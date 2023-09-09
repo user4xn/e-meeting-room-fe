@@ -40,8 +40,8 @@ $configData = Helper::applClasses();
           <div class="mt-1">Jumlah Peserta : <span class="badge rounded-pill bg-primary" id="room-participant-max">0/0 Peserta</span></div>
           <div class="mt-1 text-center p-2 bg-body">
             <div>
-              Agenda Berlangsung :<br>
-              <span class="fw-bold" id="event-title-current">-</span>
+              <span class="mb-1">Agenda Berlangsung:</span><br>
+              <span class="fw-bold" id="event-title-current"></span>
             </div>
             <button class="btn btn-primary mt-3 w-50 form-button" disabled>Absen</button>
           </div>
@@ -72,7 +72,11 @@ $configData = Helper::applClasses();
     justify-content: center;
     align-items: center;
     z-index: 9998;
-    transition: transform 0.2s;
+  }
+
+  .fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
   }
 
   .spinner-border {

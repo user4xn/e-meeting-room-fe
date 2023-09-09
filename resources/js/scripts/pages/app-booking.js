@@ -3,6 +3,7 @@
   var unapprovedCount = 0,
   approvedCount = 0, 
   rejectedCount = 0,
+  doneCount = 0,
   start,end,
   filter = {
     search: null,
@@ -27,9 +28,11 @@
   areaUnapprovedCount = $('#count-unconfirmed'),
   areaApprovedCount = $('#count-approved'),
   areaRejectedCount = $('#count-rejected'),
+  areaDoneCount = $('#count-done'),
   areaUnapproved = $('#area-unconfirmed'),
   areaApproved = $('#area-approved'),
-  areaRejected = $('#area-rejected');
+  areaRejected = $('#area-rejected'),
+  areaDone = $('#area-done');
 
   if (startDate.length) {
     start = startDate.flatpickr({
@@ -73,6 +76,7 @@
           unapprovedCount = 0;
           approvedCount = 0;
           rejectedCount = 0;
+          doneCount = 0;
 
           result.data.forEach(item => {
             if(item.status === 'unapproved') {
@@ -81,6 +85,8 @@
               approvedCount += 1;
             } else if(item.status === 'rejected') {
               rejectedCount += 1;
+            } else if(item.status === 'done') {
+              doneCount += 1;
             }
           }); 
           
@@ -99,9 +105,10 @@
     areaApproved.empty();
     areaUnapproved.empty();
     areaRejected.empty();
+    areaDone.empty();
 
     array.forEach(item => {
-      var container = item.status === 'unapproved' ? areaUnapproved : (item.status === 'approved' ? areaApproved : areaRejected);
+      var container = item.status === 'unapproved' ? areaUnapproved : (item.status === 'approved' ? areaApproved : (item.status === 'done' ? areaDone : areaRejected));
       var partsStart = item.date_start.split(' ');
       var partsEnd = item.date_end.split(' ');
 
@@ -115,7 +122,7 @@
         <div class="col-xl-4 py-1">
         <div class="card border border-body h-100">
           <div class="card-header border-bottom">
-            <h4 class="card-title" id="rent-name">${item.event_name}</h4>
+            <h4 class="card-title text-truncate" id="rent-name" style="max-width:400px;">${item.event_name}</h4>
           </div>
           <div class="card-body py-2">
             <div class="row h-100">
@@ -178,9 +185,15 @@
       areaRejected.html(`<span class="text-muted py-4">(Belum ada data)</span>`);
     }
 
+    if(doneCount < 1) {
+      areaDone.removeClass('d-none');
+      areaDone.html(`<span class="text-muted py-4">(Belum ada data)</span>`);
+    }
+
     areaApprovedCount.html(' ('+approvedCount+')');
     areaUnapprovedCount.html(' ('+unapprovedCount+')');
     areaRejectedCount.html(' ('+rejectedCount+')');
+    areaDoneCount.html(' ('+doneCount+')');
     loadingState.addClass('d-none');
   }
 

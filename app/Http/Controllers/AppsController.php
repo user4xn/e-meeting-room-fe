@@ -11,7 +11,7 @@ class AppsController extends Controller
     {
         $pageConfigs = ['pageHeader' => false];
 
-        return view('/content/apps/invoice/app-invoice-list', ['pageConfigs' => $pageConfigs]);
+        return view('/content/apps/report/app-report-list', ['pageConfigs' => $pageConfigs]);
     }
 
     // invoice preview App
@@ -19,7 +19,15 @@ class AppsController extends Controller
     {
         $pageConfigs = ['pageHeader' => false];
 
-        return view('/content/apps/invoice/app-invoice-preview', ['pageConfigs' => $pageConfigs]);
+        return view('/content/apps/report/app-report-detail', ['pageConfigs' => $pageConfigs]);
+    }
+
+    // invoice preview App
+    public function reportRoomPrint()
+    {
+        $pageConfigs = ['pageHeader' => false];
+
+        return view('/content/apps/invoice/app-invoice-print', ['pageConfigs' => $pageConfigs]);
     }
 
     // User List Page
@@ -70,7 +78,6 @@ class AppsController extends Controller
         return view('/content/apps/user/app-user-view-connections', ['pageConfigs' => $pageConfigs]);
     }
 
-
     // Chat App
     public function chatApp()
     {
@@ -109,18 +116,23 @@ class AppsController extends Controller
 
         return view('/content/apps/email/app-email', ['pageConfigs' => $pageConfigs]);
     }
-    // ToDo App
-    public function participantIndex()
+
+    public function participantOngoing()
     {
         $pageConfigs = [
             'pageHeader' => false,
-            'contentLayout' => "content-left-sidebar",
-            'pageClass' => 'todo-application',
         ];
 
-        return view('/content/apps/todo/app-todo', [
-            'pageConfigs' => $pageConfigs
-        ]);
+        return view('/content/apps/participant/app-ongoing-list', ['pageConfigs' => $pageConfigs]);
+    }
+
+    public function participantHistory()
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+        ];
+
+        return view('/content/apps/participant/app-history-list', ['pageConfigs' => $pageConfigs]);
     }
     // File manager App
     public function file_manager()
