@@ -201,17 +201,22 @@
     justify-content: center;
     align-items: center;
     z-index: 9998;
-    transition: transform 0.2s;
   }
 
-  .dropdown-menu {
-    transition: ease 0.3s;
+  .fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
   }
 
   .spinner-border {
     width: 3rem;
     height: 3rem;
   }
+
+  .dropdown-menu {
+    transition: ease 0.3s;
+  }
+
 </style>
 @endsection
 

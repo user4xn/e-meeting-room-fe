@@ -30,7 +30,14 @@ $configData = Helper::applClasses();
       </a>
       <div class="card">
         <div class="loading-overlay">
-          <svg class="checkmark d-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
+          <svg class="checkmark d-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+          <svg class="crossmark d-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <line class="crossmark__line-1" x1="15" y1="15" x2="37" y2="37" stroke="red" stroke-width="2" />
+            <line class="crossmark__line-2" x1="15" y1="37" x2="37" y2="15" stroke="red" stroke-width="2" />
+          </svg>
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
@@ -119,6 +126,54 @@ $configData = Helper::applClasses();
     transition: opacity 0.5s ease-out;
   }
 
+  /* CSS for the Cross Mark (X) Animation */
+  .crossmark__line-1,
+  .crossmark__line-2 {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: red;
+    fill: none;
+    animation: cross-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .crossmark {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: red;
+    stroke-miterlimit: 10;
+    margin: 10% auto;
+    box-shadow: inset 0px 0px 0px #ff0000;
+    animation: cross-fill .4s ease-in-out .4s forwards, cross-scale .3s ease-in-out .9s both;
+  }
+
+  @keyframes cross-stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes cross-scale {
+    0%, 100% {
+      transform: none;
+    }
+    50% {
+      transform: scale3d(1.1, 1.1, 1);
+    }
+  }
+
+  @keyframes cross-fill {
+    100% {
+      box-shadow: inset 0px 0px 0px 30px #fff;
+    }
+  }
+
+  /* CSS for the Checkmark Animation (Unchanged) */
+
   .checkmark__circle {
     stroke-dasharray: 166;
     stroke-dashoffset: 166;
@@ -126,7 +181,7 @@ $configData = Helper::applClasses();
     stroke-miterlimit: 10;
     stroke: green;
     fill: none;
-    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    animation: check-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
   }
 
   .checkmark {
@@ -139,22 +194,23 @@ $configData = Helper::applClasses();
     stroke-miterlimit: 10;
     margin: 10% auto;
     box-shadow: inset 0px 0px 0px #7ac142;
-    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    animation: check-fill .4s ease-in-out .4s forwards, check-scale .3s ease-in-out .9s both;
   }
 
   .checkmark__check {
     transform-origin: 50% 50%;
     stroke-dasharray: 48;
     stroke-dashoffset: 48;
-    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    animation: check-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
   }
 
-  @keyframes stroke {
+  @keyframes check-stroke {
     100% {
       stroke-dashoffset: 0;
     }
   }
-  @keyframes scale {
+
+  @keyframes check-scale {
     0%, 100% {
       transform: none;
     }
@@ -162,11 +218,13 @@ $configData = Helper::applClasses();
       transform: scale3d(1.1, 1.1, 1);
     }
   }
-  @keyframes fill {
+
+  @keyframes check-fill {
     100% {
       box-shadow: inset 0px 0px 0px 30px #fff;
     }
   }
+
 </style>
 <!-- / Coming soon page-->
 @endsection

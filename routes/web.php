@@ -32,7 +32,7 @@ Route::group(['prefix' => 'dashboard'], function () {
 /* Route Apps */
 Route::group(['prefix' => 'app'], function () {
     Route::get('participant/ongoing', [AppsController::class, 'participantOngoing'])->name('app-participant-ongoing');
-    Route::get('participant/history', [AppsController::class, 'participantHistory'])->name('app-participant-ongoing');
+    Route::get('participant/history', [AppsController::class, 'participantHistory'])->name('app-participant-history');
     Route::get('rent/{room_id?}', [AppsController::class, 'rentIndex'])->name('app-rent');
     Route::get('booking', [AppsController::class, 'bookingIndex'])->name('app-booking');
     Route::get('report/room', [AppsController::class, 'reportRoomIndex'])->name('app-report-room');

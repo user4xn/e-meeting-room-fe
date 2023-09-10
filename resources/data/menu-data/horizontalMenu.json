@@ -63,7 +63,7 @@
         },
         {
           "url": "app/participant/history",
-          "name": "Histori",
+          "name": "Riwayat",
           "icon": "circle",
           "slug": "app-participant-history"
         }

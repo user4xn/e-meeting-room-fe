@@ -267,10 +267,10 @@ document.addEventListener('DOMContentLoaded', function () {
               $('.badge-unapprove').html('Belum Disetujui');
               $('.badge-approve').addClass('d-none');
               $('.badge-expired').addClass('d-none');
-            }
 
-            updateEventBtn.removeClass('d-none');
-            btnDeleteEvent.removeClass('d-none');
+              updateEventBtn.removeClass('d-none');
+              btnDeleteEvent.removeClass('d-none');
+            }
           }
         },
         error: function (error) {
@@ -383,7 +383,9 @@ document.addEventListener('DOMContentLoaded', function () {
     events: fetchEvents,
     editable: false,
     dragScroll: true,
-    dayMaxEvents: 2,
+    dayMaxEvents: 3,
+    eventMaxStack: 3,
+    locale: 'id',
     customButtons: {
       sidebarToggle: {
         text: 'Sidebar'
@@ -392,6 +394,12 @@ document.addEventListener('DOMContentLoaded', function () {
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
       end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+    },
+    buttonText: {
+      month: 'Bulan',
+      week: 'Minggu',
+      day: 'Hari',
+      list: 'Daftar',
     },
     direction: direction,
     initialDate: new Date(),

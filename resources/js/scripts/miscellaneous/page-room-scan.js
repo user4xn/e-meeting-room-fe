@@ -132,8 +132,29 @@
   });
 
   buttonForm.on('click', function(){
-    console.log(JSON.stringify(currEvent));
     localStorage.setItem('currEvent', JSON.stringify(currEvent));
     window.location.href = FORM_ROUTE;
   });
+
+    // Function to generate a UUID
+  function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+  }
+
+  var storedUUID = localStorage.getItem('uuid');
+  var storedExpiration = localStorage.getItem('uuid_expiration');
+
+  if (!storedUUID || (storedExpiration && new Date(storedExpiration) < new Date())) {
+    var newUUID = generateUUID();
+    
+    var expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 1);
+    
+    localStorage.setItem('uuid', newUUID);
+    localStorage.setItem('uuid_expiration', expirationDate.toISOString());
+  }
 })(window);

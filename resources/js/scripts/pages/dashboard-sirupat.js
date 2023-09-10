@@ -259,6 +259,7 @@ $(window).on('load', function () {
           }
 
           if(data.today_events.length > 0){
+            eventTable.removeClass('d-none');
             var todayEvent = data.today_events;
 
             areaEvent.empty();
@@ -274,7 +275,7 @@ $(window).on('load', function () {
                     </div>
                   </div>
                 </td>
-                <td>
+                <td style="max-width:117px; max-height:84px;" class="text-wrap text-truncate"> 
                   <div class="d-flex align-items-center">
                     <span>${evt.event_name}</span>
                   </div>
@@ -285,8 +286,8 @@ $(window).on('load', function () {
                     <span class="font-small-2 text-muted ${evt.time_start !== evt.time_end ? '' : 'd-none'}">${evt.time_start.substr(0,5)} - ${evt.time_end.substr(0,5)}</span>
                   </div>
                 </td>
-                <td>
-                  Ruang Janda
+                <td style="max-width:117px; max-height:84px;" class="text-wrap text-truncate">
+                  ${evt.room_name}
                 </td>
                 <td>
                   <div class="d-flex align-items-center">
@@ -303,6 +304,9 @@ $(window).on('load', function () {
 
               areaEvent.append(template);
             });
+          } else {
+            areaEvent.html(`<td class="text-center" colspan="6"><h6 class="text-muted">tidak ada agenda hari ini</h6></td>`);
+            eventTable.addClass('d-none');
           }
         },
         error: function (error) {

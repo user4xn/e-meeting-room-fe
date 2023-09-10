@@ -123,7 +123,7 @@ class AppsController extends Controller
             'pageHeader' => false,
         ];
 
-        return view('/content/apps/participant/app-ongoing-list', ['pageConfigs' => $pageConfigs]);
+        return view('/content/apps/participant/app-participant-ongoing-list', ['pageConfigs' => $pageConfigs]);
     }
 
     public function participantHistory()
@@ -132,7 +132,7 @@ class AppsController extends Controller
             'pageHeader' => false,
         ];
 
-        return view('/content/apps/participant/app-history-list', ['pageConfigs' => $pageConfigs]);
+        return view('/content/apps/participant/app-participant-history-list', ['pageConfigs' => $pageConfigs]);
     }
     // File manager App
     public function file_manager()

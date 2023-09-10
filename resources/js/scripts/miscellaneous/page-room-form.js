@@ -21,7 +21,7 @@
   function resizeCanvas() {
     const container = $('#signature-container');
     const canvas = $('#signature-pad')[0]; // Get the actual DOM element
-    const aspectRatio = 480 / 200; // Width / Height
+    const aspectRatio = 480 / 400; // Width / Height
 
     const containerWidth = container.width();
     const canvasWidth = containerWidth;
@@ -74,6 +74,7 @@
         guest_name: $('#guest-name').val(),
         guest_phone: $('#guest-phone').val(),
         guest_position: $('#guest-position').val(),
+        guest_uuid: localStorage.getItem('uuid'),
         work_unit: $('#work-unit').val(),
         signature: signatureData,
       }
@@ -102,7 +103,21 @@
         error: function (error) {
           $(addStoreBtn).attr('disabled', false);
           $(addStoreBtn).html('Kirim');
-          console.error('Error:', error);
+          
+          console.error('Error:', error.statusText);
+
+          $('.crossmark').removeClass('d-none');
+          $('.spinner-border').addClass('d-none');
+          spinner.removeClass("fade-out");
+          spinner.show();
+
+          setTimeout(() => {
+            resetValue();
+            spinner.addClass("fade-out");
+            setTimeout(function(){
+              spinner.hide();
+            }, 1000);
+          }, 3000);
         }
     });
       
@@ -115,17 +130,6 @@
         $('.error-signature').addClass('d-none');
       }
     }
-  });
-
-  // Handle Form Submission
-  $('#your-form-id').on('submit', function (e) {
-      e.preventDefault();
-      // Convert the signature to a data URL
-      const signatureData = signaturePad.toDataURL();
-      // Set the data URL as the value of the hidden input field
-      $('#signature').val(signatureData);
-      // Submit the form or handle the data as needed
-      $(this).submit();
   });
 
   function resetValue(){

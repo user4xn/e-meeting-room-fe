@@ -44,7 +44,7 @@
     <!--/ Line Chart - Profit -->
 
     <!-- Statistics Card -->
-    <div class="col-xl-8 col-md-6 col-12">
+    <div class="col-xl-8 col-md-12 col-12">
       <div class="card card-statistics">
         <div class="card-header pb-0">
           <h4 class="card-title">Statistik</h4>
@@ -112,7 +112,7 @@
 
   <div class="row match-height">
     <!-- Company Table Card -->
-    <div class="col-lg-8 col-12" id="table-today-event">
+    <div class="col-lg-8 col-12 d-none" id="table-today-event">
       <div class="card card-company-table">
         <div class="card-body p-0">
           <div class="text-center bg-primary text-uppercase py-1">
@@ -143,7 +143,7 @@
     <!--/ Company Table Card -->
 
     <!-- Developer Meetup Card -->
-    <div class="col-lg-4 col-md-6 col-12" id="card-nearly-expired">
+    <div class="col-lg-4 col-md-6 col-12 d-none" id="card-nearly-expired">
       <div class="card card-developer-meetup">
         <div class="meetup-img-wrapper rounded-top text-center bg-light-warning">
           <img src="{{asset('images/illustration/email.svg')}}" alt="Meeting Pic" height="170" />

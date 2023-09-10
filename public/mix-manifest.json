@@ -122,6 +122,8 @@
     "/js/scripts/pages/app-invoice-print.js": "/js/scripts/pages/app-invoice-print.js",
     "/js/scripts/pages/app-invoice.js": "/js/scripts/pages/app-invoice.js",
     "/js/scripts/pages/app-kanban.js": "/js/scripts/pages/app-kanban.js",
+    "/js/scripts/pages/app-participant-history-list.js": "/js/scripts/pages/app-participant-history-list.js",
+    "/js/scripts/pages/app-participant-ongoing-list.js": "/js/scripts/pages/app-participant-ongoing-list.js",
     "/js/scripts/pages/app-report-list.js": "/js/scripts/pages/app-report-list.js",
     "/js/scripts/pages/app-room-list.js": "/js/scripts/pages/app-room-list.js",
     "/js/scripts/pages/app-todo.js": "/js/scripts/pages/app-todo.js",

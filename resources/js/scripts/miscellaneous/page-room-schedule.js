@@ -61,7 +61,11 @@
               eventStartCurrent.html(data.current_event.date_start ? indoMonth(data.current_event.date_start) : 'undefined');
               eventEndCurrent.html(data.current_event.date_end ? indoMonth(data.current_event.date_end) : 'undefined');
               eventSubCurrent.removeClass('d-none');
-              eventSubCurrent.html(data.current_event.time_start.substr(0,5) +' - '+ data.current_event.time_end.substr(0,5));
+              if(data.current_event.time_start !== data.current_event.time_end) {
+                eventSubCurrent.html(data.current_event.time_start.substr(0,5) +' - '+ data.current_event.time_end.substr(0,5));
+              } else {
+                eventSubCurrent.addClass('d-none');
+              }
             } else {
               eventStartCurrent.html(data.current_event.time_start ? data.current_event.time_start.substr(0,5) : '00:00');
               eventEndCurrent.html(data.current_event.time_end ? data.current_event.time_end.substr(0,5) : '00:00');

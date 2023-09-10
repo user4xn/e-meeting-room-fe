@@ -135,7 +135,7 @@
                     <span id="rent-date">
                       ${reformedDateRange}
                     </span>
-                    <span style="font-size: 12px!important" class="text-muted" id="rent-time">${timeStart} - ${timeEnd}</span>
+                    <span style="font-size: 12px!important" class="text-muted" id="rent-time">${timeStart === timeEnd ? '24 Jam' : timeStart +' - '+ timeEnd}</span>
                   </div>
                 </div>
                 <div class="text-start h-100 d-flex align-items-center">
@@ -148,7 +148,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col pt-0">
+              <div class="col pt-0" style="padding-top: 2px !important">
                 <a href="#" class="button-detail" data-id="${item.id}">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search font-large-1"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </a>
@@ -279,9 +279,13 @@
       }
     );
     $('#detailRent').modal('show');
+
     setTimeout(function(){
-      $('.modal-loading-overlay').hide();
-    }, 1000)
+      $('.modal-loading-overlay').addClass('fade-out');
+      setTimeout(function(){
+        $('.modal-loading-overlay').hide();
+      }, 1000);
+    }, 500);
   });
   
   $('body').on('click', '#button-approve', function(event) {
@@ -534,6 +538,7 @@
   });
 
   $('#detailRent').on('hide.bs.modal', function () {
+    $('.modal-loading-overlay').removeClass('fade-out');
     setTimeout(function(){
       $('.modal-loading-overlay').show();
     }, 500)

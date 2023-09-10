@@ -166,7 +166,7 @@
   <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
-    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/locales/id.min.js"></script>
 @endsection
 
 @section('page-script')
