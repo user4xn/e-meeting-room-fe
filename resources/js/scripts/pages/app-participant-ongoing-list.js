@@ -28,28 +28,13 @@ $(function (window) {
         },
       },
       columns: [
-          { data: 'no'},
-          { data: 'event_name'},
-          { data: 'date_start'},
-          { data: 'time_start'},
-          { data: 'total_guest'},
-          { data: 'id'},
-      ],
-      columnDefs: [
-        {
-          targets: -1,
-          title: 'Aksi',
-          orderable: false,
-          render: function (data, type, full, meta) {
-            return (
-              '<div class="btn-group">' +
-              '<a href="javascript:;" data-id="'+full.id+'" class="dropdown-item delete-record">' +
-                feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
-                'Hapus</a></div>' +
-              '</div>'
-            );
-          }
-        }
+        { data: 'no'},
+        { data: 'event_name'},
+        { data: 'room_name'},
+        { data: 'user_responsible'},
+        { data: 'date_start'},
+        { data: 'time_start'},
+        { data: 'total_guest'}
       ],
       dom:
         '<"d-flex justify-content-between align-items-center header-actions mx-2 row mt-75"' +
@@ -191,54 +176,4 @@ $(function (window) {
 
   var primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-primary');
   var secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-secondary');
-
-  table.on('click', '.delete-record', function () {
-    var id = $(this).data('id');
-
-    Swal.fire({
-      title: 'Apa anda yakin?',
-      text: 'Anda tidak bisa mengembalikan ini!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: primaryColor,
-      cancelButtonColor: secondaryColor,
-      confirmButtonText: 'Ya, hapus!',
-      cancelButtonText: 'Jangan'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Send DELETE request
-        $.ajax({
-          url: `${BACKEND_API}api/v1/users/delete/${id}`,
-          type: 'DELETE',
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('jwtToken'),
-          },
-          success: function (response) {
-            // Use Toastr for success message
-            toastr['success'](
-              'Pengguna Berhasil Dihapus',
-              'Ok!',
-              {
-                closeButton: true,
-                tapToDismiss: false
-              }
-            );
-            table.ajax.reload();
-          },
-          error: function (xhr, textStatus, errorThrown) {
-            // Use Toastr for error message
-            toastr['error'](
-              errorThrown,
-              'Error menghapus pengguna!',
-              {
-                closeButton: true,
-                tapToDismiss: false
-              }
-            );
-          },
-        });
-      }
-    });
-  });
-
 });

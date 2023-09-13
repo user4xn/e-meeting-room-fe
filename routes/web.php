@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AppsController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\PagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,9 +36,9 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('participant/history', [AppsController::class, 'participantHistory'])->name('app-participant-history');
     Route::get('rent/{room_id?}', [AppsController::class, 'rentIndex'])->name('app-rent');
     Route::get('booking', [AppsController::class, 'bookingIndex'])->name('app-booking');
-    Route::get('report/room', [AppsController::class, 'reportRoomIndex'])->name('app-report-room');
-    Route::get('report/room/detail', [AppsController::class, 'reportRoomDetail'])->name('app-report-room-detail');
-    Route::get('report/room/print', [AppsController::class, 'reportRoomPrint'])->name('app-report-room-print');
+    Route::get('report/rent', [AppsController::class, 'reportRentIndex'])->name('app-report-rent');
+    Route::get('report/rent/detail/{event_id?}', [AppsController::class, 'reportRentDetail'])->name('app-report-rent-detail');
+    Route::get('report/rent/print/{event_id?}', [AppsController::class, 'reportRentPrint'])->name('app-report-rent-print');
     Route::get('user/list', [AppsController::class, 'user_list'])->name('app-user-list');
     Route::get('room/list', [AppsController::class, 'room_list'])->name('app-room-list');
 });
@@ -47,6 +48,7 @@ Route::group(['prefix' => 'app'], function () {
 Route::group(['prefix' => 'page'], function () {
     Route::get('not-authorized', [MiscellaneousController::class, 'not_authorized'])->name('misc-not-authorized');
     Route::get('maintenance', [MiscellaneousController::class, 'maintenance'])->name('misc-maintenance');
+    Route::get('setting', [PagesController::class, 'settings'])->name('page-setting');
 });
 
 /* Route Authentication Pages */

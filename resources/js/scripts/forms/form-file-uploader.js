@@ -13,7 +13,6 @@ $(function () {
   'use strict';
 
   var singleFile = $('#dpz-single-file');
-  var multipleFiles = $('#dpz-multiple-files');
   var buttonSelect = $('#dpz-btn-select-files');
   var limitFiles = $('#dpz-file-limits');
   var acceptFiles = $('#dpz-accept-files');
@@ -24,13 +23,6 @@ $(function () {
   singleFile.dropzone({
     paramName: 'file', // The name that will be used to transfer the file
     maxFiles: 1
-  });
-
-  // Multiple Files
-  multipleFiles.dropzone({
-    paramName: 'file', // The name that will be used to transfer the file
-    maxFilesize: 0.5, // MB
-    clickable: true
   });
 
   // Use Button To Select Files

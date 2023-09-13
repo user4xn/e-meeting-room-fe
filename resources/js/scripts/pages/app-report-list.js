@@ -10,7 +10,7 @@ $(function (window) {
       processing: true,
       serverSide: true,
       ajax: {
-        url: `${BACKEND_API}api/v1/users/list`,
+        url: `${BACKEND_API}api/v1/report/list-rent`,
         beforeSend: function (xhr) {
           xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
         },
@@ -29,24 +29,30 @@ $(function (window) {
       },
       columns: [
           { data: 'no'},
-          { data: 'user_detail.name'},
-          { data: 'username'},
-          { data: 'email'},
-          { data: 'user_detail.phone_number'},
-          { data: 'id'},  
+          { data: 'event_name'},
+          { data: 'user_responsible'},
+          { data: 'date_start'},
+          { data: 'time_start'},
+          { data: 'is_completed'},
       ],
       columnDefs: [
         {
-          targets: -1,
-          title: 'Aksi',
-          orderable: false,
+          targets: 5,
           render: function (data, type, full, meta) {
             return (
-              '<div class="btn-group">' +
-              '<a href="javascript:;" data-id="'+full.id+'" class="dropdown-item delete-record">' +
-                feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
-                'Hapus</a></div>' +
+              `<div class="badge p-1 rounded-pill ${full.is_completed === true ? 'bg-light-success' : 'bg-light-secondary'}">` +
+                (full.is_completed === true ? 'Selesai' : 'Belum Selesai') +
               '</div>'
+            );
+          }
+        },
+        {
+          targets: 2,
+          render: function (data, type, full, meta) {
+            return (
+              `<span class='bullet ${full.event_organization === 'Internal' ? 'bullet-info' : 'bullet-success'}` +
+              " bullet-sm me-50'> " +
+              '</span>' + full.user_responsible
             );
           }
         }
@@ -69,7 +75,7 @@ $(function (window) {
       buttons: [
         {
           extend: 'collection',
-          className: 'btn btn-outline-secondary dropdown-toggle me-2',
+          className: 'btn btn-outline-secondary dropdown-toggle',
           text: feather.icons['external-link'].toSvg({ class: 'font-small-4 me-50' }) + 'Export',
           buttons: [
             {
@@ -110,23 +116,11 @@ $(function (window) {
               $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex mt-50');
             }, 50);
           }
-        },
-        {
-          text: 'Tambah User Baru',
-          className: 'add-new btn btn-primary',
-          attr: {
-            'data-bs-toggle': 'modal',
-            'data-bs-target': '#modals-slide-in'
-          },
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-          }
         }
       ],
       responsive: true,
       language: {
         paginate: {
-          // remove previous & next text from pagination
           previous: '&nbsp;',
           next: '&nbsp;'
         }
@@ -135,205 +129,12 @@ $(function (window) {
   }
 
   table.on('click', 'tbody tr td:not(:last-child)', function () {
-    var rowData = table.row(this).data(); // Get data for the clicked row
+    var rowData = table.row(this).data();
+    location.href = DETAIL_URL+`/${rowData.id}`;
+  });
+
+  $('#detailParticipant').on('hide.bs.modal', function () {
     
-    // Populate modal fields with data
-    $('.modal-title').text('Detail of '+rowData.user_detail.name);
-    $('#user-id').val(rowData.id);
-    $('#user-username').val(rowData.username);
-    $('#user-email').val(rowData.email);
-    $('#user-nip').val(rowData.user_detail.nip);
-    $('#user-name').val(rowData.user_detail.name);
-    $('#user-phone').val(rowData.user_detail.phone_number);
-    $('#user-address').val(rowData.user_detail.address);
-
-    // Show the modal
-    $('#modals-slide-in-detail').modal('show');
-  });
-
-  saveButton.on('click', function(){
-    var state = saveButton.data('state');
-
-    if (state === 'edit') {
-      $('#user-username').prop('disabled', false);
-      $('#user-email').prop('disabled', false);
-      $('#user-nip').prop('disabled', false);
-      $('#user-name').prop('disabled', false);
-      $('#user-phone').prop('disabled', false);
-      $('#user-address').prop('disabled', false);
-      $('#area-hidden').removeClass('d-none');
-      
-      saveButton.text('Simpan');
-      saveButton.data('state', 'save'); // Update the state to 'save'
-    } else if (state === 'save') {
-      var userId = $('#user-id').val(); 
-      var updatedData = {
-        username: $('#user-username').val(),
-        email: $('#user-email').val(),
-        nip: $('#user-nip').val(),
-        name: $('#user-name').val(),
-        phone_number: $('#user-phone').val(),
-        address: $('#user-address').val(),
-        password: $('#user-password').val(),
-      };
-      
-      $.ajax({
-        url: `${BACKEND_API}api/v1/users/update/${userId}`,
-        method: 'POST', 
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
-        },
-        data: updatedData,
-        success: function (response) {
-          $('#modals-slide-in-detail').modal('hide');
-
-          toastr['success'](
-            'Berhasil update pengguna!',
-            'Sukses!',
-            {
-              closeButton: true,
-              tapToDismiss: false
-            }
-          );
-          
-          table.ajax.reload();
-        },
-        error: function (error) {
-          console.error('Update failed:', error);
-          toastr['error'](
-            error.statusText,
-            'Error!',
-            {
-              closeButton: true,
-              tapToDismiss: false
-            }
-          );
-        }
-      });
-    }
-  });
-
-  submitButton.on('click', function() {
-    var insertData = {
-      username: $('#add-user-username').val(),
-      email: $('#add-user-email').val(),
-      nip: $('#add-user-nip').val(),
-      name: $('#add-user-name').val(),
-      phone_number: $('#add-user-phone').val(),
-      address: $('#add-user-address').val(),
-      password: $('#add-user-password-confirm').val(),
-    };
-    
-    $.ajax({
-      url: `${BACKEND_API}api/v1/users/store`,
-      method: 'POST', 
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
-      },
-      data: insertData,
-      success: function (response) {
-        $('#modals-slide-in').modal('hide');
-
-        toastr['success'](
-          'Berhasil menambahkan pengguna baru',
-          'Oke!',
-          {
-            closeButton: true,
-            tapToDismiss: false
-          }
-        );
-        
-        table.ajax.reload();
-      },
-      error: function (error) {
-        console.error('Update failed:', error);
-        toastr['error'](
-          error.statusText,
-          'Gagal!',
-          {
-            closeButton: true,
-            tapToDismiss: false
-          }
-        );
-      }
-    });
-  });
-
-  $('#modals-slide-in-detail').on('hidden.bs.modal', function () {
-    $('#user-username').prop('disabled', true);
-    $('#user-email').prop('disabled', true);
-    $('#user-nip').prop('disabled', true);
-    $('#user-name').prop('disabled', true);
-    $('#user-phone').prop('disabled', true);
-    $('#user-address').prop('disabled', true);
-    $('#area-hidden').addClass('d-none');
-    
-    // Reset the button state and text
-    saveButton.text('Edit');
-    saveButton.data('state', 'edit'); // Update the state to 'edit'
-  });
-
-  $('#modals-slide-in').on('hidden.bs.modal', function () {
-    $('#add-user-username').val('');
-    $('#add-user-email').val('');
-    $('#add-user-nip').val('');
-    $('#add-user-name').val('');
-    $('#add-user-phone').val('');
-    $('#add-user-address').val('');
-    $('#add-user-password').val('');
-    $('#add-user-password-confirm').val('');
-  });
-
-  var primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-primary');
-  var secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--bs-secondary');
-
-  table.on('click', '.delete-record', function () {
-    var id = $(this).data('id');
-
-    Swal.fire({
-      title: 'Apa anda yakin?',
-      text: 'Anda tidak bisa mengembalikan ini!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: primaryColor,
-      cancelButtonColor: secondaryColor,
-      confirmButtonText: 'Ya, hapus!',
-      cancelButtonText: 'Jangan'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Send DELETE request
-        $.ajax({
-          url: `${BACKEND_API}api/v1/users/delete/${id}`,
-          type: 'DELETE',
-          headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('jwtToken'),
-          },
-          success: function (response) {
-            // Use Toastr for success message
-            toastr['success'](
-              'Pengguna Berhasil Dihapus',
-              'Ok!',
-              {
-                closeButton: true,
-                tapToDismiss: false
-              }
-            );
-            table.ajax.reload();
-          },
-          error: function (xhr, textStatus, errorThrown) {
-            // Use Toastr for error message
-            toastr['error'](
-              errorThrown,
-              'Error menghapus pengguna!',
-              {
-                closeButton: true,
-                tapToDismiss: false
-              }
-            );
-          },
-        });
-      }
-    });
   });
 
 });

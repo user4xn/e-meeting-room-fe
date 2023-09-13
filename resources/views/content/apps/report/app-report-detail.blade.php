@@ -1,13 +1,15 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Invoice Preview')
+@section('title', 'Detail Laporan')
 
 @section('vendor-style')
 <link rel="stylesheet" href="{{asset('vendors/css/pickers/flatpickr/flatpickr.min.css')}}">
+<link rel="stylesheet" href="{{ asset(mix('vendors/css/file-uploaders/dropzone.min.css')) }}">
 @endsection
 @section('page-style')
 <link rel="stylesheet" href="{{asset('css/base/plugins/forms/pickers/form-flat-pickr.css')}}">
 <link rel="stylesheet" href="{{asset('css/base/pages/app-invoice.css')}}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-file-uploader.css')) }}">
 @endsection
 
 @section('content')
@@ -21,79 +23,25 @@
           <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
             <div>
               <div class="logo-wrapper">
-                <svg
-                  viewBox="0 0 139 95"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  height="24"
-                >
-                  <defs>
-                    <linearGradient id="invoice-linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
-                      <stop stop-color="#000000" offset="0%"></stop>
-                      <stop stop-color="#FFFFFF" offset="100%"></stop>
-                    </linearGradient>
-                    <linearGradient
-                      id="invoice-linearGradient-2"
-                      x1="64.0437835%"
-                      y1="46.3276743%"
-                      x2="37.373316%"
-                      y2="100%"
-                    >
-                      <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
-                      <stop stop-color="#FFFFFF" offset="100%"></stop>
-                    </linearGradient>
-                  </defs>
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-400.000000, -178.000000)">
-                      <g transform="translate(400.000000, 178.000000)">
-                        <path
-                          class="text-primary"
-                          d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z"
-                          style="fill: currentColor"
-                        ></path>
-                        <path
-                          d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z"
-                          fill="url(#invoice-linearGradient-1)"
-                          opacity="0.2"
-                        ></path>
-                        <polygon
-                          fill="#000000"
-                          opacity="0.049999997"
-                          points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"
-                        ></polygon>
-                        <polygon
-                          fill="#000000"
-                          opacity="0.099999994"
-                          points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"
-                        ></polygon>
-                        <polygon
-                          fill="url(#invoice-linearGradient-2)"
-                          opacity="0.099999994"
-                          points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"
-                        ></polygon>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-                <h3 class="text-primary invoice-logo">Vuexy</h3>
+                <span class="brand-logo">
+                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22.107 19.6081C23.373 18.3406 23.3013 16.2321 21.8867 15.0624C20.654 14.0431 18.8267 14.1952 17.6954 15.3264L16.5099 16.5118L15.2614 17.7601C13.8293 19.192 11.9479 19.9088 10.0664 19.9088C8.185 19.9088 6.30355 19.192 4.87148 17.7601C2.00734 14.8963 2.00734 10.237 4.87148 7.37321L6.1217 6.12315C8.38084 3.86429 6.78091 0.00219727 3.58629 0.00219727C1.60518 0.00219727 0 1.60718 0 3.58805V26.4144C0 28.3935 1.60518 30.0003 3.58629 30.0003H10.2291C11.1803 30.0003 12.0913 29.6226 12.7645 28.9495L22.107 19.6081Z" fill="#CF5C5C"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M19.7709 0.00174834C18.8197 0.00174834 17.9087 0.37939 17.2355 1.05075L7.89295 10.3922C6.69519 11.5915 6.69519 13.5409 7.89295 14.7385C9.09071 15.9361 11.0421 15.9361 12.2399 14.7385L13.4883 13.4902V13.4885L14.6284 12.3503C17.4541 9.52497 22.058 9.34489 24.9676 12.0845C27.9909 14.9326 28.0433 19.7126 25.1267 22.6288L23.8783 23.8771C21.6191 26.136 23.2191 29.9981 26.4137 29.9981C28.393 29.9981 30 28.3931 30 26.4122V3.58585C30 1.60673 28.3948 0 26.4137 0H19.7709V0.00174834Z" fill="#EF8181"/>
+                  </svg>
+                </span>
+                <h3 class="text-primary invoice-logo">SIRUPAT</h3>
               </div>
-              <p class="card-text mb-25">Office 149, 450 South Brand Brooklyn</p>
-              <p class="card-text mb-25">San Diego County, CA 91905, USA</p>
-              <p class="card-text mb-0">+1 (123) 456 7891, +44 (876) 543 2198</p>
+              <p class="card-text mb-25 w-75" id="officeAddress">loading..</p>
+              <p class="card-text mb-0" id="officePhone">loading..</p>
             </div>
             <div class="mt-md-0 mt-2">
               <h4 class="invoice-title">
-                Invoice
-                <span class="invoice-number">#3492</span>
+                Agenda
+                <span class="invoice-number" id="crashId">#123</span>
               </h4>
               <div class="invoice-date-wrapper">
-                <p class="invoice-date-title">Date Issued:</p>
-                <p class="invoice-date">25/08/2020</p>
-              </div>
-              <div class="invoice-date-wrapper">
-                <p class="invoice-date-title">Due Date:</p>
-                <p class="invoice-date">29/08/2020</p>
+                <p class="invoice-date-title">Laporan Dibuat:</p>
+                <p class="invoice-date" id="createdAt">loading..</p>
               </div>
             </div>
           </div>
@@ -105,37 +53,47 @@
         <!-- Address and Contact starts -->
         <div class="card-body invoice-padding pt-0">
           <div class="row invoice-spacing">
-            <div class="col-xl-8 p-0">
-              <h6 class="mb-2">Invoice To:</h6>
-              <h6 class="mb-25">Thomas shelby</h6>
-              <p class="card-text mb-25">Shelby Company Limited</p>
-              <p class="card-text mb-25">Small Heath, B10 0HF, UK</p>
-              <p class="card-text mb-25">718-986-6062</p>
-              <p class="card-text mb-0">peakyFBlinders@gmail.com</p>
-            </div>
-            <div class="col-xl-4 p-0 mt-xl-0 mt-2">
-              <h6 class="mb-2">Payment Details:</h6>
+            <div class="col-xl-4 p-0 border-end px-1 ps-0">
+              <h6 class="mb-2">Detail Agenda</h6>
               <table>
                 <tbody>
                   <tr>
-                    <td class="pe-1">Total Due:</td>
-                    <td><span class="fw-bold">$12,110.55</span></td>
+                    <td><span class="fw-bold" id="eventName">loading..</span></td>
                   </tr>
                   <tr>
-                    <td class="pe-1">Bank name:</td>
-                    <td>American Bank</td>
+                    <td id="eventDate">loading..</td>
                   </tr>
                   <tr>
-                    <td class="pe-1">Country:</td>
-                    <td>United States</td>
+                    <td id="eventTime">loading..</td>
                   </tr>
                   <tr>
-                    <td class="pe-1">IBAN:</td>
-                    <td>ETD95476213874685</td>
+                    <td id="eventGuest">loading..</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-xl-4 p-0 mt-xl-0 border-end px-1">
+              <h6 class="mb-2">Penanggung Jawab</h6>
+              <table>
+                <tbody>
+                  <tr>
+                    <td><span class="fw-bold" id="userResponsible">loading..</span></td>
                   </tr>
                   <tr>
-                    <td class="pe-1">SWIFT code:</td>
-                    <td>BR91905</td>
+                    <td id="nipResponsible">NIP: loading..</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-xl-4 p-0 mt-xl-0 px-1 pe-0">
+              <h6 class="mb-2">Validator</h6>
+              <table>
+                <tbody>
+                  <tr>
+                    <td colspan="1"><span class="fw-bold" id="userVerificator">loading..</span></td>
+                  </tr>
+                  <tr>
+                    <td id="dateVerificator">loading..</td>
                   </tr>
                 </tbody>
               </table>
@@ -145,80 +103,21 @@
         <!-- Address and Contact ends -->
 
         <!-- Invoice Description starts -->
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="py-1">Task description</th>
-                <th class="py-1">Rate</th>
-                <th class="py-1">Hours</th>
-                <th class="py-1">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="py-1">
-                  <p class="card-text fw-bold mb-25">Native App Development</p>
-                  <p class="card-text text-nowrap">
-                    Developed a full stack native app using React Native, Bootstrap & Python
-                  </p>
-                </td>
-                <td class="py-1">
-                  <span class="fw-bold">$60.00</span>
-                </td>
-                <td class="py-1">
-                  <span class="fw-bold">30</span>
-                </td>
-                <td class="py-1">
-                  <span class="fw-bold">$1,800.00</span>
-                </td>
-              </tr>
-              <tr class="border-bottom">
-                <td class="py-1">
-                  <p class="card-text fw-bold mb-25">Ui Kit Design</p>
-                  <p class="card-text text-nowrap">Designed a UI kit for native app using Sketch, Figma & Adobe XD</p>
-                </td>
-                <td class="py-1">
-                  <span class="fw-bold">$60.00</span>
-                </td>
-                <td class="py-1">
-                  <span class="fw-bold">20</span>
-                </td>
-                <td class="py-1">
-                  <span class="fw-bold">$1200.00</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card-body invoice-padding pb-0">
-          <div class="row invoice-sales-total-wrapper">
-            <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
-              <p class="card-text mb-0">
-                <span class="fw-bold">Salesperson:</span> <span class="ms-75">Alfie Solomons</span>
+        <div class="border-top invoice-padding">
+          <div class="row invoice-spacing">
+            <div class="col-12 p-0">
+              <h6 class="mb-2">Keterangan:</h6>
+              <p id="eventDescription">
+                loading..
               </p>
             </div>
-            <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
-              <div class="invoice-total-wrapper">
-                <div class="invoice-total-item">
-                  <p class="invoice-total-title">Subtotal:</p>
-                  <p class="invoice-total-amount">$1800</p>
-                </div>
-                <div class="invoice-total-item">
-                  <p class="invoice-total-title">Discount:</p>
-                  <p class="invoice-total-amount">$28</p>
-                </div>
-                <div class="invoice-total-item">
-                  <p class="invoice-total-title">Tax:</p>
-                  <p class="invoice-total-amount">21%</p>
-                </div>
-                <hr class="my-50" />
-                <div class="invoice-total-item">
-                  <p class="invoice-total-title">Total:</p>
-                  <p class="invoice-total-amount">$1690</p>
-                </div>
-              </div>
+          </div>
+        </div>
+
+        <div class="card-body invoice-padding pb-0 border-top">
+          <div class="row invoice-sales-total-wrapper d-flex justify-content-center" id="areaImg">
+            <div class="col-3 text-center">
+              loading..
             </div>
           </div>
         </div>
@@ -229,12 +128,8 @@
         <!-- Invoice Note starts -->
         <div class="card-body invoice-padding pt-0">
           <div class="row">
-            <div class="col-12">
-              <span class="fw-bold">Note:</span>
-              <span
-                >It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-                projects. Thank You!</span
-              >
+            <div class="col-12 text-center">
+              <i>dokumen ini resmi di generate secara otomatis dari situs ({{ env('APP_URL') }})</i>
             </div>
           </div>
         </div>
@@ -243,159 +138,74 @@
     </div>
     <!-- /Invoice -->
 
-    <!-- Invoice Actions -->
+    <!-- CARD FILES -->
     <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
       <div class="card">
         <div class="card-body">
-          <button class="btn btn-primary w-100 mb-75" data-bs-toggle="modal" data-bs-target="#send-invoice-sidebar">
-            Send Invoice
-          </button>
-          <button class="btn btn-outline-secondary w-100 btn-download-invoice mb-75">Download</button>
-          <a class="btn btn-outline-secondary w-100 mb-75" href="{{url('app/invoice/print')}}" target="_blank"> Print </a>
-          <a class="btn btn-outline-secondary w-100 mb-75" href="{{url('app/invoice/edit')}}"> Edit </a>
-          <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#add-payment-sidebar">
-            Add Payment
-          </button>
+          <button class="btn btn-primary w-100 mb-75" data-bs-toggle="modal" data-bs-target="#fileUploadForm">Upload Dokumentasi</button>
+          <a class="btn btn-outline-secondary w-100 mb-75" href="{{ route('app-report-rent-print', $eventId) }}" target="_blank"> Print </a>
+        </div>
+      </div>
+      <div class="col-xl-3 w-100 col-md-4 col-12 invoice-actions mt-md-0 mt-2 d-none" id="cardFiles">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="files-section-title mb-75">Berkas Terupload</h6>
+            <div id="areaFile">
+              
+            </div>  
+          </div>
         </div>
       </div>
     </div>
     <!-- /Invoice Actions -->
   </div>
 </section>
-
-<!-- Send Invoice Sidebar -->
-<div class="modal modal-slide-in fade" id="send-invoice-sidebar" aria-hidden="true">
-  <div class="modal-dialog sidebar-lg">
-    <div class="modal-content p-0">
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-      <div class="modal-header mb-1">
-        <h5 class="modal-title">
-          <span class="align-middle">Send Invoice</span>
-        </h5>
+<div class="modal fade" id="fileUploadForm" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+    <div class="modal-content">
+      <div class="modal-header bg-transparent border-bottom">
+        <h4 class="modal-title">Upload Foto & Dokumen Meeting</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="z-index:9999"></button>
       </div>
-      <div class="modal-body flex-grow-1">
-        <form>
-          <div class="mb-1">
-            <label for="invoice-from" class="form-label">From</label>
-            <input
-              type="text"
-              class="form-control"
-              id="invoice-from"
-              value="shelbyComapny@email.com"
-              placeholder="company@email.com"
-            />
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <form action="#" enctype="multipart/form-data" class="dropzone dropzone-area" id="dpz-multiple-files">
+              <div class="dz-message text-primary">
+                <h3 class="text-primary">Letakkan file di sini atau klik untuk mengunggah.</h3>
+              </div>
+            </form>
+            <button class="btn btn-success w-100 btn-process-upload mt-2">Upload</button>
           </div>
-          <div class="mb-1">
-            <label for="invoice-to" class="form-label">To</label>
-            <input
-              type="text"
-              class="form-control"
-              id="invoice-to"
-              value="qConsolidated@email.com"
-              placeholder="company@email.com"
-            />
-          </div>
-          <div class="mb-1">
-            <label for="invoice-subject" class="form-label">Subject</label>
-            <input
-              type="text"
-              class="form-control"
-              id="invoice-subject"
-              value="Invoice of purchased Admin Templates"
-              placeholder="Invoice regarding goods"
-            />
-          </div>
-          <div class="mb-1">
-            <label for="invoice-message" class="form-label">Message</label>
-            <textarea
-              class="form-control"
-              name="invoice-message"
-              id="invoice-message"
-              cols="3"
-              rows="11"
-              placeholder="Message..."
-            >
-Dear Queen Consolidated,
-
-Thank you for your business, always a pleasure to work with you!
-
-We have generated a new invoice in the amount of $95.59
-
-We would appreciate payment of this invoice by 05/11/2019</textarea
-            >
-          </div>
-          <div class="mb-1">
-            <span class="badge badge-light-primary">
-              <i data-feather="link" class="me-25"></i>
-              <span class="align-middle">Invoice Attached</span>
-            </span>
-          </div>
-          <div class="mb-1 d-flex flex-wrap mt-2">
-            <button type="button" class="btn btn-primary me-1" data-bs-dismiss="modal">Send</button>
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<!-- /Send Invoice Sidebar -->
 
-<!-- Add Payment Sidebar -->
-<div class="modal modal-slide-in fade" id="add-payment-sidebar" aria-hidden="true">
-  <div class="modal-dialog sidebar-lg">
-    <div class="modal-content p-0">
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-      <div class="modal-header mb-1">
-        <h5 class="modal-title">
-          <span class="align-middle">Add Payment</span>
-        </h5>
-      </div>
-      <div class="modal-body flex-grow-1">
-        <form>
-          <div class="mb-1">
-            <input id="balance" class="form-control" type="text" value="Invoice Balance: 5000.00" disabled />
-          </div>
-          <div class="mb-1">
-            <label class="form-label" for="amount">Payment Amount</label>
-            <input id="amount" class="form-control" type="number" placeholder="$1000" />
-          </div>
-          <div class="mb-1">
-            <label class="form-label" for="payment-date">Payment Date</label>
-            <input id="payment-date" class="form-control date-picker" type="text" />
-          </div>
-          <div class="mb-1">
-            <label class="form-label" for="payment-method">Payment Method</label>
-            <select class="form-select" id="payment-method">
-              <option value="" selected disabled>Select payment method</option>
-              <option value="Cash">Cash</option>
-              <option value="Bank Transfer">Bank Transfer</option>
-              <option value="Debit">Debit</option>
-              <option value="Credit">Credit</option>
-              <option value="Paypal">Paypal</option>
-            </select>
-          </div>
-          <div class="mb-1">
-            <label class="form-label" for="payment-note">Internal Payment Note</label>
-            <textarea class="form-control" id="payment-note" rows="5" placeholder="Internal Payment Note"></textarea>
-          </div>
-          <div class="d-flex flex-wrap mb-0">
-            <button type="button" class="btn btn-primary me-1" data-bs-dismiss="modal">Send</button>
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- /Add Payment Sidebar -->
+<style>
+  .dropzone .dz-preview .dz-error-message {
+    top: 150px!important;
+  }
+
+  .delete-button {
+    position: absolute; /* Position the button relative to its parent (.image-wrapper) */
+    top: 0; /* Position it at the top edge of the parent */
+    right: 0; /* Position it at the right edge of the parent */
+  }
+</style>
 @endsection
 
 @section('vendor-script')
 <script src="{{asset('vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
 <script src="{{asset('vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
+<script src="{{asset(mix('vendors/js/file-uploaders/dropzone.min.js'))}}"></script>
 @endsection
 
 @section('page-script')
-<script src="{{asset('js/scripts/pages/app-invoice.js')}}"></script>
+<script>
+  const EVENT_ID = '{{ $eventId }}';
+  const ASSET_DOC = '{{ asset("images/icons/doc.png") }}';
+</script>
+<script src="{{asset('js/scripts/pages/app-report-detail.js')}}"></script>
 @endsection

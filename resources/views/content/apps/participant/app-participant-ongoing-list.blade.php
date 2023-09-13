@@ -32,10 +32,11 @@
           <tr>
             <th>#</th>
             <th>Agenda</th>
+            <th>Ruangan</th>
+            <th>Pengampu</th>
             <th>Tanggal</th>
             <th>Waktu</th>
             <th>Jumlah Tamu</th>
-            <th>Aksi</th>
           </tr>
         </thead>
       </table>

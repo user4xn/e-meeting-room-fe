@@ -31,10 +31,10 @@
       "slug": "",
       "submenu": [
         {
-          "url": "app/report/room",
+          "url": "app/report/rent",
           "name": "Laporan",
           "icon": "circle",
-          "slug": "app-report-room"
+          "slug": "app-report-rent"
         }
       ]
     },
@@ -68,6 +68,12 @@
           "slug": "app-participant-history"
         }
       ]
+    },
+    {
+      "url": "page/setting",
+      "name": "Pengaturan",
+      "icon": "settings",
+      "slug": "page-setting"
     }
   ]
 }

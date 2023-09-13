@@ -8,10 +8,12 @@ class PagesController extends Controller
 {
 
     // Account Settings account
-    public function account_settings_account()
+    public function settings()
     {
-        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Account Settings"], ['name' => "Account"]];
-        return view('/content/pages/page-account-settings-account', ['breadcrumbs' => $breadcrumbs]);
+        $pageConfigs = [
+            'pageHeader' => false
+        ];
+        return view('/content/pages/page-settings', ['pageConfigs' => $pageConfigs]);
     }
 
     // Account Settings security
