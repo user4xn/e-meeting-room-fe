@@ -53,17 +53,26 @@ $(function () {
           const emailVerified = responseData.data_auth.data.email_verified_at;
           const isOtp = responseData.is_verification_otp;
           const email = responseData.data_auth.data.email;
+
+          let menuAccess = await axios.get(BACKEND_API + "api/v1/menu/access/list", { headers: {"Authorization" : `Bearer ${token}`} });
+          
+          let userMenu = [];
+          menuAccess.data.data.forEach(menu => {
+            userMenu.push(menu.menu_name);
+          });
+
+          document.cookie = "userAbility=" + JSON.stringify(userMenu) + "; path=/";
     
           localStorage.setItem('isOtp', isOtp);
           localStorage.setItem('jwtToken', token);
           localStorage.setItem('userData', JSON.stringify(responseData.data_auth.data));
     
           if (emailVerified === null) {
-            resendVerificationEmail(email);
+            await resendVerificationEmail(email);
             window.location.href = EMAIL_ROUTE;
           } else {
             if (isOtp) {
-              resendOtp(email);
+              await resendOtp(email);
               window.location.href = OTP_ROUTE;
             } else {
               if(!redirect) { 
@@ -89,9 +98,9 @@ $(function () {
         buttonLogin.removeClass('d-none');
       }
     });
-    
+
     // Function to resend verification email
-    function resendVerificationEmail(email) {
+    async function resendVerificationEmail(email) {
       try {
         axios.post(BACKEND_API + "api/v1/auth/resend/verification", {
           email: email
@@ -102,7 +111,7 @@ $(function () {
     }
     
     // Function to resend OTP
-    function resendOtp(email) {
+    async function resendOtp(email) {
       try {
         axios.post(BACKEND_API + "api/v1/auth/resend/otp", {
           email: email

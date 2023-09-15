@@ -3,7 +3,53 @@ $(function (window) {
   
   var dtTable = $('.user-list-table'), 
     saveButton = $('.data-save'), 
-    submitButton = $('.data-submit');
+    submitButton = $('.data-submit'),
+    eventForm = $("#jquery-val-form");
+
+  function fetchAndPopulateMenuOptions() {
+    // Make an AJAX request to fetch menu data from the API
+    $.ajax({
+        url: `${BACKEND_API}api/v1/menu/list`,
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+        },
+        method: "GET",
+        success: function (response) {
+            if (response.meta.status === "success") {
+                // Clear any existing menu options
+                $('.menu-checkboxes').empty();
+
+                // Iterate through the menu data and create checkboxes
+                $.each(response.data, function (index, menuItem) {
+                    var menuId = menuItem.id;
+                    var menuName = menuItem.menu_name;
+
+                    // Create a checkbox for each menu item
+                    var $checkbox = $('<div class="form-check mb-1">').append(
+                        $('<input>').attr({
+                            type: 'checkbox',
+                            id: 'add-user-menu-' + menuId,
+                            class: 'form-check-input',
+                            name: 'add-user-menu[]',
+                            value: menuId,
+                        }),
+                        $('<label>').attr('for', 'add-user-menu-' + menuId).addClass('form-check-label').text(menuName)
+                    );
+
+                    // Append the checkbox to the menu-checkboxes container
+                    $('.menu-checkboxes').append($checkbox);
+                });
+            } else {
+                console.error('Failed to fetch menu data:', response.meta.message);
+            }
+        },
+        error: function (error) {
+            console.error('Failed to fetch menu data:', error);
+        }
+    });
+  }
+  
+  fetchAndPopulateMenuOptions();
 
   if (dtTable.length) {
     var table = dtTable.DataTable({
@@ -213,51 +259,124 @@ $(function (window) {
     }
   });
 
-  submitButton.on('click', function() {
-    var insertData = {
-      username: $('#add-user-username').val(),
-      email: $('#add-user-email').val(),
-      nip: $('#add-user-nip').val(),
-      name: $('#add-user-name').val(),
-      phone_number: $('#add-user-phone').val(),
-      address: $('#add-user-address').val(),
-      password: $('#add-user-password-confirm').val(),
-    };
-    
-    $.ajax({
-      url: `${BACKEND_API}api/v1/users/store`,
-      method: 'POST', 
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
-      },
-      data: insertData,
-      success: function (response) {
-        $('#modals-slide-in').modal('hide');
-
-        toastr['success'](
-          'Berhasil menambahkan pengguna baru',
-          'Oke!',
-          {
-            closeButton: true,
-            tapToDismiss: false
-          }
-        );
-        
-        table.ajax.reload();
-      },
-      error: function (error) {
-        console.error('Update failed:', error);
-        toastr['error'](
-          error.statusText,
-          'Gagal!',
-          {
-            closeButton: true,
-            tapToDismiss: false
-          }
-        );
-      }
-    });
+  eventForm.validate({
+    rules: {
+        'add-user-nip': {
+            required: true
+        },
+        'add-user-username': {
+            required: true
+        },
+        'add-user-name': {
+            required: true
+        },
+        'add-user-phone': {
+            required: true
+        },
+        'add-user-email': {
+            required: true,
+            email: true
+        },
+        'add-user-address': {
+            required: true
+        },
+        'add-user-password': {
+            required: true
+        },
+        'add-user-password-confirm': {
+            required: true,
+            equalTo: "#add-user-password" // Ensure it matches the password field
+        },
+        'add-user-menu[]': {
+            required: true
+        }
+    },
+    messages: {
+        'add-user-nip': {
+            required: 'NIP wajib diisi'
+        },
+        'add-user-username': {
+            required: 'Username wajib diisi'
+        },
+        'add-user-name': {
+            required: 'Nama Lengkap wajib diisi'
+        },
+        'add-user-phone': {
+            required: 'Nomor Telepon wajib diisi'
+        },
+        'add-user-email': {
+            required: 'Email wajib diisi',
+            email: 'Masukkan alamat email yang valid'
+        },
+        'add-user-address': {
+            required: 'Alamat wajib diisi'
+        },
+        'add-user-password': {
+            required: 'Password wajib diisi'
+        },
+        'add-user-password-confirm': {
+            required: 'Konfirmasi Password wajib diisi',
+            equalTo: 'Konfirmasi Password harus sama dengan Password'
+        },
+        'add-user-menu[]': {
+            required: 'Pilih setidaknya satu Menu'
+        }
+    },
   });
+
+  submitButton.on('click', function() {
+    if (eventForm.valid()) {
+        var selectedMenuID = $('input[name="add-user-menu[]"]:checked').map(function () {
+            return $(this).val();
+        }).get();
+
+        var insertData = {
+            username: $('#add-user-username').val(),
+            email: $('#add-user-email').val(),
+            nip: $('#add-user-nip').val(),
+            name: $('#add-user-name').val(),
+            phone_number: $('#add-user-phone').val(),
+            address: $('#add-user-address').val(),
+            password: $('#add-user-password-confirm').val(),
+            menu_access: selectedMenuID.join(',')
+        };
+        
+        $.ajax({
+            url: `${BACKEND_API}api/v1/users/store`,
+            method: 'POST', 
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+            },
+            data: insertData,
+            success: function (response) {
+                $('#modals-slide-in').modal('hide');
+        
+                toastr['success'](
+                    'Berhasil menambahkan pengguna baru',
+                    'Oke!',
+                    {
+                        closeButton: true,
+                        tapToDismiss: false
+                    }
+                );
+                
+                table.ajax.reload();
+            },
+            error: function (error) {
+                console.error('Update failed:', error);
+                toastr['error'](
+                    error.statusText,
+                    'Gagal!',
+                    {
+                        closeButton: true,
+                        tapToDismiss: false
+                    }
+                );
+            }
+        });
+    }
+});
+
 
   $('#modals-slide-in-detail').on('hidden.bs.modal', function () {
     $('#user-username').prop('disabled', true);

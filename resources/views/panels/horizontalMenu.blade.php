@@ -34,6 +34,31 @@ $configData = Helper::applClasses();
     <div class="shadow-bottom"></div>
     <!-- Horizontal menu content-->
     <div class="navbar-container main-menu-content" data-menu="menu-container">
+      @php
+        $masterSlug = [["slug" => "dashboard", "menu" => "Dasbor"], ["slug" => "app-user-list", "menu" => "Pengguna"], ["slug" => "app-room-list", "menu" => "Master Data"], ["slug" => "app-report-rent", "menu" => "Berkas"], ["slug" => "app-rent", "menu" => "Sewa Ruang Rapat"], ["slug" => "app-booking", "menu" => "Daftar Pengajuan"], ["slug" => "app-participant-ongoing", "menu" => "Peserta Meeting"], ["slug" => "app-participant-history", "menu" => "Peserta Meeting"], ["slug" => "page-setting", "menu" => "Pengaturan"]];
+        if (isset($_COOKIE['userAbility'])) {
+            $userAbility = json_decode($_COOKIE['userAbility'], true);
+            if ($userAbility !== null) {
+                $selectedMenu = $userAbility;
+
+                $selectedMenuSlug = array_map(function($menu) use ($masterSlug) {
+                    $key = array_search($menu, array_column($masterSlug, 'menu'));
+                    return $key !== false ? $masterSlug[$key]['slug'] : null;
+                }, $userAbility);
+
+                if(!in_array(Route::currentRouteName(), $selectedMenuSlug)) {
+                  echo "<script>window.location.href = '" . route($selectedMenuSlug[0]) . "';</script>";
+                  exit;
+                }
+            } else {
+              echo "<script>localStorage.removeItem('jwtToken');localStorage.removeItem('userData');localStorage.removeItem('nextCheckToken');localStorage.removeItem('isOtp');window.location.href = '" . route('auth-login') . "';</script>";
+              exit;
+            }
+        } else {
+          echo "<script>localStorage.removeItem('jwtToken');localStorage.removeItem('userData');localStorage.removeItem('nextCheckToken');localStorage.removeItem('isOtp');window.location.href = '" . route('auth-login') . "';</script>";
+          exit;
+        }
+      @endphp
       <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
       {{-- Foreach menu item starts --}}
         @if(isset($menuData[1]))
@@ -44,6 +69,7 @@ $configData = Helper::applClasses();
         $custom_classes = $menu->classlist;
         }
         @endphp
+        @if(in_array($menu->name, $selectedMenu))
         <li class="nav-item @if(isset($menu->submenu)){{'dropdown'}}@endif {{ $custom_classes }} {{ Route::currentRouteName() === $menu->slug ? 'active' : ''}}"
          @if(isset($menu->submenu)){{'data-menu=dropdown'}}@endif>
           <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="nav-link d-flex align-items-center @if(isset($menu->submenu)){{'dropdown-toggle'}}@endif" target="{{isset($menu->newTab) ? '_blank':'_self'}}"  @if(isset($menu->submenu)){{'data-bs-toggle=dropdown'}}@endif>
@@ -54,6 +80,7 @@ $configData = Helper::applClasses();
           @include('panels/horizontalSubmenu', ['menu' => $menu->submenu])
           @endif
         </li>
+        @endif
         @endforeach
         @endif
         {{-- Foreach menu item ends --}}

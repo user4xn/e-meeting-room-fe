@@ -209,7 +209,6 @@ $(window).on('load', function () {
           xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
         },
         success: function (result) {
-          console.log(result.data);
           var data = result.data;
           totalRoom.html(data.statistic.total_room);
           totalEvent.html(data.statistic.total_rent);

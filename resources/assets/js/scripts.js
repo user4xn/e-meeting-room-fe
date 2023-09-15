@@ -3,7 +3,7 @@
   
   const jwtToken = localStorage.getItem('jwtToken');
   const nextCheckToken = localStorage.getItem('nextCheckToken');
-  const userData = JSON.parse(localStorage.getItem('userData'))
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
   // CLEARING
   localStorage.removeItem('nextRedirect');

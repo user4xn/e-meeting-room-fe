@@ -129,6 +129,13 @@
                 name="add-user-password-confirm"
               />
             </div>
+            <hr>
+            <div class="mb-3">
+              <label class="form-label">Pilih Menu</label>
+              <div class="menu-checkboxes">
+                Loading..
+              </div>
+            </div>
             <div type="submit" class="btn btn-primary me-1 data-submit">Simpan</div>
             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
           </div>
