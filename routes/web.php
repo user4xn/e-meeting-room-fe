@@ -26,7 +26,7 @@ Route::get('room/guest-form/{room_id}', [MiscellaneousController::class, 'room_f
 
 /* Route Dashboards */
 Route::group(['prefix' => 'dashboard'], function () {
-    Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'dashboardSirupat'])->name('dashboard');
 });
 /* Route Dashboards */
 
