@@ -35,18 +35,23 @@ $configData = Helper::applClasses();
     <!-- Horizontal menu content-->
     <div class="navbar-container main-menu-content" data-menu="menu-container">
       @php
-        $masterSlug = [["slug" => "dashboard", "menu" => "Dasbor"], ["slug" => "app-user-list", "menu" => "Pengguna"], ["slug" => "app-room-list", "menu" => "Master Data"], ["slug" => "app-report-rent", "menu" => "Berkas"], ["slug" => "app-rent", "menu" => "Sewa Ruang Rapat"], ["slug" => "app-booking", "menu" => "Daftar Pengajuan"], ["slug" => "app-participant-ongoing", "menu" => "Peserta Meeting"], ["slug" => "app-participant-history", "menu" => "Peserta Meeting"], ["slug" => "page-setting", "menu" => "Pengaturan"]];
+        $masterSlug = [["slug" => "dashboard", "menu" => "Dasbor"], ["slug" => "app-user-list", "menu" => "Pengguna"], ["slug" => "app-room-list", "menu" => "Master Data"], ["slug" => "app-report-rent", "menu" => "Berkas"], ["slug" => "app-report-rent-detail", "menu" => "Berkas"], ["slug" => "app-report-rent-print", "menu" => "Berkas"], ["slug" => "app-rent", "menu" => "Sewa Ruang Rapat"], ["slug" => "app-booking", "menu" => "Daftar Pengajuan"], ["slug" => "app-participant-ongoing", "menu" => "Peserta Meeting"], ["slug" => "app-participant-history", "menu" => "Peserta Meeting"], ["slug" => "page-setting", "menu" => "Pengaturan"]];
         if (isset($_COOKIE['userAbility'])) {
             $userAbility = json_decode($_COOKIE['userAbility'], true);
             if ($userAbility !== null) {
                 $selectedMenu = $userAbility;
-
                 $selectedMenuSlug = array_map(function($menu) use ($masterSlug) {
-                    $key = array_search($menu, array_column($masterSlug, 'menu'));
-                    return $key !== false ? $masterSlug[$key]['slug'] : null;
+                    $keys = array_keys(array_column($masterSlug, 'menu'), $menu);
+                    $slugs = [];
+                    foreach ($keys as $key) {
+                        $slugs[] = $masterSlug[$key]['slug'];
+                    }
+                    return $slugs;
                 }, $userAbility);
 
-                if(!in_array(Route::currentRouteName(), $selectedMenuSlug)) {
+                $allSlugs = array_merge(...$selectedMenuSlug);
+
+                if(!in_array(Route::currentRouteName(), $allSlugs)) {
                   echo "<script>window.location.href = '" . route($selectedMenuSlug[0]) . "';</script>";
                   exit;
                 }

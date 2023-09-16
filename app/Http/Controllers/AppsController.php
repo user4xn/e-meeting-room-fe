@@ -13,6 +13,16 @@ class AppsController extends Controller
         return view('/content/apps/report/app-report-list', ['pageConfigs' => $pageConfigs]);
     }
 
+    public function bookingIndex()
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+            'pageClass' => 'booking-application',
+        ];
+
+        return view('/content/apps/booking/app-booking', ['pageConfigs' => $pageConfigs]);
+    }
+
     public function reportRentDetail($id)
     {
         $pageConfigs = ['pageHeader' => false];
