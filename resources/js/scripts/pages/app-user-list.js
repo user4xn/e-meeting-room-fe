@@ -17,7 +17,7 @@ $(function (window) {
         success: function (response) {
             if (response.meta.status === "success") {
                 // Clear any existing menu options
-                $('.menu-checkboxes').empty();
+                $('.add-menu-checkboxes').empty();
 
                 // Iterate through the menu data and create checkboxes
                 $.each(response.data, function (index, menuItem) {
@@ -34,6 +34,30 @@ $(function (window) {
                             value: menuId,
                         }),
                         $('<label>').attr('for', 'add-user-menu-' + menuId).addClass('form-check-label').text(menuName)
+                    );
+
+                    // Append the checkbox to the menu-checkboxes container
+                    $('.add-menu-checkboxes').append($checkbox);
+                });
+
+                $('.menu-checkboxes').empty();
+
+                // Iterate through the menu data and create checkboxes
+                $.each(response.data, function (index, menuItem) {
+                    var menuId = menuItem.id;
+                    var menuName = menuItem.menu_name;
+
+                    // Create a checkbox for each menu item
+                    var $checkbox = $('<div class="form-check mb-1">').append(
+                        $('<input>').attr({
+                            type: 'checkbox',
+                            id: 'user-menu-' + menuId,
+                            class: 'form-check-input',
+                            name: 'user-menu[]',
+                            value: menuId,
+                            disabled: true,
+                        }),
+                        $('<label>').attr('for', 'user-menu-' + menuId).addClass('form-check-label').text(menuName)
                     );
 
                     // Append the checkbox to the menu-checkboxes container
@@ -181,9 +205,8 @@ $(function (window) {
   }
 
   table.on('click', 'tbody tr td:not(:last-child)', function () {
-    var rowData = table.row(this).data(); // Get data for the clicked row
+    var rowData = table.row(this).data();
     
-    // Populate modal fields with data
     $('.modal-title').text('Detail of '+rowData.user_detail.name);
     $('#user-id').val(rowData.id);
     $('#user-username').val(rowData.username);
@@ -193,8 +216,36 @@ $(function (window) {
     $('#user-phone').val(rowData.user_detail.phone_number);
     $('#user-address').val(rowData.user_detail.address);
 
-    // Show the modal
     $('#modals-slide-in-detail').modal('show');
+
+    $('input[name="user-menu[]"]').map(function () {
+      $(this).prop('checked', false);
+    }).get();
+
+    $.ajax({
+      url: `${BACKEND_API}api/v1/users/detail/${rowData.id}`,
+      method: 'GET', 
+      beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+      },
+      success: function (response) {
+        var menuAccess = response.data.menu_access;
+        menuAccess.forEach(menu => {
+          $('#user-menu-'+menu.master_menu_id).prop('checked', true);
+        });
+      },
+      error: function (error) {
+          console.error('Update failed:', error);
+          toastr['error'](
+              error.statusText,
+              'Gagal!',
+              {
+                  closeButton: true,
+                  tapToDismiss: false
+              }
+          );
+      }
+  });
   });
 
   saveButton.on('click', function(){
@@ -208,11 +259,18 @@ $(function (window) {
       $('#user-phone').prop('disabled', false);
       $('#user-address').prop('disabled', false);
       $('#area-hidden').removeClass('d-none');
+      $('input[name="user-menu[]"]').map(function () {
+        $(this).attr('disabled', false);
+      }).get();
       
       saveButton.text('Simpan');
       saveButton.data('state', 'save'); // Update the state to 'save'
     } else if (state === 'save') {
       var userId = $('#user-id').val(); 
+      var selectedMenuID = $('input[name="user-menu[]"]:checked').map(function () {
+        return $(this).val();
+      }).get();
+
       var updatedData = {
         username: $('#user-username').val(),
         email: $('#user-email').val(),
@@ -221,7 +279,11 @@ $(function (window) {
         phone_number: $('#user-phone').val(),
         address: $('#user-address').val(),
         password: $('#user-password').val(),
+        menu_access: selectedMenuID.join(',')
       };
+
+      saveButton.text('Meyimpan..');
+      saveButton.attr('disabled', true);
       
       $.ajax({
         url: `${BACKEND_API}api/v1/users/update/${userId}`,
@@ -231,6 +293,8 @@ $(function (window) {
         },
         data: updatedData,
         success: function (response) {
+          saveButton.attr('disabled', false);
+
           $('#modals-slide-in-detail').modal('hide');
 
           toastr['success'](
@@ -326,54 +390,54 @@ $(function (window) {
 
   submitButton.on('click', function() {
     if (eventForm.valid()) {
-        var selectedMenuID = $('input[name="add-user-menu[]"]:checked').map(function () {
-            return $(this).val();
-        }).get();
+      var selectedMenuID = $('input[name="add-user-menu[]"]:checked').map(function () {
+          return $(this).val();
+      }).get();
 
-        var insertData = {
-            username: $('#add-user-username').val(),
-            email: $('#add-user-email').val(),
-            nip: $('#add-user-nip').val(),
-            name: $('#add-user-name').val(),
-            phone_number: $('#add-user-phone').val(),
-            address: $('#add-user-address').val(),
-            password: $('#add-user-password-confirm').val(),
-            menu_access: selectedMenuID.join(',')
-        };
-        
-        $.ajax({
-            url: `${BACKEND_API}api/v1/users/store`,
-            method: 'POST', 
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
-            },
-            data: insertData,
-            success: function (response) {
-                $('#modals-slide-in').modal('hide');
-        
-                toastr['success'](
-                    'Berhasil menambahkan pengguna baru',
-                    'Oke!',
-                    {
-                        closeButton: true,
-                        tapToDismiss: false
-                    }
-                );
-                
-                table.ajax.reload();
-            },
-            error: function (error) {
-                console.error('Update failed:', error);
-                toastr['error'](
-                    error.statusText,
-                    'Gagal!',
-                    {
-                        closeButton: true,
-                        tapToDismiss: false
-                    }
-                );
-            }
-        });
+      var insertData = {
+          username: $('#add-user-username').val(),
+          email: $('#add-user-email').val(),
+          nip: $('#add-user-nip').val(),
+          name: $('#add-user-name').val(),
+          phone_number: $('#add-user-phone').val(),
+          address: $('#add-user-address').val(),
+          password: $('#add-user-password-confirm').val(),
+          menu_access: selectedMenuID.join(',')
+      };
+      
+      $.ajax({
+          url: `${BACKEND_API}api/v1/users/store`,
+          method: 'POST', 
+          beforeSend: function (xhr) {
+              xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+          },
+          data: insertData,
+          success: function (response) {
+              $('#modals-slide-in').modal('hide');
+      
+              toastr['success'](
+                  'Berhasil menambahkan pengguna baru',
+                  'Oke!',
+                  {
+                      closeButton: true,
+                      tapToDismiss: false
+                  }
+              );
+              
+              table.ajax.reload();
+          },
+          error: function (error) {
+              console.error('Update failed:', error);
+              toastr['error'](
+                  error.statusText,
+                  'Gagal!',
+                  {
+                      closeButton: true,
+                      tapToDismiss: false
+                  }
+              );
+          }
+      });
     }
 });
 
@@ -386,6 +450,9 @@ $(function (window) {
     $('#user-phone').prop('disabled', true);
     $('#user-address').prop('disabled', true);
     $('#area-hidden').addClass('d-none');
+    $('input[name="user-menu[]"]').map(function () {
+      $(this).attr('disabled', true);
+    }).get();
     
     // Reset the button state and text
     saveButton.text('Edit');

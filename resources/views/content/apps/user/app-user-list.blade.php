@@ -131,8 +131,8 @@
             </div>
             <hr>
             <div class="mb-3">
-              <label class="form-label">Pilih Menu</label>
-              <div class="menu-checkboxes">
+              <label class="form-label">Akses Menu</label>
+              <div class="add-menu-checkboxes">
                 Loading..
               </div>
             </div>
@@ -229,6 +229,12 @@
                 placeholder=""
                 name="user-password"
               />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Akses Menu</label>
+              <div class="menu-checkboxes">
+                Loading..
+              </div>
             </div>
             <div class="btn btn-primary me-1 data-save" data-state="edit">Edit</div>
             <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
