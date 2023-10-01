@@ -70,7 +70,7 @@
               <div class="p-1 bg-body rounded w-100 d-flex justify-content-between align-items-center">
                 <div class="avatar avatar-lg shadow me-2">
                   <div class="avatar-content">
-                    <img src="http://localhost:8000/images/portrait/small/avatar-s-11.jpg" alt="">
+                    <img src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" alt="">
                   </div>
                 </div>
                 <div class="d-flex flex-column me-2">

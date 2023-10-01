@@ -509,7 +509,7 @@
     })
   });
 
-  $('#modal-button-decline').on('click', function(){
+  $('#modal-button-delete').on('click', function(){
     var itemId = $(this).data('rent-id');
     $.ajax(
       {
