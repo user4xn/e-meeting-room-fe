@@ -28,20 +28,30 @@ $configData = Helper::applClasses();
         </svg>                
         <h2 class="fw-bolder text-primary ms-1">Sirupat</h2>
       </a>
-      <div class="card">
-        <div class="loading-overlay">
-          <svg class="checkmark d-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-          </svg>
-          <svg class="crossmark d-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <line class="crossmark__line-1" x1="15" y1="15" x2="37" y2="37" stroke="red" stroke-width="2" />
-            <line class="crossmark__line-2" x1="15" y1="37" x2="37" y2="15" stroke="red" stroke-width="2" />
-          </svg>
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+      <div class="card loading-container">
+        <div class="card-body text-start py-2" style="height: 85vh">
+          <div class="loading-overlay">
+            <div class="checkmark-container text-center d-none">
+              <svg class="checkmark mb-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+              </svg>
+              <span class="text-uppercase text-secondary fw-bolder text-checkmark">anda berhasil <br> absen</span>
+            </div>
+            <div class="crossmark-container text-center d-none">
+              <svg class="crossmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <line class="crossmark__line-1" x1="15" y1="15" x2="37" y2="37" stroke="red" stroke-width="2" />
+                <line class="crossmark__line-2" x1="15" y1="37" x2="37" y2="15" stroke="red" stroke-width="2" />
+              </svg>
+              <span class="text-uppercase text-secondary fw-bolder text-crossmark">anda sudah <br> absen</span>
+            </div>
+            <div class="spinner-border d-none text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="card form-container opacity-0">
         <div class="card-header border-bottom">
           <div class="card-title d-flex flex-column w-100">
             <span class="h1 fw-bolder">Form Absensi</span>
@@ -116,6 +126,10 @@ $configData = Helper::applClasses();
     z-index: 9998;
   }
 
+  .opacity-0 {
+    opacity: 0;
+  }
+  
   .spinner-border {
     width: 3rem;
     height: 3rem;

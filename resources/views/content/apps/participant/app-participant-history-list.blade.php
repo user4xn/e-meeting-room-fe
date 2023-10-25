@@ -56,7 +56,7 @@
       <div class="modal-header bg-transparent pb-0">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="z-index:9999"></button>
       </div>
-      <div class="modal-body px-5 pb-5">
+      <div class="modal-body px-md-5 pb-md-5 px-2 pb-2">
         <div class="row">
           <div class="col-12 p-2 d-flex justify-content-between align-items-center pt-0">
             <div>
@@ -88,7 +88,7 @@
               <span class="text-primary" id="guest-count">0</span> Tamu dari Total <span class="text-primary" id="max-capacity">0</span> Tamu
             </div>
             <hr>
-            <div class="">
+            <div class="table-responsive">
               <table class="w-100 table table-border">
                 <thead>
                   <th>No</th>

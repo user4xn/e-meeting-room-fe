@@ -204,7 +204,7 @@ $(function (window) {
     });
   }
 
-  table.on('click', 'tbody tr td:not(:last-child)', function () {
+  table.on('click', 'tbody tr td:not(:last-child, :first-child)', function () {
     var rowData = table.row(this).data();
     
     $('.modal-title').text('Detail of '+rowData.user_detail.name);

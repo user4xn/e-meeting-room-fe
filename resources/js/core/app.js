@@ -175,7 +175,7 @@ window.colors = {
     }
     if (menuType == 'horizontal-menu') {
       $('.main-menu-content').find('li.active').parents('li:not(.nav-item)').addClass('open');
-      $('.main-menu-content').find('li.active').closest('li.nav-item').addClass('sidebar-group-active open');
+      $('.main-menu-content').find('li.active').closest('li.nav-item').addClass('sidebar-group-active');
       // $(".main-menu-content")
       //   .find("li.active")
       //   .parents("li")

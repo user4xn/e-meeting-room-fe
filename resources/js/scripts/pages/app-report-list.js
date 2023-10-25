@@ -128,7 +128,7 @@ $(function (window) {
     });
   }
 
-  table.on('click', 'tbody tr td:not(:last-child)', function () {
+  table.on('click', 'tbody tr td:not(:last-child, :first-child)', function () {
     var rowData = table.row(this).data();
     location.href = DETAIL_URL+`/${rowData.id}`;
   });

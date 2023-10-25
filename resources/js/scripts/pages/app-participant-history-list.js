@@ -108,7 +108,7 @@ $(function (window) {
     });
   }
 
-  table.on('click', 'tbody tr td:not(:last-child)', function () {
+  table.on('click', 'tbody tr td:not(:last-child, :first-child)', function () {
     var rowData = table.row(this).data(); // Get data for the clicked row
     
     $.ajax(

@@ -130,6 +130,11 @@
         width: $modal-slide-in-width-lg;
       }
     }
+
+     // Make modal full width on mobile screens (smaller than 576px)
+    @media (max-width: 576px) {
+      width: 100%;
+    }
   }
 
   .btn-close {

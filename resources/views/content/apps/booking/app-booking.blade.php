@@ -126,16 +126,16 @@
       </div>
       <div class="modal-body px-5 pb-5">
         <div class="row">
-          <div class="col-12 p-2 d-flex justify-content-between align-items-center pt-0">
+          <div class="col-12 p-2 d-flex flex-lg-row flex-column justify-content-between align-items-center pt-0">
             <div>
               <h2>Detail Pengajuan</h2>
               <span>Diajukan Tanggal : <span id="modal-rent-created">rent_created</span></span>
             </div>
-            <div class="d-flex align-items-center justify-content-end">
+            <div class="d-flex align-items-center justify-content-end mt-2 mt-lg-0">
               <div class="p-1 bg-body rounded w-100 d-flex justify-content-between align-items-center">
                 <div class="avatar avatar-lg shadow me-2">
                   <div class="avatar-content">
-                    <img src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" alt="">
+                    <img src="" alt="">
                   </div>
                 </div>
                 <div class="d-flex flex-column me-2">
@@ -179,10 +179,10 @@
               Catatan Penolakan : asdad
             </div>
           </div>
-          <div class="col-12 px-2 d-flex justify-content-between">
-            <button class="btn btn-outline-danger flex-grow-1" data-rent-id="0" id="modal-button-delete">HAPUS</button>
-            <button class="btn btn-success flex-grow-1 me-2" data-rent-id="0" id="modal-button-approve">SETUJUI</button>
-            <button class="btn btn-outline-danger" data-rent-id="0" id="modal-button-decline">TOLAK</button>
+          <div class="col-12 px-2 d-flex flex-column flex-md-row justify-content-between">
+            <button class="btn btn-danger flex-grow-1 me-md-2" data-rent-id="0" id="modal-button-delete">HAPUS</button>
+            <button class="btn btn-success flex-grow-1 me-md-2" data-rent-id="0" id="modal-button-approve">SETUJUI</button>
+            <button class="btn btn-outline-danger mt-md-0 mt-1" data-rent-id="0" id="modal-button-decline">TOLAK</button>
           </div>
         </div>
       </div>

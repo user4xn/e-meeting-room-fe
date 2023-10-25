@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
       enableTime: true,
       altFormat: 'Y-m-dTH:H:i:S', // Use 'H' for 24-hour format
       time_24hr: true,
+      minuteIncrement: 1,
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
           $(instance.mobileInput).attr('step', null);
@@ -131,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
       enableTime: true,
       altFormat: 'Y-m-dTH:H:i:S', // Use 'H' for 24-hour format
       time_24hr: true,
+      minuteIncrement: 1,
       onReady: function (selectedDates, dateStr, instance) {
         if (instance.isMobile) {
           $(instance.mobileInput).attr('step', null);

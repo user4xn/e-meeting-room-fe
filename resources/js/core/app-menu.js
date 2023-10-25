@@ -555,6 +555,8 @@
         $('.main-menu-content').find('li.active').parents('li').addClass('sidebar-group-active');
 
         $('.main-menu-content').find('li.active').closest('li.nav-item').addClass('open');
+
+        $('.main-menu-content li.nav-item:not(.has-sub)').removeClass('open');
       }
 
       if (feather) {
